@@ -30,4 +30,6 @@ The project can be imported into the IDE of your choice, with Java 8 installed, 
 
 ## Documentation
 
-Brief introduction to the application parts can be found from the `documentation` folder. For Vaadin 10 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v10/flow/Overview.html).
+For Vaadin 10 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v10/flow/Overview.html).
+
+For Vaadin-on-Kotlin documentation, head to [Vaadin-on-Kotlin](http://vaadinonkotlin.eu).
