@@ -116,7 +116,7 @@ internal object StaticData {
         for (i in 0 until reviewCount) {
             val review = Review()
             val beverage = beverages[r.nextInt(StaticData.BEVERAGES.size)]
-            val category = Category.findByNameOrThrow(beverage.value)
+            val category = Category.getByName(beverage.value)
             review.name = beverage.key
             val testDay = LocalDate.of(1930 + r.nextInt(88),
                     1 + r.nextInt(12), 1 + r.nextInt(28))

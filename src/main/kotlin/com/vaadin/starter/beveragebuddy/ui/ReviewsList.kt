@@ -15,7 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vokorm.get
+import com.github.vokorm.getById
 import com.vaadin.flow.component.Tag
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dependency.HtmlImport
@@ -108,7 +108,7 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     @EventHandler
     private fun edit(@ModelItem review: ReviewWithCategory) {
-        openForm(Review[review.id!!], AbstractEditorDialog.Operation.EDIT)
+        openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT)
     }
 
     private fun openForm(review: Review,

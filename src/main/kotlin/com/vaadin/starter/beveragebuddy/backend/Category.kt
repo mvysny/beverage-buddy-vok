@@ -11,8 +11,8 @@ import com.github.vokorm.*
 open class Category(override var id: Long? = null, open var name: String = "") : Entity<Long> {
 
     companion object : Dao<Category> {
-        fun findByName(name: String): Category? = findBy(1) { Category::name eq name } .firstOrNull()
-        fun findByNameOrThrow(name: String): Category = findByName(name) ?: throw IllegalArgumentException("No category named $name")
+        fun findByName(name: String): Category? = findSpecificBy { Category::name eq name }
+        fun getByName(name: String): Category = getBy { Category::name eq name }
         fun existsWithName(name: String): Boolean = findByName(name) != null
         fun deleteAll() {
             db {

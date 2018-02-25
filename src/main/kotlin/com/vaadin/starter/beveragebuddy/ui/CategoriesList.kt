@@ -18,7 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui
 import com.github.vok.framework.sql2o.vaadin.and
 import com.github.vok.framework.sql2o.vaadin.dataProvider
 import com.github.vok.karibudsl.flow.*
-import com.github.vokorm.get
+import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
@@ -91,7 +91,7 @@ class CategoriesList : Div() {
         }
 
     private fun selectionChanged(categoryId: Long) {
-        form.open(Category[categoryId], AbstractEditorDialog.Operation.EDIT)
+        form.open(Category.getById(categoryId), AbstractEditorDialog.Operation.EDIT)
     }
 
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()

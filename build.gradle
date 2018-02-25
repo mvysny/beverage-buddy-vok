@@ -42,6 +42,7 @@ test {
 dependencies {
     // Karibu-DSL dependency, includes Vaadin
     compile("com.github.vok.karibudsl:karibu-dsl-v10:$karibudsl_version")
+    compile("com.github.vokorm:vok-orm:0.2")
     compile "com.github.vok:vok-framework-v10-sql2o:$vaadinonkotlin_version"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
