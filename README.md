@@ -4,7 +4,7 @@
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
 
 This is a Vaadin 10 [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application, used to demonstrate features of the Vaadin Flow Java framework.
-A full-stack app: uses Sql2o and H2 instead of a dummy service.
+A full-stack app: uses the H2 database instead of a dummy service.
 
 The Starter demonstrates the core Vaadin Flow concepts:
 * Building UIs in Kotlin with Components based on [Vaadin Elements](https://vaadin.com/elements/browse), such as `TextField`, `Button`, `ComboBox`, `DatePicker`, `VerticalLayout` and `Grid` (see `CategoriesList`)
