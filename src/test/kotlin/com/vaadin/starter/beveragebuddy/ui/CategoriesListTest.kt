@@ -10,24 +10,31 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.Bootstrap
 import com.vaadin.starter.beveragebuddy.backend.Category
-import org.junit.*
 import kotlin.test.expect
 
+/**
+ * Tests the UI. Uses the Serverless testing approach as provided by the [Karibu Testing](https://github.com/mvysny/karibu-testing) library.
+ */
 class CategoriesListTest : DynaTest({
     beforeGroup { Bootstrap().contextInitialized(null) }
     afterGroup { Bootstrap().contextDestroyed(null) }
 
+    // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
+    // and populate the RouteRegistry properly.
     beforeEach { MockVaadin.setup(autoDiscoverViews("com.vaadin.starter")) }
-    fun cleanupDb() {
-        Category.deleteAll()
-    }
+
+    // it's a good practice to clear up the db before every test, to start every test with a predefined state.
+    fun cleanupDb() { Category.deleteAll() }
     beforeEach { cleanupDb() }
     afterEach { cleanupDb() }
 
-    test("GridListsAllPersons") {
+    test("grid lists all persons") {
+        // prepare testing data
         Category(name = "Beers").save()
+        // navigate to the "Categories" list route.
         UI.getCurrent().navigateTo("categories")
 
+        // now the "Categories" list should be displayed. Look up the Grid and assert on its contents.
         val grid = _get<Grid<*>>()
         expect(1) { grid.dataProvider._size() }
     }
