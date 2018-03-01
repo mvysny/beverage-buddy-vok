@@ -104,7 +104,7 @@ internal object DemoData {
                 .forEach { name -> BEVERAGES.put(name, OTHER) }
     }
 
-    fun createTestingData() = db {
+    fun createDemoData() = db {
         // generate categories
         BEVERAGES.values.distinct().forEach { name -> Category(name = name).save() }
 

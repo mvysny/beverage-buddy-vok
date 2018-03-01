@@ -55,7 +55,7 @@ dependencies {
 
     // db
     compile "org.flywaydb:flyway-core:5.0.7"
-    compile 'com.h2database:h2:1.4.196'
+    compile 'com.h2database:h2:1.4.196' // remove this and replace it with a database driver of your choice.
 
     // REST
     compile "com.github.vok:vok-rest:$vaadinonkotlin_version"
