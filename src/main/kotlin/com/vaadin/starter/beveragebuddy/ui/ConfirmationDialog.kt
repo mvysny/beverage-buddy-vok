@@ -19,23 +19,17 @@ import com.github.vok.karibudsl.flow.button
 import com.github.vok.karibudsl.flow.div
 import com.github.vok.karibudsl.flow.h2
 import com.github.vok.karibudsl.flow.horizontalLayout
-import com.vaadin.flow.component.Composite
-import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.HasStyle
-import com.vaadin.flow.component.dependency.HtmlImport
+import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.shared.Registration
 
-import java.io.Serializable
-
 /**
  * A generic dialog for confirming or cancelling an action.
- *
- * @param <T> The type of the action's subject
  */
-internal class ConfirmationDialog<T : Serializable> : Dialog(), HasStyle {
+internal class ConfirmationDialog : Dialog(), HasStyle {
 
     private val titleField: H2
     private lateinit var messageLabel: Div
@@ -101,13 +95,9 @@ internal class ConfirmationDialog<T : Serializable> : Dialog(), HasStyle {
         extraMessageLabel.text = additionalMessage
         confirmButton.text = actionName
 
-        if (registrationForConfirm != null) {
-            registrationForConfirm!!.remove()
-        }
+        registrationForConfirm?.remove()
         registrationForConfirm = confirmButton.addClickListener { confirmHandler() }
-        if (registrationForCancel != null) {
-            registrationForCancel!!.remove()
-        }
+        registrationForCancel?.remove()
         registrationForCancel = cancelButton.addClickListener { cancelHandler() }
         if (isDisruptive) {
             confirmButton.element.setAttribute("theme", "tertiary danger")

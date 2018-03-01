@@ -72,7 +72,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
     protected var currentOperation: Operation? = null
         private set
 
-    private val confirmationDialog = ConfirmationDialog<T>()
+    private val confirmationDialog = ConfirmationDialog()
 
     /**
      * The operations supported by this dialog. Delete is enabled when editing

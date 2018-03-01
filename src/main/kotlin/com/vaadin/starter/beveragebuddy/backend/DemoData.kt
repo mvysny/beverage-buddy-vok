@@ -4,7 +4,7 @@ import com.github.vokorm.db
 import java.time.LocalDate
 import java.util.*
 
-internal object StaticData {
+internal object DemoData {
 
     private val MINERAL_WATER = "Mineral Water"
     private val SOFT_DRINK = "Soft Drink"
@@ -111,11 +111,11 @@ internal object StaticData {
         /// generate reviews
         val r = Random()
         val reviewCount = 20 + r.nextInt(30)
-        val beverages = StaticData.BEVERAGES.entries.toList()
+        val beverages = DemoData.BEVERAGES.entries.toList()
 
         for (i in 0 until reviewCount) {
             val review = Review()
-            val beverage = beverages[r.nextInt(StaticData.BEVERAGES.size)]
+            val beverage = beverages[r.nextInt(DemoData.BEVERAGES.size)]
             val category = Category.getByName(beverage.value)
             review.name = beverage.key
             val testDay = LocalDate.of(1930 + r.nextInt(88),

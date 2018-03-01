@@ -3,7 +3,7 @@ package com.vaadin.starter.beveragebuddy
 import com.github.vok.framework.VaadinOnKotlin
 import com.github.vok.framework.sql2o.dataSource
 import com.github.vok.framework.sql2o.dataSourceConfig
-import com.vaadin.starter.beveragebuddy.backend.StaticData
+import com.vaadin.starter.beveragebuddy.backend.DemoData
 import org.flywaydb.core.Flyway
 import org.h2.Driver
 import org.slf4j.LoggerFactory
@@ -39,7 +39,7 @@ class Bootstrap: ServletContextListener {
         flyway.dataSource = VaadinOnKotlin.dataSource
         flyway.migrate()
         log.info("Populating database with testing data")
-        StaticData.createTestingData()
+        DemoData.createTestingData()
         log.info("Initialization complete")
     }
 
