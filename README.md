@@ -24,14 +24,74 @@ You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokua
 
 The project can be imported into the IDE of your choice, with Java 8 installed, as a Gradle project.
 
+To compile the entire project, run `./gradlew`. All dependencies will be downloaded automatically by Gradle.
+
 ## Running the Project
 
 1. Run using `./gradlew appRun`
 2. Wait for the application to start
 3. Open [http://localhost:8080/](http://localhost:8080/) to view the application
 
-## Documentation
+Gradle will download an embedded servlet container (Jetty) and will run your app in it. Your app will be running on
+[http://localhost:8080](http://localhost:8080).
+
+## Dissection of project files
+
+Let's look at all files that this PWA project is composed of, and what are the points where you'll add functionality:
+
+| Files | Meaning
+| ----- | -------
+| [build.gradle](build.gradle) | [Gradle](https://gradle.org/) build tool configuration files. Gradle is used to compile your app, download all dependency jars and build a war file
+| [gradlew](gradlew), [gradlew.bat](gradlew.bat), [gradle/](gradle) | Gradle runtime files, so that you can build your app from command-line simply by running `./gradlew`, without having to download and install Gradle distribution yourself.
+| [.travis.yml](.travis.yml) | Configuration file for [Travis-CI](http://travis-ci.org/) which tells Travis how to build the app. Travis watches your repo; it automatically builds your app and runs all the tests after every commit.
+| [Procfile](Procfile) | Tells [Heroku](https://www.heroku.com/) hosting service how to run your app in a cloud. See below on how to deploy your app on Heroku for free.
+| [.gitignore](.gitignore) | Tells [Git](https://git-scm.com/) to ignore files that can be produced from your app's sources - be it files produced by Gradle, Intellij project files etc.
+| [src/main/resources/](src/main/resources) | A bunch of static files not compiled by Kotlin in any way; see below for explanation.
+| [logback.xml](src/main/resources/logback.xml) | We're using [Slf4j](https://www.slf4j.org/) for logging and this is the configuration file for Slf4j
+| [VaadinServiceInitListener](src/main/resources/META-INF/services/com.vaadin.flow.server.VaadinServiceInitListener) | A Java Service registration for the [CustomVaadinServiceInitListener](src/main/kotlin/com/vaadin/pwademo/Bootstrap.kt) class which will allow us to modify the html page a bit, to include icons, the PWA manifest file etc.
+| [db/migration/](src/main/resources/db/migration) | Database upgrade instructions for the [Flyway](https://flywaydb.org/) framework. Database is upgraded on every server boot, to ensure it's always up-to-date. See the [Migration Naming Guide](https://flywaydb.org/documentation/migrations#naming) for more details.
+| [webapp/](src/main/webapp) | contains the implementations of the Polymer components, and the global app CSS file. The [ReviewsList.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/ReviewsList.kt) demonstrates how to use a Polymer component server-side. The CSS file references the Vaadin Lumo theme and configures it by the means of CSS variables.
+| [webapp/frontend/](src/main/webapp/frontend) | contains the implementations of the Polymer components, and the global app CSS file.
+| [frontend/styles.html](src/main/webapp/frontend/styles.html) | The CSS styles applied to your web app. Vaadin by default uses [Vaadin Lumo Theme](https://vaadin.com/themes/lumo); you can tweak the Lumo theme by the means of setting CSS variables.
+| [frontend/reviews-list.html](src/main/webapp/frontend/reviews-list.html) | Contains the client-side implementation of a Polymer web component. The [ReviewsList.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/ReviewsList.kt) then demonstrates how to use a Polymer component server-side.
+| [src/main/kotlin/](src/main/kotlin) | The main Kotlin sources of your web app. You'll be mostly editing files located in this folder.
+| [Bootstrap.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/Bootstrap.kt) | When Servlet Container (such as Tomcat) starts your app, it will run the `Bootstrap.contextInitialized()` function before any calls to your app are made. We need to bootstrap the Vaadin-on-Kotlin framework, in order to have support for the database; then we'll run Flyway migration scripts, to make sure that the database is up-to-date. After that's done, your app is ready to be serving client browsers.
+| [FlowWorkarounds.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/FlowWorkarounds.kt) | Contains workarounds for bugs in Vaadin 10. When those bugs are fixed, this file will be removed.
+| [MainLayout.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/MainLayout.kt) | The main view of the app, it defines how the UI looks like and how the components are nested into one another. The UI is defined by the means of so-called DSL; see [Karibu-DSL examples](https://github.com/mvysny/karibu-dsl#how-to-write-dsls-for-vaadin-8-and-vaadin8-v7-compat) for more examples.
+| [CategoriesList.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/CategoriesList.kt) | An example view which is constructed entirely server-side. Demonstrates the use of the Vaadin Grid component.
+| [ReviewsList.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/ReviewsList.kt) | An example view which is a Polymer web component.
+| [ConfirmationDialog.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/ConfirmationDialog.kt) | An example of a Yes-No dialog built entirely server-side.
+| [AbstractEditorDialog.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/AbstractEditorDialog.kt), [CategoryEditorDialog.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/CategoryEditorDialog.kt), [ReviewEditorDialog.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/ReviewEditorDialog.kt) | Forms editing particular database entities, implemented as a dialogs.
+| [converters/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/converters) | Form helpers. They convert values from raw values as present in the database entity, into a value that's expected by the form components. For example a TextField expects String, but it needs to be converted to Int if editing an age.
+| [backend/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/backend) | Demonstrates the use of the [VoK-ORM](https://github.com/mvysny/vok-orm) framework to represent database rows as objects
+| [RestService.kt/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/backend/RestService.kt) | Demonstrates the possibility of having REST endpoints. See the class sources for details on how to test those endpoints
+| [DemoData.kt/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/backend/DemoData.kt) | Pre-populates the database with some example data.
+| [Category.kt/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/backend/Category.kt), [Review.kt/](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/backend/Review.kt) | Two entities. Category simply lists a list of beverage categories such as 'Beer'. Review lists reviews made for a particular beverage; it references the beverage category as a foreign key into the Category table.
+
+## More Documentation
 
 For Vaadin 10 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v10/flow/Overview.html).
 
 For Vaadin-on-Kotlin documentation, head to [Vaadin-on-Kotlin](http://vaadinonkotlin.eu).
+
+# Development with Intellij IDEA Ultimate
+
+The easiest way (and the recommended way) to develop VoK-based web applications is to use Intellij IDEA Ultimate.
+It includes support for launching your project in any servlet container (Tomcat is recommended)
+and allows you to debug the code, modify the code and hot-redeploy the code into the running Tomcat
+instance, without having to restart Tomcat.
+
+1. First, download Tomcat and register it into your Intellij IDEA properly: https://www.jetbrains.com/help/idea/2017.1/defining-application-servers-in-intellij-idea.html
+2. Then just open this project in Intellij, simply by selecting `File / Open...` and click on the
+   `build.gradle` file. When asked, select "Open as Project".
+2. You can then create a launch configuration which will launch the `web` module as `exploded` in Tomcat with Intellij: just
+   scroll to the end of this tutorial: https://kotlinlang.org/docs/tutorials/httpservlets.html
+3. Start your newly created launch configuration in Debug mode. This way, you can modify the code
+   and press `Ctrl+F9` to hot-redeploy the code. This only redeploys java code though, to
+   redeploy resources just press `Ctrl+F10` and select "Update classes and resources"
+
+## Using Intellij IDEA Community
+
+Intellij Community is free and can be used for the development as well. To launch your app in IDEA Community, just click the rightmost
+`Gradle` tool button, then navigate to `beverage-buddy-vok / Tasks / gretty / appRun`, right-click
+`appRun` and select the first option "Run beverage-buddy-vok".
