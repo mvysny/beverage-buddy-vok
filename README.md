@@ -37,7 +37,7 @@ Gradle will download an embedded servlet container (Jetty) and will run your app
 
 ## Dissection of project files
 
-Let's look at all files that this PWA project is composed of, and what are the points where you'll add functionality:
+Let's look at all files that this project is composed of, and what are the points where you'll add functionality:
 
 | Files | Meaning
 | ----- | -------
