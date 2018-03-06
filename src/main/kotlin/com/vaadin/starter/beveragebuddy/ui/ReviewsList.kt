@@ -51,11 +51,11 @@ import com.vaadin.starter.beveragebuddy.ui.converters.LongToStringConverter
 class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     @Id("search")
-    private lateinit var search: TextField
+    lateinit var search: TextField
     @Id("newReview")
-    private lateinit var addReview: Button
+    lateinit var addReview: Button
     @Id("header")
-    private lateinit var header: H1
+    lateinit var header: H1
 
     private val reviewForm = ReviewEditorDialog(
         { review, operation -> save(review, operation) },
