@@ -13,7 +13,7 @@ The Starter demonstrates the core Vaadin Flow concepts:
 * [Creating a Component based on a HTML Template](https://github.com/vaadin/free-starter-flow/blob/master/documentation/polymer-template-based-view.asciidoc) (`ReviewsList`) 
   * This template can be opened and edited with [the Vaadin Designer](https://vaadin.com/designer)
 * [Creating Navigation with the Router API](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-annotation-based-router-api.asciidoc) (`MainLayout`, `ReviewsList`, `CategoriesList`)
-* [Serverless testing](https://github.com/mvysny/karibu-testing): see the
+* [Browserless testing](https://github.com/mvysny/karibu-testing): see the
   [test suite package](src/test/kotlin/com/vaadin/starter/beveragebuddy/ui) for the complete test implementation.
 
 ## Live Demo

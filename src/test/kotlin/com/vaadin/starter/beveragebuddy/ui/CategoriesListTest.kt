@@ -34,7 +34,7 @@ fun DynaNodeGroup.usingApp() {
 }
 
 /**
- * Tests the UI. Uses the Serverless testing approach as provided by the [Karibu Testing](https://github.com/mvysny/karibu-testing) library.
+ * Tests the UI. Uses the Browserless Testing approach as provided by the [Karibu Testing](https://github.com/mvysny/karibu-testing) library.
  */
 class CategoriesListTest : DynaTest({
 
