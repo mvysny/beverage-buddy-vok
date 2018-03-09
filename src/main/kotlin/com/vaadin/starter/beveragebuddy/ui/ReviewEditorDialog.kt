@@ -43,12 +43,12 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
 
             beverageName = textField("Beverage name") {
                 // no need to have validators here: they are automatically picked up from the bean field.
-                bind(binder).trimmingConverter().bindN(Review::name)
+                bind(binder).trimmingConverter().bind(Review::name)
             }
             timesTasted = textField("Times tasted") {
                 pattern = "[0-9]*"
                 isPreventInvalidInput = true
-                bind(binder).toInt().bindN(Review::count)
+                bind(binder).toInt().bind(Review::count)
             }
             categoryBox = comboBox("Choose a category") {
                 // we need to show a list of options for the user to choose from. For every option we need to retain at least:
@@ -66,18 +66,18 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
                 dataProvider = Category.dataProvider
 
                 // bind the combo box to the Review::category field so that changes done by the user are stored.
-                bind(binder).toId().bindN(Review::category)
+                bind(binder).toId().bind(Review::category)
             }
             lastTasted = datePicker("Choose the date") {
                 max = LocalDate.now()
                 min = LocalDate.of(1, 1, 1)
                 value = LocalDate.now()
-                bind(binder).bindN(Review::date)
+                bind(binder).bind(Review::date)
             }
             scoreBox = comboBox("Mark a score") {
                 isAllowCustomValue = false
                 setItems("1", "2", "3", "4", "5")
-                bind(binder).toInt().bindN(Review::score)
+                bind(binder).toInt().bind(Review::score)
             }
         }
     }

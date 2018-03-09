@@ -16,7 +16,6 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.karibudsl.flow.bind
-import com.github.vok.karibudsl.flow.bindN
 import com.github.vok.karibudsl.flow.textField
 import com.github.vok.karibudsl.flow.trimmingConverter
 import com.vaadin.flow.data.validator.StringLengthValidator
@@ -38,7 +37,7 @@ class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)
                                 "Category name must contain at least 3 printable characters",
                                 3, null))
                         .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
-                        .bindN(Category::name)
+                        .bind(Category::name)
             }
         }
     }
