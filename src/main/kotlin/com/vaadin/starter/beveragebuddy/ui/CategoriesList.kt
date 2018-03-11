@@ -16,18 +16,20 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.framework.sql2o.vaadin.and
+import com.github.vok.framework.sql2o.vaadin.configurableFilter
 import com.github.vok.framework.sql2o.vaadin.dataProvider
 import com.github.vok.karibudsl.flow.*
+import com.github.vokorm.Filter
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.router.PageTitle
@@ -69,7 +71,9 @@ class CategoriesList : VerticalLayout() {
             }
         }
         grid = grid {
-            addColumn({ it.name }).setHeader("Category")
+            addColumnFor(Category::name) {
+                setHeader("Category")
+            }
             addColumn({ it.getReviewCount() }).setHeader("Beverages")
             addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
             // Grid does not yet implement HasStyle
@@ -101,7 +105,7 @@ class CategoriesList : VerticalLayout() {
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()
 
     private fun updateView() {
-        var dp = Category.dataProvider
+        var dp: DataProvider<Category, Filter<Category>?> = Category.dataProvider
         if (!searchField.value.isNullOrBlank()) {
             dp = dp.and { Category::name ilike "%${searchField.value.trim()}%" }
         }
