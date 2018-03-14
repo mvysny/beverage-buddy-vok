@@ -15,9 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.framework.sql2o.vaadin.and
-import com.github.vok.framework.sql2o.vaadin.configurableFilter
-import com.github.vok.framework.sql2o.vaadin.dataProvider
+import com.github.vok.framework.sql2o.vaadin.*
 import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.Filter
 import com.github.vokorm.getById
@@ -107,7 +105,7 @@ class CategoriesList : VerticalLayout() {
     private fun updateView() {
         var dp: DataProvider<Category, Filter<Category>?> = Category.dataProvider
         if (!searchField.value.isNullOrBlank()) {
-            dp = dp.and { Category::name ilike "%${searchField.value.trim()}%" }
+            dp = dp.withFilter { Category::name ilike "%${searchField.value.trim()}%" }
         }
         grid.dataProvider = dp
     }
