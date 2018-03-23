@@ -103,7 +103,7 @@ class CategoriesList : VerticalLayout() {
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()
 
     private fun updateView() {
-        var dp: DataProvider<Category, Filter<Category>?> = Category.dataProvider
+        var dp: VokDataProvider<Category> = Category.dataProvider
         if (!searchField.value.isNullOrBlank()) {
             dp = dp.withFilter { Category::name ilike "%${searchField.value.trim()}%" }
         }

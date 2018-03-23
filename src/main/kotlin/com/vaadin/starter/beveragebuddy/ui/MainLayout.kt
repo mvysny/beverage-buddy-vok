@@ -15,6 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.content
 import com.github.vok.karibudsl.flow.div
 import com.github.vok.karibudsl.flow.h2
 import com.github.vok.karibudsl.flow.routerLink
@@ -47,7 +48,7 @@ class MainLayout : VerticalLayout(), RouterLayout, AfterNavigationObserver, Page
 
     init {
         addClassName("main-layout")
-        defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
+        content { align(stretch, top) }
         div { // header
             addClassName("main-layout__header")
             h2("Beverage Buddy") {
