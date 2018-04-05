@@ -30,7 +30,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
-import com.vaadin.flow.templatemodel.Convert
+import com.vaadin.flow.templatemodel.Encode
 import com.vaadin.flow.templatemodel.TemplateModel
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
@@ -63,10 +63,10 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     interface ReviewsModel : TemplateModel {
         // remove this when https://youtrack.jetbrains.com/issue/KT-12794 is fixed
-        @Convert.Container(
-        Convert(value = LongToStringConverter::class, path = "id"),
-        Convert(value = LocalDateToStringConverter::class, path = "date"),
-        Convert(value = LongToStringConverter::class, path = "category")
+        @com.vaadin.flow.templatemodel.Encode.Container(
+        Encode(value = LongToStringConverter::class, path = "id"),
+            Encode(value = LocalDateToStringConverter::class, path = "date"),
+            Encode(value = LongToStringConverter::class, path = "category")
         )
         // suppress wildcards: Kotlin generates List<? extends Review> which Flow doesn't like much and will fail with an exception.
         fun setReviews(reviews: @JvmSuppressWildcards List<ReviewWithCategory>)
