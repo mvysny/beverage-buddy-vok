@@ -19,16 +19,13 @@ import com.github.vok.karibudsl.flow.content
 import com.github.vok.karibudsl.flow.div
 import com.github.vok.karibudsl.flow.h2
 import com.github.vok.karibudsl.flow.routerLink
-import com.vaadin.flow.router.RouterLayout
-import com.vaadin.flow.router.RouterLink
-import com.vaadin.flow.router.AfterNavigationEvent
-import com.vaadin.flow.router.AfterNavigationObserver
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcons
-import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
+import com.vaadin.flow.router.HighlightConditions
+import com.vaadin.flow.router.RouterLayout
 import com.vaadin.flow.server.InitialPageSettings
 import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme
@@ -42,9 +39,7 @@ import com.vaadin.flow.theme.lumo.Lumo
 @HtmlImport("frontend://styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-class MainLayout : VerticalLayout(), RouterLayout, AfterNavigationObserver, PageConfigurator {
-    private lateinit var categories: RouterLink
-    private lateinit var reviews: RouterLink
+class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
 
     init {
         addClassName("main-layout")
@@ -56,25 +51,16 @@ class MainLayout : VerticalLayout(), RouterLayout, AfterNavigationObserver, Page
             }
             div { // navigation
                 addClassName("main-layout__nav")
-                reviews = routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class.java) {
+                routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class.java) {
                     addClassName("main-layout__nav-item")
+                    highlightCondition = HighlightConditions.sameLocation()
                 }
-                categories = routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class.java) {
+                routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class.java) {
                     addClassName("main-layout__nav-item")
+                    highlightCondition = HighlightConditions.sameLocation()
                 }
             }
         }
-    }
-
-    override fun afterNavigation(event: AfterNavigationEvent) {
-        // updating the active menu item based on if either of views is active
-        // (note that this is triggered even for the error view)
-        val segment = event.location.firstSegment
-        val reviewsActive = segment == reviews.href
-        val categoriesActive = segment == categories.href
-
-        reviews.setClassName(ACTIVE_ITEM_STYLE, reviewsActive)
-        categories.setClassName(ACTIVE_ITEM_STYLE, categoriesActive)
     }
 
     override fun configurePage(settings: InitialPageSettings) {
