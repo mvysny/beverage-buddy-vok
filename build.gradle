@@ -49,7 +49,7 @@ dependencies {
     compile "com.github.vok:vok-framework-v10-sql2o:$vaadinonkotlin_version"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.31"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.40"
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
