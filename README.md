@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/mvysny/beverage-buddy-vok.svg?branch=master)](https://travis-ci.org/mvysny/beverage-buddy-vok)
+[![Join the chat at https://gitter.im/vaadin/vaadin-on-kotlin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/vaadin-on-kotlin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=beverage-buddy-vok&style=flat&svg=1)](https://beverage-buddy-vok.herokuapp.com/)
 
 # Beverage Buddy App Starter for Vaadin 10
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
