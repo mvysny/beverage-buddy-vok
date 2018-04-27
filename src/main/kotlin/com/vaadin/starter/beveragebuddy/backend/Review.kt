@@ -83,7 +83,8 @@ open class Review(override var id: Long? = null,
  */
 // must be open - Flow requires non-final classes for ModelProxy. Also can't have constructors: https://github.com/mvysny/karibu-dsl/issues/3
 open class ReviewWithCategory : Review() {
-    // needs to be Long? but that makes Vaadin 10 fail: https://github.com/vaadin/flow/issues/3549
+    // needs to be `Long?` but that makes Vaadin 10 fail: https://github.com/vaadin/flow/issues/3549
+    // also https://github.com/vaadin/flow/issues/993
     open var categoryId: Int? = null
     open var categoryName: String? = null
     override fun toString() = super.toString() + "(category #$categoryId $categoryName)"
