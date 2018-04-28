@@ -9,7 +9,7 @@ buildscript {
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.2.40"
-    id "org.akhikhl.gretty" version "2.0.0"
+    id "org.gretty" version "2.1.0"
     id "io.spring.dependency-management" version "1.0.4.RELEASE"  // remove when https://github.com/gradle/gradle/issues/4417 is fixed
 }
 
@@ -19,6 +19,7 @@ defaultTasks 'clean', 'build'
 
 repositories {
     mavenCentral()
+    jcenter()   // required for the new org.gretty:2.1.0
     maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
     maven { url 'https://maven.vaadin.com/vaadin-addons' }
     maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
