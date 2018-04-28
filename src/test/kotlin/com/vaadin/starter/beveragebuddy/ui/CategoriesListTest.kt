@@ -2,7 +2,6 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.karibu.testing.*
 import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaNodeTest
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.github.vokorm.deleteAll
@@ -25,7 +24,7 @@ fun DynaNodeGroup.usingApp() {
 
     // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
     // and populate the RouteRegistry properly.
-    beforeEach { MockVaadin.setup(autoDiscoverViews("com.vaadin.starter")) }
+    beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
 
     // it's a good practice to clear up the db before every test, to start every test with a predefined state.
     fun cleanupDb() { Category.deleteAll(); Review.deleteAll() }

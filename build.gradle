@@ -65,11 +65,11 @@ dependencies {
     compile "com.github.vok:vok-rest:$vaadinonkotlin_version"
 
     // testing
-    testCompile "com.github.kaributesting:karibu-testing-v10:0.4.9"
+    testCompile "com.github.kaributesting:karibu-testing-v10:0.4.10"
     testCompile("com.github.mvysny.dynatest:dynatest:0.8")
 
     // heroku app runner
-    testRuntime 'com.github.jsimone:webapp-runner:8.5.11.3'
+    testRuntime 'com.github.jsimone:webapp-runner:8.5.30.0'
 }
 
 compileKotlin {
