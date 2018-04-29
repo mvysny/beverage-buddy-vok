@@ -118,7 +118,7 @@ fun VokDataProvider<ReviewWithCategory>.setFilterText(filter: String?) {
             """r.name ILIKE :filter
                     or IFNULL(c.name, 'Undefined') ILIKE :filter
                     or CAST(r.score as VARCHAR) ILIKE :filter
-                    or CAST(r.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to filter)
+                    or CAST(r.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to normalizedFilter)
         }
     }
 }
