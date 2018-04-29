@@ -1,5 +1,6 @@
 package com.vaadin.starter.beveragebuddy.backend
 
+import com.github.vok.framework.sql2o.vaadin.*
 import com.github.vokorm.DaoOfAny
 import com.github.vokorm.db
 import com.vaadin.starter.beveragebuddy.LEntity
@@ -57,6 +58,10 @@ open class Review(override var id: Long? = null,
          * The matching is case insensitive. When passed an empty filter text,
          * the method returns all categories. The returned list is ordered
          * by name.
+         *
+         * This function is very simple and does not support paging/sorting/filtering. This approach works if the data
+         * is few. However, if there is plenty of data to show, the `dom-repeat` approach can not be used anymore
+         * and must be replaced with a Grid backed by [ReviewWithCategory.dataProvider].
          * @param filter the filter text
          * @return the list of matching reviews, may be empty.
          */
@@ -85,4 +90,35 @@ open class Review(override var id: Long? = null,
 open class ReviewWithCategory : Review() {
     open var categoryName: String? = null
     override fun toString() = super.toString() + "(category $categoryName)"
+    companion object {
+        /**
+         * The [Review.findReviews] is very simple but it doesn't offer any sorting/paging/filtering capabilities and is therefore
+         * not fit to provide data for a Grid. This data provider returns the very same data, but it also provides
+         * sorting/paging/filtering.
+         */
+        val dataProvider: VokDataProvider<ReviewWithCategory>
+        get() = SqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
+                FROM Review r left join Category c on r.category = c.id
+                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""", idMapper = { it.id!! }).withConfigurableFilter2()
+    }
+}
+
+/**
+ * This utility function sets a *global filter* to the data provider. Global filter searches for given [filter] text
+ * in all [Review] and [ReviewWithCategory] fields.
+ *
+ * This function is compatible with data providers as returned by [ReviewWithCategory.dataProvider].
+ */
+fun VokDataProvider<ReviewWithCategory>.setFilterText(filter: String?) {
+    if (filter.isNullOrBlank()) {
+        setFilter(null)
+    } else {
+        val normalizedFilter = filter!!.trim().toLowerCase() + "%"
+        setFilter {
+            """r.name ILIKE :filter
+                    or IFNULL(c.name, 'Undefined') ILIKE :filter
+                    or CAST(r.score as VARCHAR) ILIKE :filter
+                    or CAST(r.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to filter)
+        }
+    }
 }
