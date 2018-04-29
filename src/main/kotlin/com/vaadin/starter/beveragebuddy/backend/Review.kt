@@ -97,9 +97,9 @@ open class ReviewWithCategory : Review() {
          * sorting/paging/filtering.
          */
         val dataProvider: VokDataProvider<ReviewWithCategory>
-        get() = SqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
+        get() = sqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
                 FROM Review r left join Category c on r.category = c.id
-                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""", idMapper = { it.id!! }).withConfigurableFilter2()
+                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""", idMapper = { it.id!! })
     }
 }
 
