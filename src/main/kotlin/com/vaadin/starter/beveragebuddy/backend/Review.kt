@@ -51,34 +51,6 @@ open class Review(override var id: Long? = null,
                     .addParameter("catId", categoryId)
                     .executeScalar(Long::class.java) ?: 0L
         }
-
-        /**
-         * Fetches the reviews matching the given filter text.
-         *
-         * The matching is case insensitive. When passed an empty filter text,
-         * the method returns all categories. The returned list is ordered
-         * by name.
-         *
-         * This function is very simple and does not support paging/sorting/filtering. This approach works if the data
-         * is few. However, if there is plenty of data to show, the `dom-repeat` approach can not be used anymore
-         * and must be replaced with a Grid backed by [ReviewWithCategory.dataProvider].
-         * @param filter the filter text
-         * @return the list of matching reviews, may be empty.
-         */
-        fun findReviews(filter: String): List<ReviewWithCategory> {
-            val normalizedFilter = filter.trim().toLowerCase() + "%"
-            val reviews = db {
-                con.createQuery("""select r.*, IFNULL(c.name, 'Undefined') as categoryName
-                    FROM Review r left join Category c on r.category = c.id
-                    WHERE r.name ILIKE :filter or IFNULL(c.name, 'Undefined') ILIKE :filter or
-                     CAST(r.score as VARCHAR) ILIKE :filter or
-                     CAST(r.count as VARCHAR) ILIKE :filter
-                     ORDER BY r.name""")
-                        .addParameter("filter", normalizedFilter)
-                        .executeAndFetch(ReviewWithCategory::class.java)
-            }
-            return reviews
-        }
     }
 }
 
@@ -92,9 +64,14 @@ open class ReviewWithCategory : Review() {
     override fun toString() = super.toString() + "(category $categoryName)"
     companion object {
         /**
-         * The [Review.findReviews] is very simple but it doesn't offer any sorting/paging/filtering capabilities and is therefore
-         * not fit to provide data for a Grid. This data provider returns the very same data, but it also provides
-         * sorting/paging/filtering.
+         * Fetches the reviews matching the given filter text.
+         *
+         * The matching is case insensitive. When passed an empty filter text,
+         * the method returns all categories. The returned list is ordered
+         * by name.
+         *
+         * This data provider provides sorting/paging/filtering and may be used for
+         * SELECTs returning huge amount of data.
          */
         val dataProvider: VokDataProvider<ReviewWithCategory>
         get() = sqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName

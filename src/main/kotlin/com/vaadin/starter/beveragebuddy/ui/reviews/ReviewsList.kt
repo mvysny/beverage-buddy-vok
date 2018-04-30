@@ -18,7 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.dependency.HtmlImport
+import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Paragraph
@@ -26,10 +26,13 @@ import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.data.provider.Query
+import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
+import com.vaadin.starter.beveragebuddy.backend.setFilterText
 import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
@@ -45,7 +48,7 @@ class ReviewsList : VerticalLayout() {
 
     private val toolbar: Toolbar
     private val header: H3
-    private val reviews: Div
+    private val reviews: Grid<ReviewWithCategory>
     private val reviewForm = ReviewEditorDialog(
         { review, operation -> save(review, operation) },
         { this.delete(it) })
@@ -59,8 +62,14 @@ class ReviewsList : VerticalLayout() {
         header = h3 {
             setId("header")
         }
-        reviews = div {
+        reviews = grid {
+            isExpand = true
             addClassName("reviews")
+            addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
+                val item = ReviewItem(review)
+                item.onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
+                item
+            }))
         }
         updateList()
     }
@@ -78,30 +87,23 @@ class ReviewsList : VerticalLayout() {
     }
 
     private fun updateList() {
-        val reviews = Review.findReviews(toolbar.searchText)
+        val dp = ReviewWithCategory.dataProvider
+        dp.setFilterText(toolbar.searchText)
+        val size = dp.size(Query())
         if (toolbar.searchText.isBlank()) {
             header.text = "Reviews"
-            header.add(Span("${reviews.size} in total"))
+            header.add(Span("$size in total"))
         } else {
             header.text = "Search for “${toolbar.searchText}”"
-            if (!reviews.isEmpty()) {
-                header.add(Span("${reviews.size} results"))
-            }
+            header.add(Span("$size results"))
         }
-
-        this.reviews.removeAll()
-        for (review in reviews) {
-            this.reviews.add(ReviewItem(review).apply {
-                onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
-            })
-        }
+        this.reviews.dataProvider = dp
     }
 
     private fun openForm(review: Review, operation: AbstractEditorDialog.Operation) {
         reviewForm.open(review, operation)
     }
 }
-
 
 class ReviewItem(val review: ReviewWithCategory) : Div() {
 

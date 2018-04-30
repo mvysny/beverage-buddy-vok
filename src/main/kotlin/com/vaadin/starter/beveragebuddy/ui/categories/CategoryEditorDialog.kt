@@ -50,7 +50,7 @@ class CategoryEditorDialog(itemSaver: (Category, Operation)->Unit, itemDeleter: 
     }
 
     override fun confirmDelete() {
-        val reviewCount = Review.findReviews(currentItem!!.name).size
+        val reviewCount = Review.getTotalCountForReviewsInCategory(currentItem!!.id!!).toInt()
         if (reviewCount == 0) {
             deleteConfirmed(currentItem!!)
         } else {
