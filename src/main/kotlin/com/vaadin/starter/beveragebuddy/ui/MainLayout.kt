@@ -15,10 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.content
-import com.github.vok.karibudsl.flow.div
-import com.github.vok.karibudsl.flow.h2
-import com.github.vok.karibudsl.flow.routerLink
+import com.github.vok.karibudsl.flow.*
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasElement
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -36,13 +35,13 @@ import com.vaadin.flow.theme.lumo.Lumo
  * child views below that.
  */
 @BodySize(width = "100vw", height = "100vh")
-@HtmlImport("frontend://styles.html")
+@HtmlImport("frontend://styles/shared-styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
 class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
 
     init {
-        addClassName("main-layout")
+        addClassName("main-layout"); setSizeFull(); isPadding = false
         content { align(stretch, top) }
         div { // header
             addClassName("main-layout__header")
@@ -63,12 +62,13 @@ class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
         }
     }
 
+    override fun showRouterLayoutContent(content: HasElement) {
+        add(content as Component)
+        content.isExpand = true
+    }
+
     override fun configurePage(settings: InitialPageSettings) {
         settings.addMetaTag("apple-mobile-web-app-capable", "yes")
         settings.addMetaTag("apple-mobile-web-app-status-bar-style", "black")
-    }
-
-    companion object {
-        private val ACTIVE_ITEM_STYLE = "main-layout__nav-item--selected"
     }
 }

@@ -51,7 +51,7 @@ class CategoriesList : VerticalLayout() {
         { deleteCategory(it) })
 
     init {
-        addClassName("categories-list")
+        addClassName("categories-list"); isPadding = false
         defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
         div { // view toolbar
             addClassName("view-toolbar")
@@ -68,15 +68,15 @@ class CategoriesList : VerticalLayout() {
                 addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
             }
         }
+        h3("Categories")
         grid = grid {
+            isExpand = true
             addColumnFor(Category::name) {
                 setHeader("Category")
             }
             addColumn({ it.getReviewCount() }).setHeader("Beverages")
             addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
-            // Grid does not yet implement HasStyle
-            element.classList.add("categories")
-            element.setAttribute("theme", "row-dividers")
+            themes.add("row-dividers")
             asSingleSelect().addValueChangeListener {
                 if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
                     selectionChanged(it.value.id!!)
