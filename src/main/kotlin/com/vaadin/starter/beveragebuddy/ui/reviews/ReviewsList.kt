@@ -78,6 +78,7 @@ class ReviewsList : VerticalLayout() {
 
     private fun save(review: Review, operation: AbstractEditorDialog.Operation) {
         review.save()
+        // unfortunately the Grid is not updated, because of a bug: https://github.com/vaadin/vaadin-grid-flow/issues/175
         updateList()
         Notification.show("Beverage successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
     }
