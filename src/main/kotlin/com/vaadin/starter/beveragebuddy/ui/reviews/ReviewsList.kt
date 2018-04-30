@@ -15,6 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
+import com.github.vok.framework.sql2o.vaadin.VokDataProvider
 import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.HasComponents
@@ -48,7 +49,7 @@ class ReviewsList : VerticalLayout() {
 
     private val toolbar: Toolbar
     private val header: H3
-    private val reviews: Grid<ReviewWithCategory>
+    private val reviewsGrid: Grid<ReviewWithCategory>
     private val reviewForm = ReviewEditorDialog(
         { review, operation -> save(review, operation) },
         { this.delete(it) })
@@ -62,7 +63,7 @@ class ReviewsList : VerticalLayout() {
         header = h3 {
             setId("header")
         }
-        reviews = grid {
+        reviewsGrid = grid {
             isExpand = true
             addClassName("reviews")
             themes.add("no-row-borders no-border")
@@ -88,9 +89,9 @@ class ReviewsList : VerticalLayout() {
     }
 
     private fun updateList() {
-        val dp = ReviewWithCategory.dataProvider
+        val dp: VokDataProvider<ReviewWithCategory> = ReviewWithCategory.dataProvider
         dp.setFilterText(toolbar.searchText)
-        val size = dp.size(Query())
+        val size: Int = dp.size(Query())
         if (toolbar.searchText.isBlank()) {
             header.text = "Reviews"
             header.add(Span("$size in total"))
@@ -98,7 +99,7 @@ class ReviewsList : VerticalLayout() {
             header.text = "Search for “${toolbar.searchText}”"
             header.add(Span("$size results"))
         }
-        this.reviews.dataProvider = dp
+        reviewsGrid.dataProvider = dp
     }
 
     private fun openForm(review: Review, operation: AbstractEditorDialog.Operation) {
