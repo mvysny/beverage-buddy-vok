@@ -106,6 +106,9 @@ class ReviewsList : VerticalLayout() {
     }
 }
 
+/**
+ * Shows a row stripe with information about a single [ReviewWithCategory].
+ */
 class ReviewItem(val review: ReviewWithCategory) : Div() {
 
     var onEdit: () -> Unit = {}
@@ -131,11 +134,11 @@ class ReviewItem(val review: ReviewWithCategory) : Div() {
             p {
                 className = "review__category"
                 if (review.category != null) {
-                    element.setAttribute("theme", "badge small")
+                    themes.add("badge small")
                     element.style.set("--category", review.category.toString())
                     text = review.categoryName
                 } else {
-                    element.setAttribute("style", "--category: -1;")
+                    element.style.set("--category", "-1")
                     text = "Undefined"
                 }
             }

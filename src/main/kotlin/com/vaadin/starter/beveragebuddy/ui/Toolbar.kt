@@ -8,8 +8,19 @@ import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
+/**
+ * A toolbar with a search box and a "Create New" button. Don't forget to provide proper listeners
+ * for [onSearch] and [onCreate].
+ * @param createCaption the caption of the "Create New" button.
+ */
 class Toolbar(createCaption: String) : Div() {
+    /**
+     * Fired when the text in the search text field changes.
+     */
     var onSearch: (String)->Unit = {}
+    /**
+     * Fired when the "Create new" button is clicked.
+     */
     var onCreate: ()->Unit = {}
     private val searchField: TextField
     /**
@@ -25,7 +36,7 @@ class Toolbar(createCaption: String) : Div() {
             addValueChangeListener { onSearch(searchText) }
             valueChangeMode = ValueChangeMode.EAGER
         }
-        button(createCaption, Icon("lumo", "plus")) {
+        button(createCaption, Icon(VaadinIcons.PLUS)) {
             setPrimary()
             addClassName("view-toolbar__button")
             addClickListener { onCreate() }
