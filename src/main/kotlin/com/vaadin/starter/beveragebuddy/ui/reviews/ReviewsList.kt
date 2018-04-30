@@ -65,6 +65,7 @@ class ReviewsList : VerticalLayout() {
         reviews = grid {
             isExpand = true
             addClassName("reviews")
+            themes.add("no-row-borders no-border")
             addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
                 val item = ReviewItem(review)
                 item.onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
