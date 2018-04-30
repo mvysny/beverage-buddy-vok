@@ -155,9 +155,11 @@
             }
 
             .review__details {
-                width: 70%;
+                width: 100%;
+                max-width: calc(100% - 8.5em);
                 flex: auto;
-                line-height: 1.2em;
+                line-height: var(--lumo-line-height-xs);
+                overflow: hidden;
             }
 
             .review__name {

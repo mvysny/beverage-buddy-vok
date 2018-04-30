@@ -13,9 +13,7 @@ class ReviewsListTest : DynaTest({
 
     test("'new review' smoke test") {
         UI.getCurrent().navigate("")
-        // this doesn't work, read more here: https://github.com/mvysny/karibu-testing/tree/master/karibu-testing-v10#polymer-templates
-        //  _get<Button> { caption = "New review" } ._click()
-        _get<ReviewsList>().addReview._click()
+          _get<Button> { caption = "New review" } ._click()
 
         // the dialog should have been opened
         _get<ReviewEditorDialog>()

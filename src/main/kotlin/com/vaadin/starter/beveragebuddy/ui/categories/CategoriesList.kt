@@ -22,6 +22,7 @@ import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.FlexComponent
@@ -44,6 +45,7 @@ import com.vaadin.starter.beveragebuddy.ui.toolbarView
 @PageTitle("Categories List")
 class CategoriesList : VerticalLayout() {
 
+    private val header: H3
     private val toolbar: Toolbar
     private val grid: Grid<Category>
 
@@ -52,13 +54,12 @@ class CategoriesList : VerticalLayout() {
         { deleteCategory(it) })
 
     init {
-        addClassName("categories-list"); isPadding = false
-        content { align(stretch, top) }
+        isPadding = false; content { align(stretch, top) }
         toolbar = toolbarView("New category") {
             onSearch = { updateView() }
             onCreate = { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
         }
-        h3("Categories")
+        header = h3()
         grid = grid {
             isExpand = true
             addColumnFor(Category::name) {
@@ -96,6 +97,9 @@ class CategoriesList : VerticalLayout() {
         var dp: VokDataProvider<Category> = Category.dataProvider
         if (!toolbar.searchText.isBlank()) {
             dp = dp.withFilter { Category::name ilike "%${toolbar.searchText}%" }
+            header.text = "Search for “${toolbar.searchText}”"
+        } else {
+            header.text = "Categories"
         }
         grid.dataProvider = dp
     }
