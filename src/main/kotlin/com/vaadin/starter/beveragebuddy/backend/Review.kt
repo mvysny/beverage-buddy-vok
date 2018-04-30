@@ -2,8 +2,8 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.vok.framework.sql2o.vaadin.*
 import com.github.vokorm.DaoOfAny
+import com.github.vokorm.Entity
 import com.github.vokorm.db
-import com.vaadin.starter.beveragebuddy.LEntity
 import java.time.LocalDate
 import javax.validation.constraints.*
 
@@ -36,7 +36,7 @@ open class Review(override var id: Long? = null,
                   @field:NotNull
                   @field:Min(1)
                   @field:Max(99)
-                  open var count: Int = 1) : LEntity {
+                  open var count: Int = 1) : Entity<Long> {
     override fun toString() = "${javaClass.simpleName}(id=$id, score=$score, name='$name', date=$date, category=$category, count=$count)"
 
     fun copy() = Review(id, score, name, date, category, count)
