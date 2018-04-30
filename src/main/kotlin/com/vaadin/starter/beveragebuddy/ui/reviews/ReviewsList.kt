@@ -111,7 +111,9 @@ class ReviewsList : VerticalLayout() {
  * Shows a row stripe with information about a single [ReviewWithCategory].
  */
 class ReviewItem(val review: ReviewWithCategory) : Div() {
-
+    /**
+     * Fired when this item is to be edited (the "Edit" button is pressed by the User).
+     */
     var onEdit: () -> Unit = {}
 
     init {
