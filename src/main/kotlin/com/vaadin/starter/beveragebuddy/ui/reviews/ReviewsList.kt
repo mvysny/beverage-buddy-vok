@@ -15,18 +15,17 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
-import com.github.vok.karibudsl.flow.content
-import com.github.vok.karibudsl.flow.div
-import com.github.vok.karibudsl.flow.h3
+import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.getById
-import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.dependency.HtmlImport
-import com.vaadin.flow.component.html.*
+import com.vaadin.flow.component.html.Div
+import com.vaadin.flow.component.html.H3
+import com.vaadin.flow.component.html.Paragraph
+import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
-import com.vaadin.flow.component.polymertemplate.EventHandler
-import com.vaadin.flow.component.polymertemplate.ModelItem
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Review
@@ -35,18 +34,13 @@ import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
-import kotlin.streams.toList
-
 
 /**
  * Displays the list of available categories, with a search filter as well as
  * buttons to add a new category or edit existing ones.
- *
- * Implemented using a simple template.
  */
 @Route(value = "", layout = MainLayout::class)
 @PageTitle("Review List")
-@HtmlImport("frontend://reviews-list.html")
 class ReviewsList : VerticalLayout() {
 
     private val toolbar: Toolbar
@@ -103,7 +97,7 @@ class ReviewsList : VerticalLayout() {
         }
     }
 
-    private fun openForm(review: Review,operation: AbstractEditorDialog.Operation) {
+    private fun openForm(review: Review, operation: AbstractEditorDialog.Operation) {
         reviewForm.open(review, operation)
     }
 }
@@ -111,66 +105,50 @@ class ReviewsList : VerticalLayout() {
 
 class ReviewItem(val review: ReviewWithCategory) : Div() {
 
-    var onEdit: ()->Unit = {}
+    var onEdit: () -> Unit = {}
+
     init {
         addClassName("review")
-        add(createRatingDiv())
-        add(createDetailsDiv())
-        add(createDateDiv())
-        add(createButton())
-    }
-
-    private fun createButton(): Button {
-        val button = Button("Edit")
-        button.setIcon(VaadinIcons.EDIT.create())
-        button.setClassName("review__edit")
-        button.getElement().setAttribute("theme", "tertiary")
-        button.addClickListener({ onEdit() })
-        return button
-    }
-
-    private fun createDateDiv(): Div {
-        val date = Div()
-        date.setClassName("review__date")
-        val lastTasted = H5("Last tasted")
-        val dateP = Paragraph(review.date.toString())
-        date.add(lastTasted, dateP)
-        return date
-    }
-
-    private fun createRatingDiv(): Div {
-        val ratingDiv = Div()
-        ratingDiv.addClassName("review__rating")
-        val score = Paragraph()
-        score.className = "review__score"
-        score.text = review.score.toString()
-        score.element.setAttribute("data-score", review.score.toString())
-        val count = Paragraph()
-        count.className = "review__count"
-        count.text = "" + review.count
-        val timesTasted = Span("times tasted")
-        count.add(timesTasted)
-        ratingDiv.add(score, count)
-        return ratingDiv
-    }
-
-    private fun createDetailsDiv(): Div {
-        val detailsDiv = Div()
-        detailsDiv.addClassName("review__details")
-        val h4 = H4(review.name)
-        h4.addClassName("review__name")
-        detailsDiv.add(h4)
-        val category = Paragraph()
-        category.className = "review__category"
-        if (review.category != null) {
-            category.element.setAttribute("theme", "badge small")
-            category.element.style.set("--category", review.category.toString())
-            category.text = review.categoryName
-        } else {
-            category.element.setAttribute("style", "--category: -1;")
-            category.text = "Undefined"
+        div {
+            addClassName("review__rating")
+            p(review.score.toString()) {
+                className = "review__score"
+                element.setAttribute("data-score", review.score.toString())
+            }
+            p(review.count.toString()) {
+                className = "review__count"
+                span("times tasted")
+            }
         }
-        detailsDiv.add(category)
-        return detailsDiv
+        div {
+            addClassName("review__details")
+            h4(review.name) {
+                addClassName("review__name")
+            }
+            p {
+                className = "review__category"
+                if (review.category != null) {
+                    element.setAttribute("theme", "badge small")
+                    element.style.set("--category", review.category.toString())
+                    text = review.categoryName
+                } else {
+                    element.setAttribute("style", "--category: -1;")
+                    text = "Undefined"
+                }
+            }
+        }
+        div {
+            className = "review__date"
+            h5("Last tasted")
+            p(review.date.toString())
+        }
+        button("Edit") {
+            icon = VaadinIcons.EDIT.create()
+            className = "review__edit"
+            themes.add("tertiary")
+            onLeftClick { onEdit() }
+        }
     }
 }
+
+fun (@VaadinDsl HasComponents).p(text: String = "", block: (@VaadinDsl Paragraph).() -> Unit = {}) = init(Paragraph(text), block)
