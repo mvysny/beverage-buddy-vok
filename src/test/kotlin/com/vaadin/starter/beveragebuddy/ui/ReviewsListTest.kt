@@ -4,6 +4,8 @@ import com.github.karibu.testing.*
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewEditorDialog
+import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 
 class ReviewsListTest : DynaTest({
 

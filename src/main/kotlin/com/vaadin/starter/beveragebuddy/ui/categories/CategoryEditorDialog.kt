@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui
+package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.vok.karibudsl.flow.bind
 import com.github.vok.karibudsl.flow.textField
@@ -21,11 +21,12 @@ import com.github.vok.karibudsl.flow.trimmingConverter
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
+import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 
 /**
  * A dialog for editing [Category] objects.
  */
-class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)->Unit, itemDeleter: (Category)->Unit)
+class CategoryEditorDialog(itemSaver: (Category, Operation)->Unit, itemDeleter: (Category)->Unit)
     : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter, Category::class.java) {
 
     init {

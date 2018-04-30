@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui
+package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.vokorm.getById
 import com.vaadin.flow.component.Tag
@@ -34,7 +34,9 @@ import com.vaadin.flow.templatemodel.Encode
 import com.vaadin.flow.templatemodel.TemplateModel
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
-import com.vaadin.starter.beveragebuddy.ui.ReviewsList.ReviewsModel
+import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
+import com.vaadin.starter.beveragebuddy.ui.MainLayout
+import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList.ReviewsModel
 import com.vaadin.starter.beveragebuddy.ui.converters.LocalDateToStringConverter
 import com.vaadin.starter.beveragebuddy.ui.converters.LongToStringConverter
 
@@ -112,7 +114,8 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     }
 
     private fun openForm(review: Review,
-                         operation: AbstractEditorDialog.Operation) {
+                         operation: AbstractEditorDialog.Operation
+    ) {
         // Add the form lazily as the UI is not yet initialized when
         // this view is constructed
         if (reviewForm.element.parent == null) {

@@ -29,6 +29,8 @@ import com.vaadin.flow.server.InitialPageSettings
 import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
+import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
+import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 
 /**
  * The main layout contains the header with the navigation buttons, and the

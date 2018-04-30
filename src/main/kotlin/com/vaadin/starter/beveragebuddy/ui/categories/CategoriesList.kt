@@ -13,27 +13,28 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui
+package com.vaadin.starter.beveragebuddy.ui.categories
 
-import com.github.vok.framework.sql2o.vaadin.*
+import com.github.vok.framework.sql2o.vaadin.VokDataProvider
+import com.github.vok.framework.sql2o.vaadin.dataProvider
+import com.github.vok.framework.sql2o.vaadin.withFilter
 import com.github.vok.karibudsl.flow.*
-import com.github.vokorm.Filter
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
-import com.vaadin.flow.component.textfield.TextField
-import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
-import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
+import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
+import com.vaadin.starter.beveragebuddy.ui.MainLayout
+import com.vaadin.starter.beveragebuddy.ui.Toolbar
+import com.vaadin.starter.beveragebuddy.ui.toolbarView
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -43,7 +44,7 @@ import com.vaadin.starter.beveragebuddy.backend.Review
 @PageTitle("Categories List")
 class CategoriesList : VerticalLayout() {
 
-    private lateinit var searchField: TextField
+    private val toolbar: Toolbar
     private val grid: Grid<Category>
 
     private val form = CategoryEditorDialog(
@@ -52,21 +53,10 @@ class CategoriesList : VerticalLayout() {
 
     init {
         addClassName("categories-list"); isPadding = false
-        defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
-        div { // view toolbar
-            addClassName("view-toolbar")
-            searchField = textField {
-                prefixComponent = Icon(VaadinIcons.SEARCH)
-                addClassName("view-toolbar__search-field")
-                placeholder = "Search"
-                addValueChangeListener { updateView() }
-                valueChangeMode = ValueChangeMode.EAGER
-            }
-            button("New category", Icon("lumo", "plus")) {
-                setPrimary()
-                addClassName("view-toolbar__button")
-                addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
-            }
+        content { align(stretch, top) }
+        toolbar = toolbarView("New category") {
+            onSearch = { updateView() }
+            onCreate = { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
         }
         h3("Categories")
         grid = grid {
@@ -104,8 +94,8 @@ class CategoriesList : VerticalLayout() {
 
     private fun updateView() {
         var dp: VokDataProvider<Category> = Category.dataProvider
-        if (!searchField.value.isNullOrBlank()) {
-            dp = dp.withFilter { Category::name ilike "%${searchField.value.trim()}%" }
+        if (!toolbar.searchText.isBlank()) {
+            dp = dp.withFilter { Category::name ilike "%${toolbar.searchText}%" }
         }
         grid.dataProvider = dp
     }

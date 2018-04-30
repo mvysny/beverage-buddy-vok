@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui
+package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.vok.framework.sql2o.vaadin.dataProvider
 import com.github.vok.karibudsl.flow.*
@@ -22,13 +22,14 @@ import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
+import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 import com.vaadin.starter.beveragebuddy.ui.converters.toId
 import java.time.LocalDate
 
 /**
  * A dialog for editing [Review] objects.
  */
-class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -> Unit, deleteHandler: (Review) -> Unit)
+class ReviewEditorDialog(saveHandler: (Review, Operation) -> Unit, deleteHandler: (Review) -> Unit)
     : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler, Review::class.java) {
 
     private lateinit var categoryBox: ComboBox<Category>

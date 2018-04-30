@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.Bootstrap
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
+import com.vaadin.starter.beveragebuddy.ui.categories.CategoryEditorDialog
 import kotlin.test.expect
 
 /**
