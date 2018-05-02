@@ -12,11 +12,12 @@ The Starter demonstrates the core Vaadin Flow concepts:
 * Building UIs in Kotlin with Components based on [Vaadin Elements](https://vaadin.com/elements/browse), such as `TextField`, `Button`, `ComboBox`, `DatePicker`, `VerticalLayout` and `Grid` (see `CategoriesList`)
 * [Creating forms with `Binder`](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-binder-in-review-editor-dialog.asciidoc) (`ReviewEditorDialog`)
 * Making reusable Components on server side with `Composite` (`AbstractEditorDialog`)
-* [Creating a Component based on a HTML Template](https://github.com/vaadin/free-starter-flow/blob/master/documentation/polymer-template-based-view.asciidoc) (`ReviewsList`) 
-  * This template can be opened and edited with [the Vaadin Designer](https://vaadin.com/designer)
 * [Creating Navigation with the Router API](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-annotation-based-router-api.asciidoc) (`MainLayout`, `ReviewsList`, `CategoriesList`)
 * [Browserless testing](https://github.com/mvysny/karibu-testing): see the
   [test suite package](src/test/kotlin/com/vaadin/starter/beveragebuddy/ui) for the complete test implementation.
+
+This version of Beverage Buddy only demoes server-side logic developed in Kotlin language - there is no
+Polymer Template nor JavaScript code.
 
 ## Live Demo
 
