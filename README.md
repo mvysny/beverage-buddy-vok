@@ -16,8 +16,11 @@ The Starter demonstrates the core Vaadin Flow concepts:
 * [Browserless testing](https://github.com/mvysny/karibu-testing): see the
   [test suite package](src/test/kotlin/com/vaadin/starter/beveragebuddy/ui) for the complete test implementation.
 
-This version of Beverage Buddy only demoes server-side logic developed in Kotlin language - there is no
-Polymer Template nor JavaScript code.
+This version of Beverage Buddy demoes the possibility of developing a Vaadin 10 application logic
+purely server-side in the Kotlin language. There is no
+Polymer Template nor JavaScript code in this project. If you'd like to see
+a demo on how to create Polymer Templates, please head to the page of the
+[original Beverage Buddy App](https://github.com/vaadin/beverage-starter-flow) (in Java).
 
 ## Live Demo
 
