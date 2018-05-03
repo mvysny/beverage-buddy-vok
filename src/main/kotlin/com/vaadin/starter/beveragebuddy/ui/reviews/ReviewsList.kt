@@ -18,6 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.vok.framework.sql2o.vaadin.VokDataProvider
 import com.github.vok.karibudsl.flow.*
 import com.github.vokorm.getById
+import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
@@ -109,15 +110,16 @@ class ReviewsList : VerticalLayout() {
 }
 
 /**
- * Shows a row stripe with information about a single [ReviewWithCategory].
+ * Shows a single row stripe with information about a single [ReviewWithCategory].
  */
-class ReviewItem(val review: ReviewWithCategory) : Div() {
+class ReviewItem(val review: ReviewWithCategory) : Composite<Div>() {
+    // can't extend Div directly because of https://youtrack.jetbrains.com/issue/KT-24239
     /**
      * Fired when this item is to be edited (the "Edit" button is pressed by the User).
      */
     var onEdit: () -> Unit = {}
 
-    init {
+    private val content = Div().apply {
         addClassName("review")
         div {
             addClassName("review__rating")
@@ -159,6 +161,8 @@ class ReviewItem(val review: ReviewWithCategory) : Div() {
             onLeftClick { onEdit() }
         }
     }
+
+    override fun initContent(): Div = content
 }
 
 fun (@VaadinDsl HasComponents).p(text: String = "", block: (@VaadinDsl Paragraph).() -> Unit = {}) = init(Paragraph(text), block)
