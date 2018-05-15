@@ -52,11 +52,11 @@ class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
             }
             div { // navigation
                 addClassName("main-layout__nav")
-                routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class.java) {
+                routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class) {
                     addClassName("main-layout__nav-item")
                     highlightCondition = HighlightConditions.sameLocation()
                 }
-                routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class.java) {
+                routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class) {
                     addClassName("main-layout__nav-item")
                     highlightCondition = HighlightConditions.sameLocation()
                 }
