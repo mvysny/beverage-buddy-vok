@@ -19,7 +19,7 @@ import com.github.vok.karibudsl.flow.*
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasElement
 import com.vaadin.flow.component.dependency.HtmlImport
-import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
@@ -52,11 +52,11 @@ class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
             }
             div { // navigation
                 addClassName("main-layout__nav")
-                routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class) {
+                routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
                     addClassName("main-layout__nav-item")
                     highlightCondition = HighlightConditions.sameLocation()
                 }
-                routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class) {
+                routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
                     addClassName("main-layout__nav-item")
                     highlightCondition = HighlightConditions.sameLocation()
                 }

@@ -5,7 +5,7 @@ import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
@@ -33,13 +33,13 @@ class Toolbar(createCaption: String) : Composite<Div>() {
     private val contents = Div().apply {
         addClassName("view-toolbar")
         searchField = textField {
-            prefixComponent = Icon(VaadinIcons.SEARCH)
+            prefixComponent = Icon(VaadinIcon.SEARCH)
             addClassName("view-toolbar__search-field")
             placeholder = "Search"
             addValueChangeListener { onSearch(searchText) }
             valueChangeMode = ValueChangeMode.EAGER
         }
-        button(createCaption, Icon(VaadinIcons.PLUS)) {
+        button(createCaption, Icon(VaadinIcon.PLUS)) {
             setPrimary()
             addClassName("view-toolbar__button")
             addClickListener { onCreate() }

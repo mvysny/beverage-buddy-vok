@@ -24,9 +24,8 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
@@ -82,7 +81,7 @@ class CategoriesList : VerticalLayout() {
 
     private fun createEditButton(category: Category): Button =
         Button("Edit").apply {
-            icon = Icon(VaadinIcons.EDIT)
+            icon = Icon(VaadinIcon.EDIT)
             addClassName("review__edit")
             themes.add("tertiary")
             addClickListener { _ -> form.open(category, AbstractEditorDialog.Operation.EDIT) }

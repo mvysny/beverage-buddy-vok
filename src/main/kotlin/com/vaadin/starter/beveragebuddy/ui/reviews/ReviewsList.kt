@@ -25,7 +25,7 @@ import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Paragraph
 import com.vaadin.flow.component.html.Span
-import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.Query
@@ -155,7 +155,7 @@ class ReviewItem(val review: ReviewWithCategory) : Composite<Div>() {
             p(review.date.toString())
         }
         button("Edit") {
-            icon = VaadinIcons.EDIT.create()
+            icon = VaadinIcon.EDIT.create()
             className = "review__edit"
             themes.add("tertiary")
             onLeftClick { onEdit() }
