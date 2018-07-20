@@ -8,7 +8,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.50"
+    id "org.jetbrains.kotlin.jvm" version "1.2.51"
     id "org.gretty" version "2.1.0"
     id "io.spring.dependency-management" version "1.0.4.RELEASE"  // remove when https://github.com/gradle/gradle/issues/4417 is fixed
 }
@@ -48,7 +48,7 @@ dependencies {
     compile "com.github.vok:vok-framework-v10-sql2o:$vaadinonkotlin_version"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.50"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.51"
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
