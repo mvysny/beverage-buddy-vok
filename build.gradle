@@ -4,7 +4,7 @@
 buildscript {
     ext.karibudsl_version = '0.4.6'
     ext.vaadinonkotlin_version = '0.4.12'
-    ext.vaadin10_version = '10.0.1'
+    ext.vaadin10_version = '10.0.2'
 }
 
 plugins {
