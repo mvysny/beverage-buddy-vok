@@ -2,9 +2,9 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 buildscript {
-    ext.karibudsl_version = '0.4.7'
-    ext.vaadinonkotlin_version = '0.4.12'
-    ext.vaadin10_version = '10.0.4'
+    ext.karibudsl_version = '0.4.8'
+    ext.vaadinonkotlin_version = '0.4.14'
+    ext.vaadin10_version = '10.0.5'
 }
 
 plugins {
@@ -21,7 +21,6 @@ repositories {
     mavenCentral()
     jcenter()   // required for the new org.gretty:2.1.0
     maven { url 'https://maven.vaadin.com/vaadin-addons' }
-    maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
     maven { url "https://dl.bintray.com/mvysny/vaadin-on-kotlin" }
     maven { url "https://dl.bintray.com/mvysny/github" }
 }
@@ -56,18 +55,18 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.25'
 
     // db
-    compile "org.flywaydb:flyway-core:5.0.7"
+    compile "org.flywaydb:flyway-core:5.1.4"
     compile 'com.h2database:h2:1.4.197' // remove this and replace it with a database driver of your choice.
 
     // REST
     compile "com.github.vok:vok-rest:$vaadinonkotlin_version"
 
     // testing
-    testCompile "com.github.kaributesting:karibu-testing-v10:0.4.15"
-    testCompile("com.github.mvysny.dynatest:dynatest:0.8")
+    testCompile "com.github.kaributesting:karibu-testing-v10:0.4.16"
+    testCompile("com.github.mvysny.dynatest:dynatest:0.9")
 
     // heroku app runner
-    testRuntime 'com.github.jsimone:webapp-runner:8.5.30.0'
+    testRuntime 'com.github.jsimone:webapp-runner:9.0.11.0'
 }
 
 compileKotlin {
