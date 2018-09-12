@@ -1,9 +1,12 @@
 package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.vok.framework.sql2o.vaadin.*
+import com.github.vokorm.As
 import com.github.vokorm.Dao
 import com.github.vokorm.Entity
 import com.github.vokorm.db
+import com.vaadin.flow.data.provider.QuerySortOrder
+import com.vaadin.flow.data.provider.SortDirection
 import java.time.LocalDate
 import javax.validation.constraints.*
 
@@ -60,6 +63,7 @@ open class Review(override var id: Long? = null,
  */
 // must be open - Flow requires non-final classes for ModelProxy. Also can't have constructors: https://github.com/mvysny/karibu-dsl/issues/3
 open class ReviewWithCategory : Review() {
+    @As("c.name")
     open var categoryName: String? = null
     override fun toString() = super.toString() + "(category $categoryName)"
     companion object {
@@ -74,6 +78,8 @@ open class ReviewWithCategory : Review() {
          * SELECTs returning huge amount of data.
          */
         val dataProvider: VokDataProvider<ReviewWithCategory>
+            // we need to use SQL alias here, since both r.name and c.name exist and H2 would complain of a name clash.
+            // yet luckily we can still address the column by c.name so both sorting and filtering will work.
         get() = sqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
                 FROM Review r left join Category c on r.category = c.id
                 WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""", idMapper = { it.id!! })
