@@ -3,7 +3,7 @@
 
 buildscript {
     ext.karibudsl_version = '0.4.10'
-    ext.vaadinonkotlin_version = '0.4.15'
+    ext.vaadinonkotlin_version = '0.5.0'
     ext.vaadin10_version = '11.0.1'
 }
 
@@ -19,7 +19,7 @@ defaultTasks 'clean', 'build'
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/mvysny/vaadin-on-kotlin" }
+    maven { url "https://dl.bintray.com/mvysny/github" }
 }
 
 gretty {
@@ -41,7 +41,7 @@ test {
 dependencies {
     // Karibu-DSL dependency, includes Vaadin
     compile("com.github.vok.karibudsl:karibu-dsl-v10:$karibudsl_version")
-    compile "com.github.vok:vok-framework-v10-sql2o:$vaadinonkotlin_version"
+    compile "com.github.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -56,7 +56,7 @@ dependencies {
     compile 'com.h2database:h2:1.4.197' // remove this and replace it with a database driver of your choice.
 
     // REST
-    compile "com.github.vok:vok-rest:$vaadinonkotlin_version"
+    compile "com.github.vaadinonkotlin:vok-rest:$vaadinonkotlin_version"
 
     // testing
     testCompile "com.github.kaributesting:karibu-testing-v10:0.4.17"
