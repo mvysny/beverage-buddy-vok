@@ -18,7 +18,6 @@ defaultTasks 'clean', 'build'
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/mvysny/github" }
 }
 
 gretty {
