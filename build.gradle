@@ -2,7 +2,7 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 buildscript {
-    ext.vaadinonkotlin_version = '0.5.0'
+    ext.vaadinonkotlin_version = '0.5.1'
     ext.vaadin10_version = '11.0.1'
 }
 
