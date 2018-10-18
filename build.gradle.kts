@@ -1,18 +1,18 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-buildscript {
-    ext.vaadinonkotlin_version = '0.5.1'
-    ext.vaadin10_version = '11.0.1'
-}
+val vaadinonkotlin_version = "0.5.1"
+val vaadin10_version = "11.0.1"
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.71"
-    id "org.gretty" version "2.2.0"  // https://github.com/gretty-gradle-plugin/gretty
-    id "io.spring.dependency-management" version "1.0.6.RELEASE"  // remove when https://github.com/gradle/gradle/issues/4417 is fixed
+    kotlin("jvm") version "1.2.71"
+    id("org.gretty") version "2.2.0"  // https://github.com/gretty-gradle-plugin/gretty
+    id("io.spring.dependency-management") version "1.0.6.RELEASE"  // remove when https://github.com/gradle/gradle/issues/4417 is fixed
+    war
 }
-
-apply plugin: 'war'
 
 defaultTasks("clean", "build")
 
@@ -27,14 +27,14 @@ gretty {
 }
 
 dependencyManagement {
-    imports { mavenBom "com.vaadin:vaadin-bom:$vaadin10_version" }
+    imports { mavenBom("com.vaadin:vaadin-bom:$vaadin10_version") }
 }
 
-test {
+tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
         // to see the exceptions of failed tests in Travis-CI console.
-        exceptionFormat 'full'
+        exceptionFormat = TestExceptionFormat.FULL
     }
 }
 
@@ -65,23 +65,19 @@ dependencies {
     testRuntime("com.github.jsimone:webapp-runner:9.0.11.0")
 }
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
-// heroku
-task stage(dependsOn: ['build'])
-task copyToLib(type: Copy) {
-    into "$buildDir/server"
-    from(configurations.testRuntime) {
-        include "webapp-runner*"
+// Heroku
+tasks {
+    val copyToLib by registering(Copy::class) {
+        into("$buildDir/server")
+        from(configurations.testRuntime) {
+            include("webapp-runner*")
+        }
+    }
+    val stage by registering {
+        dependsOn("build", copyToLib)
     }
 }
-stage.dependsOn(copyToLib)
