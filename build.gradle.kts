@@ -38,6 +38,8 @@ tasks.withType<Test> {
     }
 }
 
+val staging by configurations.creating
+
 dependencies {
     // Vaadin-on-Kotlin dependency, includes Vaadin
     compile("com.github.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version")
@@ -58,11 +60,11 @@ dependencies {
     compile("com.github.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile("com.github.kaributesting:karibu-testing-v10:0.5.0")
+    testCompile("com.github.kaributesting:karibu-testing-v10:0.5.1")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:0.11")
 
     // heroku app runner
-    testRuntime("com.github.jsimone:webapp-runner:9.0.11.0")
+    staging("com.github.jsimone:webapp-runner:9.0.11.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -73,7 +75,7 @@ tasks.withType<KotlinCompile> {
 tasks {
     val copyToLib by registering(Copy::class) {
         into("$buildDir/server")
-        from(configurations.testRuntime) {
+        from(staging) {
             include("webapp-runner*")
         }
     }
