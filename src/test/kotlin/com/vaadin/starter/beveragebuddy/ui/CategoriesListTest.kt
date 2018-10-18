@@ -26,6 +26,7 @@ fun DynaNodeGroup.usingApp() {
     // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
     // and populate the RouteRegistry properly.
     beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
+    afterEach { MockVaadin.tearDown() }
 
     // it's a good practice to clear up the db before every test, to start every test with a predefined state.
     fun cleanupDb() { Category.deleteAll(); Review.deleteAll() }

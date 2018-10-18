@@ -14,16 +14,16 @@ plugins {
 
 apply plugin: 'war'
 
-defaultTasks 'clean', 'build'
+defaultTasks("clean", "build")
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/mvysny/github" }
+    maven { setUrl("https://dl.bintray.com/mvysny/github") }
 }
 
 gretty {
-    contextPath = ''
-    servletContainer = 'jetty9.4'
+    contextPath = "/"
+    servletContainer = "jetty9.4"
 }
 
 dependencyManagement {
@@ -40,29 +40,29 @@ test {
 
 dependencies {
     // Vaadin-on-Kotlin dependency, includes Vaadin
-    compile "com.github.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version"
-    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile("com.github.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version")
+    providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile("ch.qos.logback:logback-classic:1.2.3")
+    compile("org.slf4j:slf4j-api:1.7.25")
 
     // db
-    compile "org.flywaydb:flyway-core:5.2.0"
-    compile 'com.h2database:h2:1.4.197' // remove this and replace it with a database driver of your choice.
+    compile("org.flywaydb:flyway-core:5.2.0")
+    compile("com.h2database:h2:1.4.197") // remove this and replace it with a database driver of your choice.
 
     // REST
-    compile "com.github.vaadinonkotlin:vok-rest:$vaadinonkotlin_version"
+    compile("com.github.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile "com.github.kaributesting:karibu-testing-v10:0.4.17"
+    testCompile("com.github.kaributesting:karibu-testing-v10:0.5.0")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:0.11")
 
     // heroku app runner
-    testRuntime 'com.github.jsimone:webapp-runner:9.0.11.0'
+    testRuntime("com.github.jsimone:webapp-runner:9.0.11.0")
 }
 
 compileKotlin {
