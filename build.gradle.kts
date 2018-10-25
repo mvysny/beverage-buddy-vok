@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.5.2"
+val vaadinonkotlin_version = "0.5.1"
 val vaadin10_version = "11.0.1"
 
 plugins {
@@ -60,7 +60,7 @@ dependencies {
     compile("com.github.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile("com.github.kaributesting:karibu-testing-v10:0.5.1")
+    testCompile("com.github.kaributesting:karibu-testing-v10:0.5.2")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:0.11")
 
     // heroku app runner
