@@ -96,7 +96,7 @@ fun VokDataProvider<ReviewWithCategory>.setFilterText(filter: String?) {
     if (filter.isNullOrBlank()) {
         setFilter(null)
     } else {
-        val normalizedFilter = filter!!.trim().toLowerCase() + "%"
+        val normalizedFilter = filter.trim().toLowerCase() + "%"
         setFilter {
             """r.name ILIKE :filter
                     or IFNULL(c.name, 'Undefined') ILIKE :filter

@@ -24,7 +24,7 @@ class Toolbar(createCaption: String) : Composite<Div>() {
      * Fired when the "Create new" button is clicked.
      */
     var onCreate: ()->Unit = {}
-    private lateinit var searchField: TextField
+    private val searchField: TextField
     /**
      * Current search text. Never null, trimmed, may be blank.
      */
