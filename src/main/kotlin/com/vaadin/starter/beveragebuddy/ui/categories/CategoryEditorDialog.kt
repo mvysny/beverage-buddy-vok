@@ -15,9 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.categories
 
-import com.github.vok.karibudsl.flow.bind
-import com.github.vok.karibudsl.flow.textField
-import com.github.vok.karibudsl.flow.trimmingConverter
+import com.github.mvysny.karibudsl.v10.bind
+import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.trimmingConverter
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
