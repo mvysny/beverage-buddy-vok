@@ -10,6 +10,10 @@ import io.javalin.Javalin
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+/**
+ * Uses the VoK `vok-rest-client` module for help with testing of the REST endpoints. See docs on the
+ * [vok-rest-client](https://github.com/mvysny/vaadin-on-kotlin/tree/master/vok-rest-client) module for more details.
+ */
 class PersonRestClient(val baseUrl: String) {
     init {
         require(!baseUrl.endsWith("/")) { "$baseUrl must not end with a slash" }
@@ -25,6 +29,10 @@ class PersonRestClient(val baseUrl: String) {
     }
 }
 
+/**
+ * The REST test. It bootstraps the app, then it starts Javalin with Jetty so that we can access it via the
+ * [PersonRestClient].
+ */
 class RestServiceTest : DynaTest({
     usingApp()
 
