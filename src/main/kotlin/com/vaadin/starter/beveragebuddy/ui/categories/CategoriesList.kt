@@ -15,9 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.categories
 
-import com.github.vok.framework.sql2o.vaadin.VokDataProvider
-import com.github.vok.framework.sql2o.vaadin.dataProvider
-import com.github.vok.framework.sql2o.vaadin.withFilter
+import eu.vaadinonkotlin.vaadin10.sql2o.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
+import eu.vaadinonkotlin.vaadin10.sql2o.withFilter
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button

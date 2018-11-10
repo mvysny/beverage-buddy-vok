@@ -1,8 +1,8 @@
 package com.vaadin.starter.beveragebuddy
 
-import com.github.vok.framework.VaadinOnKotlin
-import com.github.vok.framework.sql2o.dataSource
-import com.github.vok.framework.sql2o.dataSourceConfig
+import eu.vaadinonkotlin.VaadinOnKotlin
+import eu.vaadinonkotlin.sql2o.dataSource
+import eu.vaadinonkotlin.sql2o.dataSourceConfig
 import com.vaadin.starter.beveragebuddy.backend.DemoData
 import org.flywaydb.core.Flyway
 import org.h2.Driver

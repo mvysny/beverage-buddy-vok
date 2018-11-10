@@ -2,9 +2,9 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
-import com.github.vok.restclient.RetrofitClientVokPlugin
-import com.github.vok.restclient.exec
-import com.github.vok.restclient.jsonArray
+import eu.vaadinonkotlin.restclient.RetrofitClientVokPlugin
+import eu.vaadinonkotlin.restclient.exec
+import eu.vaadinonkotlin.restclient.jsonArray
 import com.vaadin.starter.beveragebuddy.ui.usingApp
 import io.javalin.Javalin
 import okhttp3.OkHttpClient

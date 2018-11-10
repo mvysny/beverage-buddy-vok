@@ -1,12 +1,10 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.vok.framework.sql2o.vaadin.*
+import eu.vaadinonkotlin.vaadin10.sql2o.*
 import com.github.vokorm.As
 import com.github.vokorm.Dao
 import com.github.vokorm.Entity
 import com.github.vokorm.db
-import com.vaadin.flow.data.provider.QuerySortOrder
-import com.vaadin.flow.data.provider.SortDirection
 import java.time.LocalDate
 import javax.validation.constraints.*
 

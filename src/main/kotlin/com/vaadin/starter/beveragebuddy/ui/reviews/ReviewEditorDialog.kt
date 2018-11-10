@@ -15,8 +15,8 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
-import com.github.vok.framework.sql2o.vaadin.dataProvider
-import com.github.vok.framework.sql2o.vaadin.toId
+import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
+import eu.vaadinonkotlin.vaadin10.sql2o.toId
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
