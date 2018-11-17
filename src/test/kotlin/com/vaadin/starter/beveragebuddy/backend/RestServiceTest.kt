@@ -2,10 +2,10 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
-import eu.vaadinonkotlin.restclient.RetrofitClientVokPlugin
 import eu.vaadinonkotlin.restclient.exec
 import eu.vaadinonkotlin.restclient.jsonArray
 import com.vaadin.starter.beveragebuddy.ui.usingApp
+import eu.vaadinonkotlin.restclient.OkHttpClientVokPlugin
 import io.javalin.Javalin
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -18,7 +18,7 @@ class PersonRestClient(val baseUrl: String) {
     init {
         require(!baseUrl.endsWith("/")) { "$baseUrl must not end with a slash" }
     }
-    private val client: OkHttpClient = RetrofitClientVokPlugin.okHttpClient!!
+    private val client: OkHttpClient = OkHttpClientVokPlugin.okHttpClient!!
     fun getAllCategories(): List<Category> {
         val request = Request.Builder().url("$baseUrl/categories").build()
         return client.exec(request) { response -> response.jsonArray(Category::class.java) }

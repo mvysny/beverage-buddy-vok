@@ -15,9 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.categories
 
-import eu.vaadinonkotlin.vaadin10.sql2o.VokDataProvider
 import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
-import eu.vaadinonkotlin.vaadin10.sql2o.withFilter
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
@@ -36,6 +34,8 @@ import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
+import eu.vaadinonkotlin.vaadin10.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.withFilter
 
 /**
  * Displays the list of available categories, with a search filter as well as

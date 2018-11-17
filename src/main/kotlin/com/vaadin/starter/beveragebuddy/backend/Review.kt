@@ -5,6 +5,8 @@ import com.github.vokorm.As
 import com.github.vokorm.Dao
 import com.github.vokorm.Entity
 import com.github.vokorm.db
+import eu.vaadinonkotlin.vaadin10.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.setFilter
 import java.time.LocalDate
 import javax.validation.constraints.*
 

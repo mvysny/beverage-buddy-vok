@@ -38,7 +38,7 @@ import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
-import eu.vaadinonkotlin.vaadin10.sql2o.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.VokDataProvider
 
 /**
  * Displays the list of available categories, with a search filter as well as
