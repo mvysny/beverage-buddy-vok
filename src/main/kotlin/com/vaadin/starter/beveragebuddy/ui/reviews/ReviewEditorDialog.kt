@@ -101,3 +101,4 @@ fun <T : Any> VokDataProvider<T>.withStringFilterOn(property: KProperty1<T, Stri
         withConvertedFilter<String> { filter ->
             if (filter.isNullOrBlank()) null else ILikeFilter(property.name, filter.trim())
         }
+// @todo mavi remove this when new VoK is released
