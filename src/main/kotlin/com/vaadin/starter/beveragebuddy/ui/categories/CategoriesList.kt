@@ -101,7 +101,7 @@ class CategoriesList : VerticalLayout() {
         grid.dataProvider = dp
     }
 
-    private fun saveCategory(category: Category, operation: EditDialog.Operation) {
+    private fun saveCategory(category: Category, operation: EditorForm.Operation) {
         category.save()
         Notification.show("Category successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
         updateView()

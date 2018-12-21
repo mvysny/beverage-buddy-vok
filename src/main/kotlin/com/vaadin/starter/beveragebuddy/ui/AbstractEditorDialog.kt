@@ -174,12 +174,22 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
     }
 }
 
-interface EditDialog<T> {
+/**
+ * The editor form which edits beans of type [T]. The UI is contained in [component] and all fields are referenced
+ * via [binder].
+ */
+interface EditorForm<T : Serializable> {
     /**
-     * The displayable name of the item type
+     * The displayable name of the item type [T].
      */
     val itemType: String
+    /**
+     * All form fields are registered to this binder.
+     */
     val binder: Binder<T>
+    /**
+     * Contains all form UI fields.
+     */
     val component: FormLayout
 
     /**
@@ -199,24 +209,21 @@ interface EditDialog<T> {
 
     /**
      * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
-     * Note that the [EditorDialogFrame] is not closed automatically and must be closed manually.
+     * Note that the [frame] is not closed automatically and must be closed manually.
      */
-    fun delete(item: T)
+    fun delete(frame: EditorDialogFrame<T>, item: T)
 }
 
 /**
- * A frame for dialogs adding, editing or deleting items.
+ * A dialog frame for dialogs adding, editing or deleting items.
  *
  * Users are expected to:
- *
- *  * Create this frame in constructor and add needed UI components to
- * [formLayout] and bind them using [EditDialog.binder], as well
- * as
  *  * Set [dialog] with a proper implementation.
+ *  * Call [open] to show the dialog.
  * @param T the type of the item to be added, edited or deleted
  * @property dialog the dialog itself
  */
-class EditorDialogFrame<T : Serializable> : Dialog() {
+class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : Dialog() {
 
     private val titleField: H2
     private lateinit var saveButton: Button
@@ -224,16 +231,12 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
     private lateinit var deleteButton: Button
     private var registrationForSave: Registration? = null
 
-    lateinit var dialog: EditDialog<T>
-
-    private val formWrapper: Div
-
     /**
      * The item currently being edited.
      */
     var currentItem: T? = null
         private set
-    var currentOperation: EditDialog.Operation? = null
+    var currentOperation: EditorForm.Operation? = null
         private set
 
     init {
@@ -241,9 +244,18 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
         isCloseOnOutsideClick = false
 
         titleField = h2()
-        formWrapper = div {
+        div {
             // form layout wrapper
             addClassName("has-padding")
+
+            add(dialog.component)
+            dialog.component.apply {
+                setResponsiveSteps(
+                        FormLayout.ResponsiveStep("0", 1),
+                        FormLayout.ResponsiveStep("50em", 2)
+                )
+                addClassName("no-padding")
+            }
         }
         horizontalLayout {
             // button bar
@@ -257,18 +269,18 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
             }
             deleteButton = button("Delete") {
                 addThemeVariants(ButtonVariant.LUMO_ERROR)
-                addClickListener { dialog.delete(currentItem!!) }
+                addClickListener { dialog.delete(this@EditorDialogFrame, currentItem!!) }
             }
         }
     }
 
     /**
-     * Opens the given item for editing in the dialog.
+     * Opens given item for editing in this dialog.
      *
      * @param item The item to edit; it may be an existing or a newly created instance
      * @param operation The operation being performed on the item
      */
-    fun open(item: T, operation: EditDialog.Operation) {
+    fun open(item: T, operation: EditorForm.Operation) {
         currentItem = item
         currentOperation = operation
         titleField.text = operation.nameInTitle + " " + dialog.itemType
@@ -279,18 +291,10 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
         dialog.binder.readBean(currentItem)
 
         deleteButton.isEnabled = operation.isDeleteEnabled
-        formWrapper.add(dialog.component)
-        dialog.component.apply {
-            setResponsiveSteps(
-                    FormLayout.ResponsiveStep("0", 1),
-                    FormLayout.ResponsiveStep("50em", 2)
-            )
-            addClassName("no-padding")
-        }
         open()
     }
 
-    private fun saveClicked(operation: EditDialog.Operation) {
+    private fun saveClicked(operation: EditorForm.Operation) {
         if (dialog.binder.writeBeanIfValid(currentItem!!)) {
             dialog.saveItem(currentItem!!, operation)
             close()

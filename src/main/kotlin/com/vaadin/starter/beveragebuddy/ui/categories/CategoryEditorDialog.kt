@@ -25,47 +25,36 @@ import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
-import com.vaadin.starter.beveragebuddy.ui.EditDialog
+import com.vaadin.starter.beveragebuddy.ui.EditorForm
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 
 /**
- * A dialog for editing [Category] objects.
+ * A form for editing [Category] objects.
+ * @property itemSaver Callback to save the edited item
+ * @property itemDeleter Callback to delete the edited item
  */
-class CategoryEditorDialog(private val itemSaver: (Category, EditDialog.Operation) -> Unit, private val itemDeleter: (Category) -> Unit) {
-    private val frame = EditorDialogFrame<Category>()
-    init {
-        frame.dialog = object : EditDialog<Category> {
-            override val itemType: String get() = "Category"
-            override val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
-            override val component = FormLayout().apply {
-                textField("Category Name") {
-                    bind(binder)
-                            .trimmingConverter()
-                            .withValidator(StringLengthValidator(
-                                    "Category name must contain at least 3 printable characters",
-                                    3, null))
-                            .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
-                            .bind(Category::name)
-                }
-            }
-
-            override fun saveItem(item: Category, op: EditDialog.Operation) {
-                itemSaver(item, op)
-            }
-
-            override fun delete(item: Category) {
-                deleteImpl(item)
-            }
+class CategoryEditorForm(val category: Category, private val itemSaver: (Category, EditorForm.Operation) -> Unit,
+                         private val itemDeleter: (Category) -> Unit) : EditorForm<Category> {
+    private val isEditing get() = category.id != null
+    override val itemType: String get() = "Category"
+    override val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
+    override val component = FormLayout().apply {
+        textField("Category Name") {
+            bind(binder)
+                    .trimmingConverter()
+                    .withValidator(StringLengthValidator(
+                            "Category name must contain at least 3 printable characters",
+                            3, null))
+                    .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
+                    .bind(Category::name)
         }
     }
 
-    private fun isNameUnique(name: String?): Boolean {
-        if (name == null || name.isBlank()) return true
-        if (frame.currentItem?.name == name && frame.currentOperation == EditDialog.Operation.EDIT) return true
-        return !Category.existsWithName(name)
+    override fun saveItem(item: Category, op: EditorForm.Operation) {
+        itemSaver(item, op)
     }
 
-    private fun deleteImpl(item: Category) {
+    override fun delete(frame: EditorDialogFrame<Category>, item: Category) {
         val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
         if (reviewCount == 0) {
             itemDeleter(item)
@@ -81,11 +70,28 @@ class CategoryEditorDialog(private val itemSaver: (Category, EditDialog.Operatio
         }
     }
 
+    private fun isNameUnique(name: String?): Boolean {
+        if (name == null || name.isBlank()) return true
+        if (category.name == name && isEditing) return true
+        return !Category.existsWithName(name)
+    }
+}
+
+/**
+ * Opens dialogs for editing [Category] objects.
+ * @property itemSaver Callback to save the edited item
+ * @property itemDeleter Callback to delete the edited item
+ */
+class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operation) -> Unit,
+                           private val itemDeleter: (Category) -> Unit) {
     fun createNew() {
-        frame.open(Category(), EditDialog.Operation.ADD)
+        val category = Category()
+        val frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, itemDeleter))
+        frame.open(Category(), EditorForm.Operation.ADD)
     }
 
     fun edit(category: Category) {
-        frame.open(category, EditDialog.Operation.EDIT)
+        val frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, itemDeleter))
+        frame.open(category, EditorForm.Operation.EDIT)
     }
 }
