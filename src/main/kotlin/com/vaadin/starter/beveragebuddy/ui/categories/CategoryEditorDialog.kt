@@ -49,7 +49,7 @@ class CategoryEditorForm(val category: Category) : EditorForm<Category> {
     }
 
     private fun isNameUnique(name: String?): Boolean {
-        if (name == null || name.isBlank()) return true
+        if (name.isNullOrBlank()) return true
         if (category.name == name && isEditing) return true
         return !Category.existsWithName(name)
     }
@@ -79,17 +79,13 @@ class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operatio
     }
 
     fun createNew() {
-        val category = Category()
-        val frame = EditorDialogFrame(CategoryEditorForm(category))
-        frame.onSaveItem = itemSaver
-        frame.onDeleteItem = { item -> maybeDelete(frame, item) }
-        frame.open(Category(), EditorForm.Operation.ADD)
+        edit(Category())
     }
 
     fun edit(category: Category) {
         val frame = EditorDialogFrame(CategoryEditorForm(category))
         frame.onSaveItem = itemSaver
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
-        frame.open(category, EditorForm.Operation.EDIT)
+        frame.open(category, if (category.id == null) EditorForm.Operation.ADD else EditorForm.Operation.EDIT)
     }
 }
