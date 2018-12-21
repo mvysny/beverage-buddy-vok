@@ -18,6 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui.categories
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.karibudsl.v10.trimmingConverter
+import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.BeanValidationBinder
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.validator.StringLengthValidator
@@ -30,29 +31,26 @@ import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 /**
  * A dialog for editing [Category] objects.
  */
-class CategoryEditorDialog(private val itemSaver: (Category, EditDialog.Operation)->Unit, private val itemDeleter: (Category)->Unit) {
+class CategoryEditorDialog(private val itemSaver: (Category, EditDialog.Operation) -> Unit, private val itemDeleter: (Category) -> Unit) {
     private val frame = EditorDialogFrame<Category>()
-    private val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
-
     init {
-        frame.formLayout.apply {
-            textField("Category Name") {
-                bind(binder)
-                        .trimmingConverter()
-                        .withValidator(StringLengthValidator(
-                                "Category name must contain at least 3 printable characters",
-                                3, null))
-                        .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
-                        .bind(Category::name)
-            }
-        }
-        frame.dialog = object: EditDialog<Category> {
+        frame.dialog = object : EditDialog<Category> {
             override val itemType: String get() = "Category"
-            override val binder: Binder<Category> get() = this@CategoryEditorDialog.binder
+            override val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
+            override val component = FormLayout().apply {
+                textField("Category Name") {
+                    bind(binder)
+                            .trimmingConverter()
+                            .withValidator(StringLengthValidator(
+                                    "Category name must contain at least 3 printable characters",
+                                    3, null))
+                            .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
+                            .bind(Category::name)
+                }
+            }
 
             override fun saveItem(item: Category, op: EditDialog.Operation) {
                 itemSaver(item, op)
-                frame.close()
             }
 
             override fun delete(item: Category) {
@@ -75,8 +73,8 @@ class CategoryEditorDialog(private val itemSaver: (Category, EditDialog.Operatio
         } else {
             val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
             ConfirmationDialog().open("Delete Category “${item.name}”?",
-                "There are $reviewCount reviews associated with this category.",
-                additionalMessage, "Delete", true) {
+                    "There are $reviewCount reviews associated with this category.",
+                    additionalMessage, "Delete", true) {
                 itemDeleter(item)
                 frame.close()
             }

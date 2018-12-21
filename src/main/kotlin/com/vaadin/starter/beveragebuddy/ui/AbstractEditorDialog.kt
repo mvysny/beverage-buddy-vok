@@ -22,6 +22,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
+import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
@@ -179,6 +180,7 @@ interface EditDialog<T> {
      */
     val itemType: String
     val binder: Binder<T>
+    val component: FormLayout
 
     /**
      * The operations supported by this dialog. Delete is enabled when editing
@@ -197,6 +199,7 @@ interface EditDialog<T> {
 
     /**
      * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
+     * Note that the [EditorDialogFrame] is not closed automatically and must be closed manually.
      */
     fun delete(item: T)
 }
@@ -223,12 +226,7 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
 
     lateinit var dialog: EditDialog<T>
 
-    /**
-     * Gets the form layout, where additional components can be added for
-     * displaying or editing the item's properties.
-     */
-    lateinit var formLayout: FormLayout
-        private set
+    private val formWrapper: Div
 
     /**
      * The item currently being edited.
@@ -243,16 +241,9 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
         isCloseOnOutsideClick = false
 
         titleField = h2()
-        div {
+        formWrapper = div {
             // form layout wrapper
             addClassName("has-padding")
-            formLayout = formLayout {
-                setResponsiveSteps(
-                        FormLayout.ResponsiveStep("0", 1),
-                        FormLayout.ResponsiveStep("50em", 2)
-                )
-                addClassName("no-padding")
-            }
         }
         horizontalLayout {
             // button bar
@@ -288,6 +279,14 @@ class EditorDialogFrame<T : Serializable> : Dialog() {
         dialog.binder.readBean(currentItem)
 
         deleteButton.isEnabled = operation.isDeleteEnabled
+        formWrapper.add(dialog.component)
+        dialog.component.apply {
+            setResponsiveSteps(
+                    FormLayout.ResponsiveStep("0", 1),
+                    FormLayout.ResponsiveStep("50em", 2)
+            )
+            addClassName("no-padding")
+        }
         open()
     }
 
