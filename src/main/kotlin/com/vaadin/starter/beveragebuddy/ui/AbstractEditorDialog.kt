@@ -195,21 +195,20 @@ interface EditDialog<T> {
     fun saveItem(item: T, op: Operation)
 
     /**
-     * Callback to delete the edited item
+     * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
      */
     fun delete(item: T)
 }
 
 /**
- * Abstract base class for dialogs adding, editing or deleting items.
+ * A frame for dialogs adding, editing or deleting items.
  *
- * Subclasses are expected to
+ * Users are expected to:
  *
- *  * add, during construction, the needed UI components to
- * [formLayout] and bind them using [binder], as well
+ *  * Create this frame in constructor and add needed UI components to
+ * [formLayout] and bind them using [EditDialog.binder], as well
  * as
- *  * override [confirmDelete] to open the confirmation dialog with
- * the desired message (by calling [openConfirmationDialog]).
+ *  * Set [dialog] with a proper implementation.
  * @param T the type of the item to be added, edited or deleted
  * @property dialog the dialog itself
  */
@@ -237,8 +236,6 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
         private set
     var currentOperation: EditDialog.Operation? = null
         private set
-
-    private val confirmationDialog = ConfirmationDialog()
 
     private val root = ui {
         dialog {
@@ -305,28 +302,7 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
         }
     }
 
-    /**
-     * Opens the confirmation dialog before deleting the current item.
-     *
-     * The dialog will display the given title and message(s), then call
-     * [deleteConfirmed] if the Delete button is clicked.
-     *
-     * @param title The title text
-     * @param message Detail message (optional, may be empty)
-     * @param additionalMessage Additional message (optional, may be empty)
-     */
-    fun openConfirmationDialog(title: String, message: String = "",
-                                         additionalMessage: String = "") {
-        confirmationDialog.open(title, message, additionalMessage, "Delete",
-                true) { onDeleteConfirmed(currentItem!!) }
-    }
-
     fun close() {
         (content as Dialog).close() // @todo use 'root'
-    }
-
-    private fun onDeleteConfirmed(item: T) {
-        dialog.delete(item)
-        close()
     }
 }
