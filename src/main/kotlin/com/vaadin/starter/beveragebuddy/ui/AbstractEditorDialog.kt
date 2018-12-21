@@ -200,29 +200,19 @@ interface EditorForm<T : Serializable> {
         ADD("Add New", "add", false),
         EDIT("Edit", "edit", true)
     }
-
-    /**
-     * Callback to save the edited item. The dialog frame is closed automatically.
-     */
-    fun saveItem(item: T, op: Operation)
-
-    /**
-     * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
-     * Note that the frame is not closed automatically and must be closed manually.
-     */
-    fun delete(item: T)
 }
 
 /**
  * A dialog frame for dialogs adding, editing or deleting items.
  *
  * Users are expected to:
- *  * Set [dialog] with a proper implementation.
+ *  * Set [form] with a proper implementation.
+ *  * Set [onSaveItem] and [onDeleteItem]
  *  * Call [open] to show the dialog.
  * @param T the type of the item to be added, edited or deleted
- * @property dialog the dialog itself
+ * @property form the form itself
  */
-class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : Dialog() {
+class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dialog() {
 
     private val titleField: H2
     private lateinit var saveButton: Button
@@ -238,6 +228,17 @@ class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : D
     var currentOperation: EditorForm.Operation? = null
         private set
 
+    /**
+     * Callback to save the edited item. The dialog frame is closed automatically.
+     */
+    lateinit var onSaveItem: (item: T, op: EditorForm.Operation)->Unit
+
+    /**
+     * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
+     * Note that the frame is not closed automatically and must be closed manually.
+     */
+    lateinit var onDeleteItem: (item: T)->Unit
+
     init {
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
@@ -247,8 +248,8 @@ class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : D
             // form layout wrapper
             addClassName("has-padding")
 
-            add(dialog.component)
-            dialog.component.apply {
+            add(form.component)
+            form.component.apply {
                 setResponsiveSteps(
                         FormLayout.ResponsiveStep("0", 1),
                         FormLayout.ResponsiveStep("50em", 2)
@@ -268,7 +269,7 @@ class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : D
             }
             deleteButton = button("Delete") {
                 addThemeVariants(ButtonVariant.LUMO_ERROR)
-                addClickListener { dialog.delete(currentItem!!) }
+                addClickListener { onDeleteItem(currentItem!!) }
             }
         }
     }
@@ -282,23 +283,23 @@ class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : D
     fun open(item: T, operation: EditorForm.Operation) {
         currentItem = item
         currentOperation = operation
-        titleField.text = operation.nameInTitle + " " + dialog.itemType
+        titleField.text = operation.nameInTitle + " " + form.itemType
         if (registrationForSave != null) {
             registrationForSave!!.remove()
         }
         registrationForSave = saveButton.addClickListener { saveClicked(operation) }
-        dialog.binder.readBean(currentItem)
+        form.binder.readBean(currentItem)
 
         deleteButton.isEnabled = operation.isDeleteEnabled
         open()
     }
 
     private fun saveClicked(operation: EditorForm.Operation) {
-        if (dialog.binder.writeBeanIfValid(currentItem!!)) {
-            dialog.saveItem(currentItem!!, operation)
+        if (form.binder.writeBeanIfValid(currentItem!!)) {
+            onSaveItem(currentItem!!, operation)
             close()
         } else {
-            val status = dialog.binder.validate()
+            val status = form.binder.validate()
             Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
     }

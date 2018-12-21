@@ -30,11 +30,9 @@ import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 
 /**
  * A form for editing [Category] objects.
- * @property itemSaver Callback to save the edited item
  * @property itemDeleter Callback to delete the edited item
  */
-class CategoryEditorForm(val category: Category, private val itemSaver: (Category, EditorForm.Operation) -> Unit,
-                         private val itemDeleter: (Category) -> Unit) : EditorForm<Category> {
+class CategoryEditorForm(val category: Category) : EditorForm<Category> {
     private val isEditing get() = category.id != null
     override val itemType: String get() = "Category"
     override val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
@@ -47,24 +45,6 @@ class CategoryEditorForm(val category: Category, private val itemSaver: (Categor
                             3, null))
                     .withValidator({ name -> isNameUnique(name) }, "Category name must be unique")
                     .bind(Category::name)
-        }
-    }
-
-    override fun saveItem(item: Category, op: EditorForm.Operation) {
-        itemSaver(item, op)
-    }
-
-    override fun delete(item: Category) {
-        val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
-        if (reviewCount == 0) {
-            itemDeleter(item)
-        } else {
-            val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
-            ConfirmationDialog().open("Delete Category “${item.name}”?",
-                    "There are $reviewCount reviews associated with this category.",
-                    additionalMessage, "Delete", true) {
-                itemDeleter(item)
-            }
         }
     }
 
@@ -82,16 +62,34 @@ class CategoryEditorForm(val category: Category, private val itemSaver: (Categor
  */
 class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operation) -> Unit,
                            private val itemDeleter: (Category) -> Unit) {
+    private fun maybeDelete(frame: EditorDialogFrame<Category>, item: Category) {
+        val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
+        if (reviewCount == 0) {
+            frame.close()
+            itemDeleter(item)
+        } else {
+            val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
+            ConfirmationDialog().open("Delete Category “${item.name}”?",
+                    "There are $reviewCount reviews associated with this category.",
+                    additionalMessage, "Delete", true) {
+                frame.close()
+                itemDeleter(item)
+            }
+        }
+    }
+
     fun createNew() {
         val category = Category()
-        lateinit var frame: EditorDialogFrame<Category>
-        frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, { cat -> frame.close(); itemDeleter(cat) }))
+        val frame = EditorDialogFrame(CategoryEditorForm(category))
+        frame.onSaveItem = itemSaver
+        frame.onDeleteItem = { item -> maybeDelete(frame, item) }
         frame.open(Category(), EditorForm.Operation.ADD)
     }
 
     fun edit(category: Category) {
-        lateinit var frame: EditorDialogFrame<Category>
-        frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, { cat -> frame.close(); itemDeleter(cat) }))
+        val frame = EditorDialogFrame(CategoryEditorForm(category))
+        frame.onSaveItem = itemSaver
+        frame.onDeleteItem = { item -> maybeDelete(frame, item) }
         frame.open(category, EditorForm.Operation.EDIT)
     }
 }
