@@ -45,8 +45,8 @@ import java.io.Serializable
  * @param itemClass the class of item edited by this dialog
  */
 abstract class AbstractEditorDialog<T : Serializable> protected constructor(private val itemType: String,
-                                                                            private val itemSaver: (T, Operation)->Unit, private val itemDeleter: (T)->Unit,
-                                                                            itemClass: Class<T>) : Dialog () {
+                                                                            private val itemSaver: (T, Operation) -> Unit, private val itemDeleter: (T) -> Unit,
+                                                                            itemClass: Class<T>) : Dialog() {
 
     private val titleField: H2
     private lateinit var saveButton: Button
@@ -96,8 +96,8 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
             addClassName("has-padding")
             formLayout = formLayout {
                 setResponsiveSteps(
-                    FormLayout.ResponsiveStep("0", 1),
-                    FormLayout.ResponsiveStep("50em", 2)
+                        FormLayout.ResponsiveStep("0", 1),
+                        FormLayout.ResponsiveStep("50em", 2)
                 )
                 addClassName("no-padding")
             }
@@ -164,7 +164,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
     protected fun openConfirmationDialog(title: String, message: String = "",
                                          additionalMessage: String = "") {
         confirmationDialog.open(title, message, additionalMessage, "Delete",
-            true, { deleteConfirmed(currentItem!!) })
+                true, { deleteConfirmed(currentItem!!) })
     }
 
     protected fun deleteConfirmed(item: T) {
@@ -179,6 +179,7 @@ interface EditDialog<T> {
      */
     val itemType: String
     val binder: Binder<T>
+
     /**
      * The operations supported by this dialog. Delete is enabled when editing
      * an already existing item.
@@ -212,9 +213,9 @@ interface EditDialog<T> {
  * @param T the type of the item to be added, edited or deleted
  * @property dialog the dialog itself
  */
-class EditorDialogFrame<T : Serializable> : KComposite() {
+class EditorDialogFrame<T : Serializable> : Dialog() {
 
-    private lateinit var titleField: H2
+    private val titleField: H2
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var deleteButton: Button
@@ -227,7 +228,7 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
      * displaying or editing the item's properties.
      */
     lateinit var formLayout: FormLayout
-    private set
+        private set
 
     /**
      * The item currently being edited.
@@ -237,37 +238,35 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
     var currentOperation: EditDialog.Operation? = null
         private set
 
-    private val root = ui {
-        dialog {
-            isCloseOnEsc = true
-            isCloseOnOutsideClick = false
+    init {
+        isCloseOnEsc = true
+        isCloseOnOutsideClick = false
 
-            titleField = h2()
-            div {
-                // form layout wrapper
-                addClassName("has-padding")
-                formLayout = formLayout {
-                    setResponsiveSteps(
-                            FormLayout.ResponsiveStep("0", 1),
-                            FormLayout.ResponsiveStep("50em", 2)
-                    )
-                    addClassName("no-padding")
-                }
+        titleField = h2()
+        div {
+            // form layout wrapper
+            addClassName("has-padding")
+            formLayout = formLayout {
+                setResponsiveSteps(
+                        FormLayout.ResponsiveStep("0", 1),
+                        FormLayout.ResponsiveStep("50em", 2)
+                )
+                addClassName("no-padding")
             }
-            horizontalLayout {
-                // button bar
-                className = "buttons"
-                saveButton = button("Save") {
-                    isAutofocus = true
-                    setPrimary()
-                }
-                cancelButton = button("Cancel") {
-                    addClickListener { this@dialog.close() }
-                }
-                deleteButton = button("Delete") {
-                    addThemeVariants(ButtonVariant.LUMO_ERROR)
-                    addClickListener { dialog.delete(currentItem!!) }
-                }
+        }
+        horizontalLayout {
+            // button bar
+            className = "buttons"
+            saveButton = button("Save") {
+                isAutofocus = true
+                setPrimary()
+            }
+            cancelButton = button("Cancel") {
+                addClickListener { close() }
+            }
+            deleteButton = button("Delete") {
+                addThemeVariants(ButtonVariant.LUMO_ERROR)
+                addClickListener { dialog.delete(currentItem!!) }
             }
         }
     }
@@ -289,7 +288,7 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
         dialog.binder.readBean(currentItem)
 
         deleteButton.isEnabled = operation.isDeleteEnabled
-        (content as Dialog).open() // @todo use 'root'
+        open()
     }
 
     private fun saveClicked(operation: EditDialog.Operation) {
@@ -300,9 +299,5 @@ class EditorDialogFrame<T : Serializable> : KComposite() {
             val status = dialog.binder.validate()
             Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
-    }
-
-    fun close() {
-        (content as Dialog).close() // @todo use 'root'
     }
 }
