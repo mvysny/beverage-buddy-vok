@@ -22,7 +22,6 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
-import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
@@ -203,15 +202,15 @@ interface EditorForm<T : Serializable> {
     }
 
     /**
-     * Callback to save the edited item
+     * Callback to save the edited item. The dialog frame is closed automatically.
      */
     fun saveItem(item: T, op: Operation)
 
     /**
      * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
-     * Note that the [frame] is not closed automatically and must be closed manually.
+     * Note that the frame is not closed automatically and must be closed manually.
      */
-    fun delete(frame: EditorDialogFrame<T>, item: T)
+    fun delete(item: T)
 }
 
 /**
@@ -269,7 +268,7 @@ class EditorDialogFrame<T : Serializable>(private val dialog: EditorForm<T>) : D
             }
             deleteButton = button("Delete") {
                 addThemeVariants(ButtonVariant.LUMO_ERROR)
-                addClickListener { dialog.delete(this@EditorDialogFrame, currentItem!!) }
+                addClickListener { dialog.delete(currentItem!!) }
             }
         }
     }

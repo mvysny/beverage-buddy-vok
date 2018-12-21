@@ -54,18 +54,16 @@ class CategoryEditorForm(val category: Category, private val itemSaver: (Categor
         itemSaver(item, op)
     }
 
-    override fun delete(frame: EditorDialogFrame<Category>, item: Category) {
+    override fun delete(item: Category) {
         val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
         if (reviewCount == 0) {
             itemDeleter(item)
-            frame.close()
         } else {
             val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
             ConfirmationDialog().open("Delete Category “${item.name}”?",
                     "There are $reviewCount reviews associated with this category.",
                     additionalMessage, "Delete", true) {
                 itemDeleter(item)
-                frame.close()
             }
         }
     }
@@ -86,12 +84,14 @@ class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operatio
                            private val itemDeleter: (Category) -> Unit) {
     fun createNew() {
         val category = Category()
-        val frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, itemDeleter))
+        lateinit var frame: EditorDialogFrame<Category>
+        frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, { cat -> frame.close(); itemDeleter(cat) }))
         frame.open(Category(), EditorForm.Operation.ADD)
     }
 
     fun edit(category: Category) {
-        val frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, itemDeleter))
+        lateinit var frame: EditorDialogFrame<Category>
+        frame = EditorDialogFrame(CategoryEditorForm(category, itemSaver, { cat -> frame.close(); itemDeleter(cat) }))
         frame.open(category, EditorForm.Operation.EDIT)
     }
 }
