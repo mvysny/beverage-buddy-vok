@@ -30,7 +30,6 @@ import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 
 /**
  * A form for editing [Category] objects.
- * @property itemDeleter Callback to delete the edited item
  */
 class CategoryEditorForm(val category: Category) : EditorForm<Category> {
     private val isEditing get() = category.id != null

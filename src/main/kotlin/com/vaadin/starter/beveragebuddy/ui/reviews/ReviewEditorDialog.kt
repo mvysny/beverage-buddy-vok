@@ -16,8 +16,6 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
-import com.vaadin.flow.component.combobox.ComboBox
-import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
@@ -33,26 +31,20 @@ import java.time.LocalDate
 class ReviewEditorDialog(saveHandler: (Review, Operation) -> Unit, deleteHandler: (Review) -> Unit)
     : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler, Review::class.java) {
 
-    private val categoryBox: ComboBox<Category>
-    private val scoreBox: ComboBox<String>
-    private val lastTasted: DatePicker
-    private val beverageName: TextField
-    private val timesTasted: TextField
-
     init {
         formLayout.apply {
             // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
 
-            beverageName = textField("Beverage name") {
+            textField("Beverage name") {
                 // no need to have validators here: they are automatically picked up from the bean field.
                 bind(binder).trimmingConverter().bind(Review::name)
             }
-            timesTasted = textField("Times tasted") {
+            textField("Times tasted") {
                 pattern = "[0-9]*"
                 isPreventInvalidInput = true
                 bind(binder).toInt().bind(Review::count)
             }
-            categoryBox = comboBox("Choose a category") {
+            comboBox<Category>("Choose a category") {
                 // we need to show a list of options for the user to choose from. For every option we need to retain at least:
                 // 1. the category ID (to bind it to Review::category)
                 // 2. the category name (to show it to the user when the combobox's option list is expanded)
@@ -70,13 +62,13 @@ class ReviewEditorDialog(saveHandler: (Review, Operation) -> Unit, deleteHandler
                 // bind the combo box to the Review::category field so that changes done by the user are stored.
                 bind(binder).toId().bind(Review::category)
             }
-            lastTasted = datePicker("Choose the date") {
+            datePicker("Choose the date") {
                 max = LocalDate.now()
                 min = LocalDate.of(1, 1, 1)
                 value = LocalDate.now()
                 bind(binder).bind(Review::date)
             }
-            scoreBox = comboBox("Mark a score") {
+            comboBox<String>("Mark a score") {
                 isAllowCustomValue = false
                 setItems("1", "2", "3", "4", "5")
                 bind(binder).toInt().bind(Review::score)
