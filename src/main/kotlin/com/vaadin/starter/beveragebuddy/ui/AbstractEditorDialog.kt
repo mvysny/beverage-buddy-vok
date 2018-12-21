@@ -112,7 +112,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
             }
             deleteButton = button("Delete") {
                 element.setAttribute("theme", "tertiary danger")
-                addClickListener { deleteClicked() }
+                addClickListener { confirmDelete() }
             }
         }
     }
@@ -147,13 +147,6 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
         }
     }
 
-    private fun deleteClicked() {
-        if (confirmationDialog.element.parent == null) {
-            ui.orElse(null)?.add(confirmationDialog)
-        }
-        confirmDelete()
-    }
-
     protected abstract fun confirmDelete()
 
     /**
@@ -168,9 +161,8 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
      */
     protected fun openConfirmationDialog(title: String, message: String = "",
                                          additionalMessage: String = "") {
-        close()
         confirmationDialog.open(title, message, additionalMessage, "Delete",
-            true, { deleteConfirmed(currentItem!!) }, { open() })
+            true, { deleteConfirmed(currentItem!!) })
     }
 
     protected fun deleteConfirmed(item: T) {

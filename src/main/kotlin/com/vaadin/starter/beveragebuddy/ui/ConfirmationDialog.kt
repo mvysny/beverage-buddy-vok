@@ -15,12 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.div
-import com.github.mvysny.karibudsl.v10.h2
-import com.github.mvysny.karibudsl.v10.horizontalLayout
-import com.vaadin.flow.component.HasStyle
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2
@@ -29,49 +26,42 @@ import com.vaadin.flow.shared.Registration
 /**
  * A generic dialog for confirming or cancelling an action.
  */
-internal class ConfirmationDialog : Dialog(), HasStyle {
+internal class ConfirmationDialog : KComposite() {
 
-    private val titleField: H2
+    private lateinit var titleField: H2
     private lateinit var messageLabel: Div
     private lateinit var extraMessageLabel: Div
     private lateinit var confirmButton: Button
     private lateinit var cancelButton: Button
     private var registrationForConfirm: Registration? = null
-    private var registrationForCancel: Registration? = null
 
-    /**
-     * Constructor.
-     */
-    init {
-        addClassName("confirm-dialog")
-        isCloseOnEsc = true
-        isCloseOnOutsideClick = false
-        addOpenedChangeListener({
-            if (!isOpened) {
-                element.removeFromParent();
-            }
-        })
+    private val root = ui {
+        dialog {
+            element.classList.add("confirm-dialog")
+            isCloseOnEsc = true
+            isCloseOnOutsideClick = false
 
-        titleField = h2 {
-            className = "confirm-dialog-heading"
-        }
-        div {
-            // labels
-            className = "confirm-text"
-            messageLabel = div()
-            extraMessageLabel = div()
-        }
-        horizontalLayout {
-            // button bar
-            className = "confirm-dialog-buttons"
-            confirmButton = button {
-                addClickListener { close() }
-                element.setAttribute("theme", "tertiary")
-                isAutofocus = true
+            titleField = h2 {
+                className = "confirm-dialog-heading"
             }
-            cancelButton = button("Cancel") {
-                addClickListener { close() }
-                element.setAttribute("theme", "tertiary")
+            div {
+                // labels
+                className = "confirm-text"
+                messageLabel = div()
+                extraMessageLabel = div()
+            }
+            horizontalLayout {
+                // button bar
+                className = "confirm-dialog-buttons"
+                confirmButton = button {
+                    addClickListener { this@dialog.close() }
+                    addThemeVariants(ButtonVariant.LUMO_TERTIARY)
+                    isAutofocus = true
+                }
+                cancelButton = button("Cancel") {
+                    addClickListener { this@dialog.close() }
+                    addThemeVariants(ButtonVariant.LUMO_TERTIARY)
+                }
             }
         }
     }
@@ -80,16 +70,14 @@ internal class ConfirmationDialog : Dialog(), HasStyle {
      * Opens the confirmation dialog with given [title].
      *
      * The dialog will display the given title and message(s), then call
-     * [confirmHandler] if the Confirm button is clicked, or
-     * [cancelHandler] if the Cancel button is clicked.
+     * [confirmHandler] if the Confirm button is clicked.
      * @param message Detail message (optional, may be empty)
      * @param additionalMessage Additional message (optional, may be empty)
      * @param actionName The action name to be shown on the Confirm button
      * @param isDisruptive True if the action is disruptive, such as deleting an item
      */
     fun open(title: String, message: String = "", additionalMessage: String = "",
-             actionName: String, isDisruptive: Boolean, confirmHandler: ()->Unit,
-             cancelHandler: ()->Unit) {
+             actionName: String, isDisruptive: Boolean, confirmHandler: ()->Unit) {
         titleField.text = title
         messageLabel.text = message
         extraMessageLabel.text = additionalMessage
@@ -97,11 +85,9 @@ internal class ConfirmationDialog : Dialog(), HasStyle {
 
         registrationForConfirm?.remove()
         registrationForConfirm = confirmButton.addClickListener { confirmHandler() }
-        registrationForCancel?.remove()
-        registrationForCancel = cancelButton.addClickListener { cancelHandler() }
         if (isDisruptive) {
-            confirmButton.element.setAttribute("theme", "tertiary danger")
+            confirmButton.addThemeVariants(ButtonVariant.LUMO_ERROR)
         }
-        open()
+        (content as Dialog).open()  // @todo replace with 'root'
     }
 }
