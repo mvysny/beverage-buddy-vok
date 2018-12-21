@@ -55,7 +55,6 @@ internal class ConfirmationDialog : KComposite() {
                 className = "confirm-dialog-buttons"
                 confirmButton = button {
                     addClickListener { this@dialog.close() }
-                    addThemeVariants(ButtonVariant.LUMO_TERTIARY)
                     isAutofocus = true
                 }
                 cancelButton = button("Cancel") {

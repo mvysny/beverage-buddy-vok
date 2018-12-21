@@ -175,7 +175,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
 
 /**
  * The editor form which edits beans of type [T]. The UI is contained in [component] and all fields are referenced
- * via [binder].
+ * via [binder]. Nest this into the [EditorDialogFrame].
  */
 interface EditorForm<T : Serializable> {
     /**
