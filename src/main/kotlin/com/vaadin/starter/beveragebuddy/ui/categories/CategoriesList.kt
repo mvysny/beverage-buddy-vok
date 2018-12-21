@@ -30,10 +30,7 @@ import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
-import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
-import com.vaadin.starter.beveragebuddy.ui.MainLayout
-import com.vaadin.starter.beveragebuddy.ui.Toolbar
-import com.vaadin.starter.beveragebuddy.ui.toolbarView
+import com.vaadin.starter.beveragebuddy.ui.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
 import eu.vaadinonkotlin.vaadin10.withFilter
 
@@ -57,7 +54,7 @@ class CategoriesList : VerticalLayout() {
         isPadding = false; content { align(stretch, top) }
         toolbar = toolbarView("New category") {
             onSearch = { updateView() }
-            onCreate = { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
+            onCreate = { form.createNew() }
         }
         header = h3()
         grid = grid {
@@ -84,11 +81,11 @@ class CategoriesList : VerticalLayout() {
             icon = Icon(VaadinIcon.EDIT)
             addClassName("review__edit")
             themes.add("tertiary")
-            addClickListener { _ -> form.open(category, AbstractEditorDialog.Operation.EDIT) }
+            addClickListener { _ -> form.edit(category) }
         }
 
     private fun selectionChanged(categoryId: Long) {
-        form.open(Category.getById(categoryId), AbstractEditorDialog.Operation.EDIT)
+        form.edit(Category.getById(categoryId))
     }
 
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()
@@ -104,7 +101,7 @@ class CategoriesList : VerticalLayout() {
         grid.dataProvider = dp
     }
 
-    private fun saveCategory(category: Category, operation: AbstractEditorDialog.Operation) {
+    private fun saveCategory(category: Category, operation: EditDialog.Operation) {
         category.save()
         Notification.show("Category successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
         updateView()
