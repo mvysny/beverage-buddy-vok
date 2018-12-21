@@ -18,15 +18,12 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.Composite
-import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H3
-import com.vaadin.flow.component.html.Paragraph
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.Query
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
@@ -46,34 +43,39 @@ import eu.vaadinonkotlin.vaadin10.VokDataProvider
  */
 @Route(value = "", layout = MainLayout::class)
 @PageTitle("Review List")
-class ReviewsList : VerticalLayout() {
+class ReviewsList : KComposite() {
 
-    private val toolbar: Toolbar
-    private val header: H3
-    private val reviewsGrid: Grid<ReviewWithCategory>
+    private lateinit var toolbar: Toolbar
+    private lateinit var header: H3
+    private lateinit var reviewsGrid: Grid<ReviewWithCategory>
     private val reviewForm = ReviewEditorDialog(
         { review, operation -> save(review, operation) },
         { this.delete(it) })
 
+    private val root = ui {
+        verticalLayout {
+            isPadding = false; content { align(stretch, top) }
+            toolbar = toolbarView("New review") {
+                onSearch = { updateList() }
+                onCreate = { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
+            }
+            header = h3 {
+                setId("header")
+            }
+            reviewsGrid = grid {
+                isExpand = true
+                addClassName("reviews")
+                themes.add("no-row-borders no-border")
+                addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
+                    val item = ReviewItem(review)
+                    item.onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
+                    item
+                }))
+            }
+        }
+    }
+
     init {
-        isPadding = false; content { align(stretch, top) }
-        toolbar = toolbarView("New review") {
-            onSearch = { updateList() }
-            onCreate = { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
-        }
-        header = h3 {
-            setId("header")
-        }
-        reviewsGrid = grid {
-            isExpand = true
-            addClassName("reviews")
-            themes.add("no-row-borders no-border")
-            addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
-                val item = ReviewItem(review)
-                item.onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
-                item
-            }))
-        }
         updateList()
     }
 
@@ -164,5 +166,3 @@ class ReviewItem(val review: ReviewWithCategory) : Composite<Div>() {
 
     override fun initContent(): Div = content
 }
-
-fun (@VaadinDsl HasComponents).p(text: String = "", block: (@VaadinDsl Paragraph).() -> Unit = {}) = init(Paragraph(text), block)

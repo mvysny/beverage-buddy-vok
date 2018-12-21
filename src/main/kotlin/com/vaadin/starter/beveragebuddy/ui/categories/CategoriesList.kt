@@ -19,6 +19,7 @@ import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
@@ -40,39 +41,43 @@ import eu.vaadinonkotlin.vaadin10.withFilter
  */
 @Route(value = "categories", layout = MainLayout::class)
 @PageTitle("Categories List")
-class CategoriesList : VerticalLayout() {
+class CategoriesList : KComposite() {
 
-    private val header: H3
-    private val toolbar: Toolbar
-    private val grid: Grid<Category>
+    private lateinit var header: H3
+    private lateinit var toolbar: Toolbar
+    private lateinit var grid: Grid<Category>
 
-    private val form = CategoryEditorDialog(
+    private val editorDialog = CategoryEditorDialog(
         { category, operation -> saveCategory(category, operation) },
         { deleteCategory(it) })
 
-    init {
-        isPadding = false; content { align(stretch, top) }
-        toolbar = toolbarView("New category") {
-            onSearch = { updateView() }
-            onCreate = { form.createNew() }
-        }
-        header = h3()
-        grid = grid {
-            isExpand = true
-            addColumnFor(Category::name) {
-                setHeader("Category")
+    private val root = ui {
+        verticalLayout {
+            isPadding = false; content { align(stretch, top) }
+            toolbar = toolbarView("New category") {
+                onSearch = { updateView() }
+                onCreate = { editorDialog.createNew() }
             }
-            addColumn({ it.getReviewCount() }).setHeader("Beverages")
-            addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
-            themes.add("row-dividers")
-            asSingleSelect().addValueChangeListener {
-                if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
-                    selectionChanged(it.value.id!!)
-                    selectionModel.deselect(it.value)
+            header = h3()
+            grid = grid {
+                isExpand = true
+                addColumnFor(Category::name) {
+                    setHeader("Category")
+                }
+                addColumn { it.getReviewCount() }.setHeader("Beverages")
+                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
+                themes.add("row-dividers")
+                asSingleSelect().addValueChangeListener {
+                    if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
+                        selectionChanged(it.value.id!!)
+                        selectionModel.deselect(it.value)
+                    }
                 }
             }
         }
+    }
 
+    init {
         updateView()
     }
 
@@ -80,12 +85,12 @@ class CategoriesList : VerticalLayout() {
         Button("Edit").apply {
             icon = Icon(VaadinIcon.EDIT)
             addClassName("review__edit")
-            themes.add("tertiary")
-            addClickListener { _ -> form.edit(category) }
+            addThemeVariants(ButtonVariant.LUMO_TERTIARY)
+            onLeftClick { editorDialog.edit(category) }
         }
 
     private fun selectionChanged(categoryId: Long) {
-        form.edit(Category.getById(categoryId))
+        editorDialog.edit(Category.getById(categoryId))
     }
 
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()

@@ -14,8 +14,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
  * for [onSearch] and [onCreate].
  * @param createCaption the caption of the "Create New" button.
  */
-class Toolbar(createCaption: String) : Composite<Div>() {
-    // can't extend Div directly because of https://youtrack.jetbrains.com/issue/KT-24239
+class Toolbar(createCaption: String) : KComposite() {
     /**
      * Fired when the text in the search text field changes.
      */
@@ -24,30 +23,31 @@ class Toolbar(createCaption: String) : Composite<Div>() {
      * Fired when the "Create new" button is clicked.
      */
     var onCreate: ()->Unit = {}
-    private val searchField: TextField
+    private lateinit var searchField: TextField
     /**
      * Current search text. Never null, trimmed, may be blank.
      */
     val searchText: String get() = searchField.value.trim()
 
-    private val contents = Div().apply {
-        addClassName("view-toolbar")
-        searchField = textField {
-            prefixComponent = Icon(VaadinIcon.SEARCH)
-            addClassName("view-toolbar__search-field")
-            placeholder = "Search"
-            addValueChangeListener { onSearch(searchText) }
-            valueChangeMode = ValueChangeMode.EAGER
-        }
-        button(createCaption, Icon(VaadinIcon.PLUS)) {
-            setPrimary()
-            addClassName("view-toolbar__button")
-            addClickListener { onCreate() }
+    private val root = ui {
+        div {
+            addClassName("view-toolbar")
+            searchField = textField {
+                prefixComponent = Icon(VaadinIcon.SEARCH)
+                addClassName("view-toolbar__search-field")
+                placeholder = "Search"
+                addValueChangeListener { onSearch(searchText) }
+                valueChangeMode = ValueChangeMode.EAGER
+            }
+            button(createCaption, Icon(VaadinIcon.PLUS)) {
+                setPrimary()
+                addClassName("view-toolbar__button")
+                addClickListener { onCreate() }
+            }
         }
     }
-
-    override fun initContent(): Div = contents
 }
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).toolbarView(createCaption: String, block: (@VaadinDsl Toolbar).() -> Unit = {})
         = init(Toolbar(createCaption), block)
