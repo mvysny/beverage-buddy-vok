@@ -26,17 +26,16 @@ import com.vaadin.flow.shared.Registration
 /**
  * A generic dialog for confirming or cancelling an action.
  */
-internal class ConfirmationDialog : KComposite() {
+internal class ConfirmationDialog : Dialog() {
 
-    private lateinit var titleField: H2
+    private val titleField: H2
     private lateinit var messageLabel: Div
     private lateinit var extraMessageLabel: Div
     private lateinit var confirmButton: Button
     private lateinit var cancelButton: Button
     private var registrationForConfirm: Registration? = null
 
-    private val root = ui {
-        dialog {
+    init {
             element.classList.add("confirm-dialog")
             isCloseOnEsc = true
             isCloseOnOutsideClick = false
@@ -54,15 +53,14 @@ internal class ConfirmationDialog : KComposite() {
                 // button bar
                 className = "confirm-dialog-buttons"
                 confirmButton = button {
-                    addClickListener { this@dialog.close() }
+                    addClickListener { close() }
                     isAutofocus = true
                 }
                 cancelButton = button("Cancel") {
-                    addClickListener { this@dialog.close() }
+                    addClickListener { close() }
                     addThemeVariants(ButtonVariant.LUMO_TERTIARY)
                 }
             }
-        }
     }
 
     /**
@@ -87,6 +85,6 @@ internal class ConfirmationDialog : KComposite() {
         if (isDisruptive) {
             confirmButton.addThemeVariants(ButtonVariant.LUMO_ERROR)
         }
-        (content as Dialog).open()  // @todo replace with 'root'
+        open()
     }
 }
