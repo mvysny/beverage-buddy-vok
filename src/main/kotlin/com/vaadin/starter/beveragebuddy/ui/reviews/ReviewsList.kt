@@ -31,10 +31,7 @@ import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
 import com.vaadin.starter.beveragebuddy.backend.setFilterText
-import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
-import com.vaadin.starter.beveragebuddy.ui.MainLayout
-import com.vaadin.starter.beveragebuddy.ui.Toolbar
-import com.vaadin.starter.beveragebuddy.ui.toolbarView
+import com.vaadin.starter.beveragebuddy.ui.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
 
 /**
@@ -48,7 +45,7 @@ class ReviewsList : KComposite() {
     private lateinit var toolbar: Toolbar
     private lateinit var header: H3
     private lateinit var reviewsGrid: Grid<ReviewWithCategory>
-    private val reviewForm = ReviewEditorDialog(
+    private val editDialog = ReviewEditorDialog(
         { review, operation -> save(review, operation) },
         { this.delete(it) })
 
@@ -57,7 +54,7 @@ class ReviewsList : KComposite() {
             isPadding = false; content { align(stretch, top) }
             toolbar = toolbarView("New review") {
                 onSearch = { updateList() }
-                onCreate = { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
+                onCreate = { editDialog.createNew() }
             }
             header = h3 {
                 setId("header")
@@ -68,7 +65,7 @@ class ReviewsList : KComposite() {
                 themes.add("no-row-borders no-border")
                 addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
                     val item = ReviewItem(review)
-                    item.onEdit = { openForm(Review.getById(review.id!!), AbstractEditorDialog.Operation.EDIT) }
+                    item.onEdit = { editDialog.edit(Review.getById(review.id!!)) }
                     item
                 }))
             }
@@ -79,7 +76,7 @@ class ReviewsList : KComposite() {
         updateList()
     }
 
-    private fun save(review: Review, operation: AbstractEditorDialog.Operation) {
+    private fun save(review: Review, operation: EditorForm.Operation) {
         review.save()
         // unfortunately the Grid is not updated, because of a bug: https://github.com/vaadin/vaadin-grid-flow/issues/175
         updateList()
@@ -104,10 +101,6 @@ class ReviewsList : KComposite() {
             header.add(Span("$size results"))
         }
         reviewsGrid.dataProvider = dp
-    }
-
-    private fun openForm(review: Review, operation: AbstractEditorDialog.Operation) {
-        reviewForm.open(review, operation)
     }
 }
 

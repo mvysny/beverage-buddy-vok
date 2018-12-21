@@ -56,23 +56,23 @@ class CategoryEditorForm(val category: Category) : EditorForm<Category> {
 
 /**
  * Opens dialogs for editing [Category] objects.
- * @property itemSaver Callback to save the edited item
- * @property itemDeleter Callback to delete the edited item
+ * @property onSaveItem Callback to save the edited item
+ * @property onDeleteItem Callback to delete the edited item
  */
-class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operation) -> Unit,
-                           private val itemDeleter: (Category) -> Unit) {
+class CategoryEditorDialog(private val onSaveItem: (Category, EditorForm.Operation) -> Unit,
+                           private val onDeleteItem: (Category) -> Unit) {
     private fun maybeDelete(frame: EditorDialogFrame<Category>, item: Category) {
         val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
         if (reviewCount == 0) {
             frame.close()
-            itemDeleter(item)
+            onDeleteItem(item)
         } else {
             val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
             ConfirmationDialog().open("Delete Category “${item.name}”?",
                     "There are $reviewCount reviews associated with this category.",
                     additionalMessage, "Delete", true) {
                 frame.close()
-                itemDeleter(item)
+                onDeleteItem(item)
             }
         }
     }
@@ -83,7 +83,7 @@ class CategoryEditorDialog(private val itemSaver: (Category, EditorForm.Operatio
 
     fun edit(category: Category) {
         val frame = EditorDialogFrame(CategoryEditorForm(category))
-        frame.onSaveItem = itemSaver
+        frame.onSaveItem = onSaveItem
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
         frame.open(category, if (category.id == null) EditorForm.Operation.ADD else EditorForm.Operation.EDIT)
     }
