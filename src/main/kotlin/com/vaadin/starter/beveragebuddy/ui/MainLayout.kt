@@ -40,32 +40,36 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 @HtmlImport("frontend://styles/shared-styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-class MainLayout : VerticalLayout(), RouterLayout, PageConfigurator {
+class MainLayout : KComposite(), RouterLayout, PageConfigurator {
 
-    init {
-        addClassName("main-layout"); setSizeFull(); isPadding = false
-        content { align(stretch, top) }
-        div { // header
-            addClassName("main-layout__header")
-            h2("Beverage Buddy") {
-                addClassName("main-layout__title")
-            }
-            div { // navigation
-                addClassName("main-layout__nav")
-                routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
-                    addClassName("main-layout__nav-item")
-                    highlightCondition = HighlightConditions.sameLocation()
+    private val root = ui {
+        verticalLayout {
+            addClassName("main-layout"); setSizeFull(); isPadding = false
+            content { align(stretch, top) }
+            div {
+                // header
+                addClassName("main-layout__header")
+                h2("Beverage Buddy") {
+                    addClassName("main-layout__title")
                 }
-                routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
-                    addClassName("main-layout__nav-item")
-                    highlightCondition = HighlightConditions.sameLocation()
+                div {
+                    // navigation
+                    addClassName("main-layout__nav")
+                    routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
+                        addClassName("main-layout__nav-item")
+                        highlightCondition = HighlightConditions.sameLocation()
+                    }
+                    routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
+                        addClassName("main-layout__nav-item")
+                        highlightCondition = HighlightConditions.sameLocation()
+                    }
                 }
             }
         }
     }
 
     override fun showRouterLayoutContent(content: HasElement) {
-        add(content as Component)
+        (this.content as VerticalLayout).add(content as Component) // @todo replace with 'root'
         content.isExpand = true
     }
 

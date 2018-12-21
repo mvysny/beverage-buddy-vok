@@ -19,6 +19,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.data.binder.BeanValidationBinder
 import com.vaadin.flow.shared.Registration
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.H2
@@ -111,7 +112,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
                 addClickListener { close() }
             }
             deleteButton = button("Delete") {
-                element.setAttribute("theme", "tertiary danger")
+                addThemeVariants(ButtonVariant.LUMO_ERROR)
                 addClickListener { confirmDelete() }
             }
         }
