@@ -15,21 +15,17 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
-import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
-import eu.vaadinonkotlin.vaadin10.sql2o.toId
 import com.github.mvysny.karibudsl.v10.*
-import com.github.mvysny.vokdataloader.ILikeFilter
-import com.github.mvysny.vokdataloader.buildFilter
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.textfield.TextField
-import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.AbstractEditorDialog
-import eu.vaadinonkotlin.vaadin10.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
+import eu.vaadinonkotlin.vaadin10.sql2o.toId
+import eu.vaadinonkotlin.vaadin10.withStringFilterOn
 import java.time.LocalDate
-import kotlin.reflect.KProperty1
 
 /**
  * A dialog for editing [Review] objects.
@@ -92,13 +88,3 @@ class ReviewEditorDialog(saveHandler: (Review, Operation) -> Unit, deleteHandler
         openConfirmationDialog("""Delete beverage "${currentItem!!.name}"?""")
     }
 }
-
-/**
- * Creates a data provider which performs string filtering on given [property]. Ideal for [ComboBox] which lazily
- * filters items as the user types in search phrase. Emits [ILikeFilter] to the receiver.
- */
-fun <T : Any> VokDataProvider<T>.withStringFilterOn(property: KProperty1<T, String?>): DataProvider<T, String?> =
-        withConvertedFilter<String> { filter ->
-            if (filter.isNullOrBlank()) null else ILikeFilter(property.name, filter.trim())
-        }
-// @todo mavi remove this when new VoK is released
