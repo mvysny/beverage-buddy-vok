@@ -83,7 +83,7 @@ class ReviewEditorForm : EditorForm<Review> {
  * @property onSaveItem Callback to save the edited item
  * @property onDeleteItem Callback to delete the edited item
  */
-class ReviewEditorDialog(private val onSaveItem: (Review, EditorForm.Operation) -> Unit, private val onDeleteItem: (Review) -> Unit) {
+class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val onDeleteItem: (Review) -> Unit) {
     fun createNew() {
         edit(Review())
     }
@@ -100,6 +100,6 @@ class ReviewEditorDialog(private val onSaveItem: (Review, EditorForm.Operation) 
         val frame: EditorDialogFrame<Review> = EditorDialogFrame(ReviewEditorForm())
         frame.onSaveItem = onSaveItem
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
-        frame.open(review, if (review.id == null) EditorForm.Operation.ADD else EditorForm.Operation.EDIT)
+        frame.open(review, review.id == null)
     }
 }

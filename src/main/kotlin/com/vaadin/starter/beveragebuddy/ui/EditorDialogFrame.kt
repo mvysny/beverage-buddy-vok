@@ -43,16 +43,6 @@ interface EditorForm<T : Serializable> {
      * Contains all form UI fields.
      */
     val component: FormLayout
-
-    /**
-     * The operations supported by this dialog. Delete is enabled when editing
-     * an already existing item.
-     */
-    enum class Operation(val nameInTitle: String, val nameInText: String,
-                         val isDeleteEnabled: Boolean) {
-        ADD("Add New", "add", false),
-        EDIT("Edit", "edit", true)
-    }
 }
 
 /**
@@ -78,13 +68,11 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
      */
     var currentItem: T? = null
         private set
-    var currentOperation: EditorForm.Operation? = null
-        private set
 
     /**
      * Callback to save the edited item. The dialog frame is closed automatically.
      */
-    lateinit var onSaveItem: (item: T, op: EditorForm.Operation)->Unit
+    lateinit var onSaveItem: (item: T)->Unit
 
     /**
      * Callback to delete the edited item. Should open confirmation dialog (or delete the item directly if possible).
@@ -131,25 +119,25 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
      * Opens given item for editing in this dialog.
      *
      * @param item The item to edit; it may be an existing or a newly created instance
-     * @param operation The operation being performed on the item
+     * @param creating if true, the item is being created; if false, the item is being edited.
      */
-    fun open(item: T, operation: EditorForm.Operation) {
+    fun open(item: T, creating: Boolean) {
         currentItem = item
-        currentOperation = operation
-        titleField.text = operation.nameInTitle + " " + form.itemType
+        val operation = if (creating) "Add new" else "Edit"
+        titleField.text = "$operation ${form.itemType}"
         if (registrationForSave != null) {
             registrationForSave!!.remove()
         }
-        registrationForSave = saveButton.addClickListener { saveClicked(operation) }
+        registrationForSave = saveButton.addClickListener { saveClicked() }
         form.binder.readBean(currentItem)
 
-        deleteButton.isEnabled = operation.isDeleteEnabled
+        deleteButton.isEnabled = !creating
         open()
     }
 
-    private fun saveClicked(operation: EditorForm.Operation) {
+    private fun saveClicked() {
         if (form.binder.writeBeanIfValid(currentItem!!)) {
-            onSaveItem(currentItem!!, operation)
+            onSaveItem(currentItem!!)
             close()
         } else {
             val status = form.binder.validate()

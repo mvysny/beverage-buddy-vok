@@ -25,7 +25,6 @@ import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -48,7 +47,7 @@ class CategoriesList : KComposite() {
     private lateinit var grid: Grid<Category>
 
     private val editorDialog = CategoryEditorDialog(
-        { category, operation -> saveCategory(category, operation) },
+        { category -> saveCategory(category) },
         { deleteCategory(it) })
 
     private val root = ui {
@@ -106,9 +105,11 @@ class CategoriesList : KComposite() {
         grid.dataProvider = dp
     }
 
-    private fun saveCategory(category: Category, operation: EditorForm.Operation) {
+    private fun saveCategory(category: Category) {
+        val creating = category.id == null
         category.save()
-        Notification.show("Category successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
+        val op = if (creating) "added" else "saved"
+        Notification.show("Category successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
 

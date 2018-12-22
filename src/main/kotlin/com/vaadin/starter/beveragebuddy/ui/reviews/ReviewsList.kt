@@ -46,7 +46,7 @@ class ReviewsList : KComposite() {
     private lateinit var header: H3
     private lateinit var reviewsGrid: Grid<ReviewWithCategory>
     private val editDialog = ReviewEditorDialog(
-        { review, operation -> save(review, operation) },
+        { review-> save(review) },
         { this.delete(it) })
 
     private val root = ui {
@@ -76,11 +76,12 @@ class ReviewsList : KComposite() {
         updateList()
     }
 
-    private fun save(review: Review, operation: EditorForm.Operation) {
+    private fun save(review: Review) {
+        val creating = review.id == null
         review.save()
-        // unfortunately the Grid is not updated, because of a bug: https://github.com/vaadin/vaadin-grid-flow/issues/175
+        val op = if (creating) "added" else "saved"
         updateList()
-        Notification.show("Beverage successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
+        Notification.show("Beverage successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
     }
 
     private fun delete(review: Review) {

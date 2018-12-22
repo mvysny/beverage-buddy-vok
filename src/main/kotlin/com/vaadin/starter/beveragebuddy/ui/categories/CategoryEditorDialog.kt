@@ -59,7 +59,7 @@ class CategoryEditorForm(val category: Category) : EditorForm<Category> {
  * @property onSaveItem Callback to save the edited item
  * @property onDeleteItem Callback to delete the edited item
  */
-class CategoryEditorDialog(private val onSaveItem: (Category, EditorForm.Operation) -> Unit,
+class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
                            private val onDeleteItem: (Category) -> Unit) {
     private fun maybeDelete(frame: EditorDialogFrame<Category>, item: Category) {
         val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
@@ -85,6 +85,6 @@ class CategoryEditorDialog(private val onSaveItem: (Category, EditorForm.Operati
         val frame = EditorDialogFrame(CategoryEditorForm(category))
         frame.onSaveItem = onSaveItem
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
-        frame.open(category, if (category.id == null) EditorForm.Operation.ADD else EditorForm.Operation.EDIT)
+        frame.open(category, category.id == null)
     }
 }
