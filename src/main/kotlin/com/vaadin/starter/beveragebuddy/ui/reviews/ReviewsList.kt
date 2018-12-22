@@ -107,55 +107,54 @@ class ReviewsList : KComposite() {
 /**
  * Shows a single row stripe with information about a single [ReviewWithCategory].
  */
-class ReviewItem(val review: ReviewWithCategory) : Composite<Div>() {
-    // can't extend Div directly because of https://youtrack.jetbrains.com/issue/KT-24239
+class ReviewItem(val review: ReviewWithCategory) : KComposite() {
     /**
      * Fired when this item is to be edited (the "Edit" button is pressed by the User).
      */
     var onEdit: () -> Unit = {}
 
-    private val content = Div().apply {
-        addClassName("review")
+    private val root = ui {
         div {
-            addClassName("review__rating")
-            p(review.score.toString()) {
-                className = "review__score"
-                element.setAttribute("data-score", review.score.toString())
-            }
-            p(review.count.toString()) {
-                className = "review__count"
-                span("times tasted")
-            }
-        }
-        div {
-            addClassName("review__details")
-            h4(review.name) {
-                addClassName("review__name")
-            }
-            p {
-                className = "review__category"
-                if (review.category != null) {
-                    themes.add("badge small")
-                    element.style.set("--category", review.category.toString())
-                    text = review.categoryName
-                } else {
-                    element.style.set("--category", "-1")
-                    text = "Undefined"
+            addClassName("review")
+            div {
+                addClassName("review__rating")
+                p(review.score.toString()) {
+                    className = "review__score"
+                    element.setAttribute("data-score", review.score.toString())
+                }
+                p(review.count.toString()) {
+                    className = "review__count"
+                    span("times tasted")
                 }
             }
-        }
-        div {
-            className = "review__date"
-            h5("Last tasted")
-            p(review.date.toString())
-        }
-        button("Edit") {
-            icon = VaadinIcon.EDIT.create()
-            className = "review__edit"
-            themes.add("tertiary")
-            onLeftClick { onEdit() }
+            div {
+                addClassName("review__details")
+                h4(review.name) {
+                    addClassName("review__name")
+                }
+                p {
+                    className = "review__category"
+                    if (review.category != null) {
+                        themes.add("badge small")
+                        element.style.set("--category", review.category.toString())
+                        text = review.categoryName
+                    } else {
+                        element.style.set("--category", "-1")
+                        text = "Undefined"
+                    }
+                }
+            }
+            div {
+                className = "review__date"
+                h5("Last tasted")
+                p(review.date.toString())
+            }
+            button("Edit") {
+                icon = VaadinIcon.EDIT.create()
+                className = "review__edit"
+                themes.add("tertiary")
+                onLeftClick { onEdit() }
+            }
         }
     }
-
-    override fun initContent(): Div = content
 }
