@@ -1,24 +1,21 @@
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.karibudsl.v10.removeFromParent
+import com.github.mvysny.kaributesting.v10.*
 import com.github.vokorm.deleteAll
 import com.github.vokorm.findAll
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
-import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.dom.Element
-import com.vaadin.flow.internal.HtmlUtils
 import com.vaadin.starter.beveragebuddy.Bootstrap
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
-import com.vaadin.starter.beveragebuddy.ui.categories.CategoryEditorDialog
 import kotlin.streams.toList
 import kotlin.test.expect
 
@@ -69,20 +66,9 @@ class CategoriesListTest : DynaTest({
         _get<TextField> { caption = "Category Name" } .value = "Beer"
         clearNotifications()
         _get<Button> { caption = "Save" } ._click()
-        expect("Category successfully added.") { _get<Notification>().getText() }
-        clearNotifications()
+        expectNotifications("Category successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
         expectList("Beer") { Category.findAll().map { it.name } }
     }
 })
-
-fun Notification.getText(): String {
-    val f = Notification::class.java.getDeclaredField("templateElement").apply { isAccessible = true }
-    val e = f.get(this) as Element
-    return e.getProperty("innerHTML")
-}
-
-fun clearNotifications() {
-    UI.getCurrent().children.toList().filterIsInstance<Notification>().forEach { it.removeFromParent() }
-}
