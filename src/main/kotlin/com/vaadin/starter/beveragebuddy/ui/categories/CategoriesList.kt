@@ -21,6 +21,7 @@ import com.github.vokorm.getById
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -65,7 +66,7 @@ class CategoriesList : KComposite() {
                 }
                 addColumn { it.getReviewCount() }.setHeader("Beverages")
                 addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
-                themes.add("row-dividers")
+                element.themeList.add("row-dividers")
                 asSingleSelect().addValueChangeListener {
                     if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
                         selectionChanged(it.value.id!!)

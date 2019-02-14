@@ -18,7 +18,9 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.getById
 import com.vaadin.flow.component.Composite
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Span
@@ -62,7 +64,7 @@ class ReviewsList : KComposite() {
             reviewsGrid = grid {
                 isExpand = true
                 addClassName("reviews")
-                themes.add("no-row-borders no-border")
+                addThemeVariants(GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_NO_BORDER)
                 addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
                     val item = ReviewItem(review)
                     item.onEdit = { editDialog.edit(Review.getById(review.id!!)) }
@@ -136,7 +138,7 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
                 p {
                     className = "review__category"
                     if (review.category != null) {
-                        themes.add("badge small")
+                        element.themeList.add("badge small")
                         element.style.set("--category", review.category.toString())
                         text = review.categoryName
                     } else {
@@ -153,7 +155,7 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
             button("Edit") {
                 icon = VaadinIcon.EDIT.create()
                 className = "review__edit"
-                themes.add("tertiary")
+                addThemeVariants(ButtonVariant.LUMO_TERTIARY)
                 onLeftClick { onEdit() }
             }
         }
