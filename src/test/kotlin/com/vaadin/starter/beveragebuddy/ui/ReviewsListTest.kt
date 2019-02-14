@@ -11,7 +11,7 @@ class ReviewsListTest : DynaTest({
 
     test("'new review' smoke test") {
         UI.getCurrent().navigate("")
-          _get<Button> { caption = "New review" } ._click()
+          _get<Button> { caption = "New review (Alt+N)" } ._click()
 
         // the dialog should have been opened
         _get<EditorDialogFrame<*>>()

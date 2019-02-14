@@ -17,11 +17,12 @@ package com.vaadin.starter.beveragebuddy.ui.categories
 
 import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
 import com.github.mvysny.karibudsl.v10.*
-import com.github.vokorm.getById
+import com.github.mvysny.karibudsl.v10.ModifierKey.*
+import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -46,6 +47,8 @@ class CategoriesList : KComposite() {
     private lateinit var header: H3
     private lateinit var toolbar: Toolbar
     private lateinit var grid: Grid<Category>
+    // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
+    lateinit var gridContextMenu: GridContextMenu<Category>
 
     private val editorDialog = CategoryEditorDialog(
         { category -> saveCategory(category) },
@@ -65,13 +68,22 @@ class CategoriesList : KComposite() {
                     setHeader("Category")
                 }
                 addColumn { it.getReviewCount() }.setHeader("Beverages")
-                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
+                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).apply {
+                    flexGrow = 0; key = "edit"
+                }
                 element.themeList.add("row-dividers")
-                asSingleSelect().addValueChangeListener {
-                    if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
-                        selectionChanged(it.value.id!!)
-                        selectionModel.deselect(it.value)
-                    }
+
+                gridContextMenu = gridContextMenu {
+                    item("New", { _ -> editorDialog.createNew() })
+                    item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+                    item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
+                }
+            }
+
+            addShortcut(Alt + KEY_E) {
+                val category = grid.asSingleSelect().value
+                if (category != null) {
+                    edit(category)
                 }
             }
         }
@@ -86,11 +98,11 @@ class CategoriesList : KComposite() {
             icon = Icon(VaadinIcon.EDIT)
             addClassName("review__edit")
             addThemeVariants(ButtonVariant.LUMO_TERTIARY)
-            onLeftClick { editorDialog.edit(category) }
+            onLeftClick { edit(category) }
         }
 
-    private fun selectionChanged(categoryId: Long) {
-        editorDialog.edit(Category.getById(categoryId))
+    private fun edit(category: Category) {
+        editorDialog.edit(category)
     }
 
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()
