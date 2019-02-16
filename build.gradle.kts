@@ -57,7 +57,7 @@ dependencies {
 
     // testing
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.2")
-    testCompile("com.github.mvysny.dynatest:dynatest-engine:0.14")
+    testCompile("com.github.mvysny.dynatest:dynatest-engine:0.15")
     testCompile("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testCompile("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
