@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.7.0"
-val vaadin10_version = "13.0.0.beta1"
+val vaadinonkotlin_version = "0.7.1"
+val vaadin10_version = "13.0.0"
 
 plugins {
     kotlin("jvm") version "1.3.21"
@@ -49,20 +49,20 @@ dependencies {
     compile("org.slf4j:slf4j-api:1.7.25")
 
     // db
-    compile("org.flywaydb:flyway-core:5.2.0")
-    compile("com.h2database:h2:1.4.197") // remove this and replace it with a database driver of your choice.
+    compile("org.flywaydb:flyway-core:5.2.4")
+    compile("com.h2database:h2:1.4.198") // remove this and replace it with a database driver of your choice.
 
     // REST
     compile("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.2")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.4")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:0.15")
     testCompile("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testCompile("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
     // heroku app runner
-    staging("com.github.jsimone:webapp-runner:9.0.14.0")
+    staging("com.github.jsimone:webapp-runner:9.0.16.0")
 }
 
 tasks.withType<KotlinCompile> {
