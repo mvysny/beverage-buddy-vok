@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.7.1"
-val vaadin10_version = "13.0.0"
+val vaadin10_version = "13.0.2"
 
 plugins {
     kotlin("jvm") version "1.3.21"
