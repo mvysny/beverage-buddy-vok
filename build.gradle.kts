@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.7.1"
-val vaadin10_version = "13.0.10"
+val vaadin10_version = "14.0.7"
 
 plugins {
-    kotlin("jvm") version "1.3.41"
+    kotlin("jvm") version "1.3.50"
     id("org.gretty") version "2.3.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
 }
@@ -17,7 +17,6 @@ defaultTasks("clean", "build")
 
 repositories {
     jcenter()  // doesn't work with mavenCentral(): Gretty won't find its gretty-runner-jetty94
-    maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }  // because of Vaadin 13.0.0.beta1
 }
 
 gretty {
@@ -39,30 +38,30 @@ dependencies {
     compile(enforcedPlatform("com.vaadin:vaadin-bom:$vaadin10_version"))
     // Vaadin-on-Kotlin dependency, includes Vaadin
     compile("eu.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version")
+    compile("com.vaadin:flow-server-compatibility-mode:2.0.10")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     compile(kotlin("stdlib-jdk8"))
 
     // logging
-    // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
-    compile("ch.qos.logback:logback-classic:1.2.3")
-    compile("org.slf4j:slf4j-api:1.7.25")
+    // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
+    compile("org.slf4j:slf4j-simple:1.7.28")
 
     // db
-    compile("org.flywaydb:flyway-core:5.2.4")
-    compile("com.h2database:h2:1.4.198") // remove this and replace it with a database driver of your choice.
+    compile("org.flywaydb:flyway-core:6.0.4")
+    compile("com.h2database:h2:1.4.199") // remove this and replace it with a database driver of your choice.
 
     // REST
     compile("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.8")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.13")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:0.15")
     testCompile("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testCompile("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
     // heroku app runner
-    staging("com.github.jsimone:webapp-runner-main:9.0.20.1")
+    staging("com.github.jsimone:webapp-runner-main:9.0.24.0")
 }
 
 tasks.withType<KotlinCompile> {
