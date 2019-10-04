@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.7.1"
-val vaadin10_version = "13.0.10"
+val vaadin10_version = "14.0.7"
 
 plugins {
-    kotlin("jvm") version "1.3.41"
+    kotlin("jvm") version "1.3.50"
     id("org.gretty") version "2.3.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
 }
@@ -17,7 +17,6 @@ defaultTasks("clean", "build")
 
 repositories {
     jcenter()  // doesn't work with mavenCentral(): Gretty won't find its gretty-runner-jetty94
-    maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }  // because of Vaadin 13.0.0.beta1
 }
 
 gretty {
@@ -39,6 +38,7 @@ dependencies {
     compile(enforcedPlatform("com.vaadin:vaadin-bom:$vaadin10_version"))
     // Vaadin-on-Kotlin dependency, includes Vaadin
     compile("eu.vaadinonkotlin:vok-framework-v10-sql2o:$vaadinonkotlin_version")
+    compile("com.vaadin:flow-server-compatibility-mode:2.0.10")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     compile(kotlin("stdlib-jdk8"))
