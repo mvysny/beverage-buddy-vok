@@ -41,7 +41,7 @@ class Bootstrap: ServletContextListener {
 
         // Makes sure the database is up-to-date
         log.info("Running DB migrations")
-        val flyway = Flyway.configure()
+        val flyway: Flyway = Flyway.configure()
             .dataSource(VaadinOnKotlin.dataSource)
             .load()
         flyway.migrate()

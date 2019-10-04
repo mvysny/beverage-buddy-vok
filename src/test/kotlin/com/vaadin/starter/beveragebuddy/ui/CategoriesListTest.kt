@@ -73,7 +73,7 @@ class CategoriesListTest : DynaTest({
         val cat = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "null")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
@@ -85,7 +85,7 @@ class CategoriesListTest : DynaTest({
         val cat = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "null")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
@@ -97,7 +97,7 @@ class CategoriesListTest : DynaTest({
         val cat = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "null")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
         expectList() { Category.findAll() }
         _get<Grid<Category>>().expectRows(0)
