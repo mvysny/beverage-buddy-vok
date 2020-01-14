@@ -1,12 +1,11 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import eu.vaadinonkotlin.vaadin10.sql2o.*
-import com.github.vokorm.As
-import com.github.vokorm.Dao
-import com.github.vokorm.Entity
-import com.github.vokorm.db
+import com.github.vokorm.*
+import com.gitlab.mvysny.jdbiorm.Dao
+import eu.vaadinonkotlin.vaadin10.vokdb.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
 import eu.vaadinonkotlin.vaadin10.setFilter
+import org.jdbi.v3.core.mapper.reflect.ColumnName
 import java.time.LocalDate
 import javax.validation.constraints.*
 
@@ -39,20 +38,20 @@ open class Review(override var id: Long? = null,
                   @field:NotNull
                   @field:Min(1)
                   @field:Max(99)
-                  open var count: Int = 1) : Entity<Long> {
+                  open var count: Int = 1) : KEntity<Long> {
     override fun toString() = "${javaClass.simpleName}(id=$id, score=$score, name='$name', date=$date, category=$category, count=$count)"
 
     fun copy() = Review(id, score, name, date, category, count)
 
-    companion object : Dao<Review> {
+    companion object : Dao<Review, Long>(Review::class.java) {
         /**
          * Computes the total sum of [count] for all reviews belonging to given [categoryId].
          * @return the total sum, 0 or greater.
          */
         fun getTotalCountForReviewsInCategory(categoryId: Long): Long = db {
-            con.createQuery("select sum(r.count) from Review r where r.category = :catId")
-                    .addParameter("catId", categoryId)
-                    .executeScalar(Long::class.java) ?: 0L
+            handle.createQuery("select sum(r.count) from Review r where r.category = :catId")
+                    .bind("catId", categoryId)
+                    .mapTo(Long::class.java).one() ?: 0L
         }
     }
 }
@@ -63,7 +62,7 @@ open class Review(override var id: Long? = null,
  */
 // must be open - Flow requires non-final classes for ModelProxy. Also can't have constructors: https://github.com/mvysny/karibu-dsl/issues/3
 open class ReviewWithCategory : Review() {
-    @As("c.name")
+    @ColumnName("c.name")
     open var categoryName: String? = null
     override fun toString() = super.toString() + "(category $categoryName)"
     companion object {

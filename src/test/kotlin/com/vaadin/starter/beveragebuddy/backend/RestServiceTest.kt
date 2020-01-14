@@ -38,7 +38,7 @@ class RestServiceTest : DynaTest({
 
     lateinit var javalin: Javalin
     beforeGroup {
-        javalin = Javalin.create().disableStartupBanner()
+        javalin = Javalin.create()
         javalin.configureRest().start(9876)
     }
     afterGroup { javalin.stop() }

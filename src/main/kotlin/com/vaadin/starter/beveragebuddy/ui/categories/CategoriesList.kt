@@ -15,7 +15,6 @@
  */
 package com.vaadin.starter.beveragebuddy.ui.categories
 
-import eu.vaadinonkotlin.vaadin10.sql2o.dataProvider
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v10.ModifierKey.*
 import com.vaadin.flow.component.Key.*
@@ -34,6 +33,7 @@ import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.vokdb.dataProvider
 import eu.vaadinonkotlin.vaadin10.withFilter
 
 /**

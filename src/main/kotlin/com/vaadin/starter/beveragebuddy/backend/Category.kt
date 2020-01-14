@@ -1,6 +1,7 @@
 package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.vokorm.*
+import com.gitlab.mvysny.jdbiorm.Dao
 
 /**
  * Represents a beverage category.
@@ -8,16 +9,16 @@ import com.github.vokorm.*
  * @property name the category name
  */
 // must be open: https://github.com/vaadin/flow/issues/2636
-open class Category(override var id: Long? = null, open var name: String = "") : Entity<Long> {
+open class Category(override var id: Long? = null, open var name: String = "") : KEntity<Long> {
 
-    companion object : Dao<Category> {
+    companion object : Dao<Category, Long>(Category::class.java) {
         fun findByName(name: String): Category? = findSpecificBy { Category::name eq name }
         fun getByName(name: String): Category = getBy { Category::name eq name }
         fun existsWithName(name: String): Boolean = findByName(name) != null
-        fun deleteAll() {
+        override fun deleteAll() {
             db {
-                con.createQuery("update Review set category = NULL").executeUpdate()
-                con.deleteAll(Category::class.java)
+                handle.createUpdate("update Review set category = NULL").execute()
+                super.deleteAll()
             }
         }
     }
@@ -39,9 +40,9 @@ open class Category(override var id: Long? = null, open var name: String = "") :
     override fun delete() {
         db {
             if (id != null) {
-                con.createQuery("update Review set category = NULL where category=:catId")
-                        .addParameter("catId", id!!)
-                        .executeUpdate()
+                handle.createUpdate("update Review set category = NULL where category=:catId")
+                        .bind("catId", id!!)
+                        .execute()
             }
             super.delete()
         }
