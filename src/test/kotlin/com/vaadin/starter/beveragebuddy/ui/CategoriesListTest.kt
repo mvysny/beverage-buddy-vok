@@ -68,7 +68,7 @@ class CategoriesListTest : DynaTest({
     }
 
     test("edit existing category") {
-        val cat = Category(name = "Beers").apply { save() }
+        val cat: Category = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
@@ -80,7 +80,7 @@ class CategoriesListTest : DynaTest({
     }
 
     test("edit existing category via context menu") {
-        val cat = Category(name = "Beers").apply { save() }
+        val cat: Category = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
@@ -92,7 +92,7 @@ class CategoriesListTest : DynaTest({
     }
 
     test("delete existing category via context menu") {
-        val cat = Category(name = "Beers").apply { save() }
+        val cat: Category = Category(name = "Beers").apply { save() }
         UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
