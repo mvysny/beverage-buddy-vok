@@ -36,31 +36,31 @@ internal class ConfirmationDialog : Dialog() {
     private var registrationForConfirm: Registration? = null
 
     init {
-            element.classList.add("confirm-dialog")
-            isCloseOnEsc = true
-            isCloseOnOutsideClick = false
+        element.classList.add("confirm-dialog")
+        isCloseOnEsc = true
+        isCloseOnOutsideClick = false
 
-            titleField = h2 {
-                className = "confirm-dialog-heading"
+        titleField = h2 {
+            className = "confirm-dialog-heading"
+        }
+        div {
+            // labels
+            className = "confirm-text"
+            messageLabel = div()
+            extraMessageLabel = div()
+        }
+        horizontalLayout {
+            // button bar
+            className = "confirm-dialog-buttons"
+            confirmButton = button {
+                addClickListener { close() }
+                isAutofocus = true
             }
-            div {
-                // labels
-                className = "confirm-text"
-                messageLabel = div()
-                extraMessageLabel = div()
+            cancelButton = button("Cancel") {
+                addClickListener { close() }
+                addThemeVariants(ButtonVariant.LUMO_TERTIARY)
             }
-            horizontalLayout {
-                // button bar
-                className = "confirm-dialog-buttons"
-                confirmButton = button {
-                    addClickListener { close() }
-                    isAutofocus = true
-                }
-                cancelButton = button("Cancel") {
-                    addClickListener { close() }
-                    addThemeVariants(ButtonVariant.LUMO_TERTIARY)
-                }
-            }
+        }
     }
 
     /**
@@ -74,7 +74,7 @@ internal class ConfirmationDialog : Dialog() {
      * @param isDisruptive True if the action is disruptive, such as deleting an item
      */
     fun open(title: String, message: String = "", additionalMessage: String = "",
-             actionName: String, isDisruptive: Boolean, confirmHandler: ()->Unit) {
+             actionName: String, isDisruptive: Boolean, confirmHandler: () -> Unit) {
         titleField.text = title
         messageLabel.text = message
         extraMessageLabel.text = additionalMessage
