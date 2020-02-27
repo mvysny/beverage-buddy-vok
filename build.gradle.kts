@@ -5,15 +5,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.8.1"
-val vaadin10_version = "14.1.4"
+val vaadin10_version = "14.1.16"
 
 plugins {
     kotlin("jvm") version "1.3.61"
     id("org.gretty") version "3.0.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
+    id("com.vaadin") version "0.5.1"
 }
 
-defaultTasks("clean", "build")
+defaultTasks("clean", "vaadinBuildFrontend", "build")
 
 repositories {
     jcenter()  // doesn't work with mavenCentral(): Gretty won't find its gretty-runner-jetty94
@@ -35,11 +36,16 @@ tasks.withType<Test> {
 val staging by configurations.creating
 
 dependencies {
-    compile(enforcedPlatform("com.vaadin:vaadin-bom:$vaadin10_version"))
+    compile("com.vaadin:vaadin-core:$vaadin10_version") {
+        // Webjars are only needed when running in Vaadin 13 compatibility mode
+        listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
+                "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
+                "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
+                .forEach { exclude(group = it) }
+    }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     compile("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
     compile("com.zaxxer:HikariCP:3.4.1")
-    compile("com.vaadin:flow-server-compatibility-mode:2.1.1")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     compile(kotlin("stdlib-jdk8"))
@@ -78,6 +84,6 @@ tasks {
         }
     }
     val stage by registering {
-        dependsOn("build", copyToLib)
+        dependsOn("vaadinPrepareNode", "vaadinBuildFrontend", "build", copyToLib)
     }
 }

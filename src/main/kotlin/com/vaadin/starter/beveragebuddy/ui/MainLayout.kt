@@ -18,6 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasElement
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -37,7 +38,7 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
  * child views below that.
  */
 @BodySize(width = "100vw", height = "100vh")
-@HtmlImport("frontend://styles/shared-styles.html")
+@CssImport("frontend://styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
 class MainLayout : KComposite(), RouterLayout, PageConfigurator {
