@@ -19,9 +19,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasElement
 import com.vaadin.flow.component.dependency.CssImport
-import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.router.HighlightConditions
@@ -70,7 +68,7 @@ class MainLayout : KComposite(), RouterLayout, PageConfigurator {
     }
 
     override fun showRouterLayoutContent(content: HasElement) {
-        (this.content as VerticalLayout).add(content as Component) // @todo replace with 'root'
+        root.add(content as Component)
         content.isExpand = true
     }
 
