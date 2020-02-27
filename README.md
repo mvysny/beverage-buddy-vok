@@ -31,15 +31,22 @@ You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokua
 
 The project can be imported into the IDE of your choice, with Java 8 installed, as a Gradle project.
 
-To compile the entire project, run `./gradlew`. All dependencies will be downloaded automatically by Gradle.
+You will need to have the node.js installed in your OS, or alternatively you can run
+`./gradlew vaadinPrepareNode` to download a local copy for you.
+
+To compile the entire project in production mode, run
+`./gradlew vaadinBuildFrontend build`. All dependencies will be downloaded automatically by Gradle.
+
+To prepare the project for development, run
+`./gradlew clean vaadinPrepareFrontend`. All dependencies will be downloaded automatically by Gradle.
 
 ## Running the Project
 
-1. Run using `./gradlew appRun`
+1. Run using `./gradlew vaadinPrepareFrontend appRun`
 2. Wait for the application to start
 3. Open [http://localhost:8080/](http://localhost:8080/) to view the application
 
-Gradle will download an embedded servlet container (Jetty) and will run your app in it. Your app will be running on
+The Gretty Gradle plugin will download an embedded servlet container (Jetty) and will run your app in it. Your app will be running on
 [http://localhost:8080](http://localhost:8080).
 
 ## Dissection of project files
@@ -54,7 +61,7 @@ Let's look at all files that this project is composed of, and what are the point
 | [Procfile](Procfile) | Tells [Heroku](https://www.heroku.com/) hosting service how to run your app in a cloud. See below on how to deploy your app on Heroku for free.
 | [.gitignore](.gitignore) | Tells [Git](https://git-scm.com/) to ignore files that can be produced from your app's sources - be it files produced by Gradle, Intellij project files etc.
 | [src/main/resources/](src/main/resources) | A bunch of static files not compiled by Kotlin in any way; see below for explanation.
-| [logback.xml](src/main/resources/logback.xml) | We're using [Slf4j](https://www.slf4j.org/) for logging and this is the configuration file for Slf4j
+| [simplelogger.properties](src/main/resources/logback.xml) | We're using [Slf4j](https://www.slf4j.org/) for logging and this is the configuration file for Slf4j
 | [db/migration/](src/main/resources/db/migration) | Database upgrade instructions for the [Flyway](https://flywaydb.org/) framework. Database is upgraded on every server boot, to ensure it's always up-to-date. See the [Migration Naming Guide](https://flywaydb.org/documentation/migrations#naming) for more details.
 | [webapp/](src/main/webapp) | contains static webapp resources, such as potential Polymer templates, components, the global app CSS file, etc. The CSS file references the Vaadin Lumo theme and configures it by the means of CSS variables. Polymer templates are not used in this project.
 | [frontend/styles/shared-styles.html](src/main/webapp/frontend/styles/shared-styles.html) | The CSS styles applied to your web app. Vaadin by default uses [Vaadin Lumo Theme](https://vaadin.com/themes/lumo); you can tweak the Lumo theme by the means of setting CSS variables.
