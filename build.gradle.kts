@@ -9,7 +9,7 @@ val vaadin10_version = "14.1.4"
 
 plugins {
     kotlin("jvm") version "1.3.61"
-    id("org.gretty") version "2.3.1"  // https://github.com/gretty-gradle-plugin/gretty
+    id("org.gretty") version "3.0.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
 }
 
@@ -46,7 +46,7 @@ dependencies {
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    compile("org.slf4j:slf4j-simple:1.7.28")
+    compile("org.slf4j:slf4j-simple:1.7.30")
 
     // db
     compile("org.flywaydb:flyway-core:6.1.4")
