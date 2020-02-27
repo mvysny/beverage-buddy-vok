@@ -39,6 +39,8 @@ To compile the entire project in production mode, run
 
 To prepare the project for development, run
 `./gradlew clean vaadinPrepareFrontend`. All dependencies will be downloaded automatically by Gradle.
+Do not forget to reimport the project in Intellij, so that the `build/vaadin-generated` folder registers
+as a source path in Intellij.
 
 ## Running the Project
 
