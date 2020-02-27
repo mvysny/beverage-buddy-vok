@@ -39,7 +39,7 @@ class CategoriesListTest : DynaTest({
 
     usingApp()
 
-    test("grid lists all persons") {
+    test("grid lists all categories") {
         // prepare testing data
         Category(name = "Beers").save()
         // navigate to the "Categories" list route.
