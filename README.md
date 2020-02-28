@@ -27,29 +27,84 @@ a demo on how to create Polymer Templates, please head to the page of the
 
 You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokuapp.com) running on Heroku.
 
-## Prerequisites
+# Preparing Environment
 
-The project can be imported into the IDE of your choice, with Java 8 installed, as a Gradle project.
+The Vaadin 14 build requires node.js and npm. You can either use the Vaadin Gradle plugin to install it for
+you (the `vaadinPrepareNode` task, handy for the CI), or you can install it to your OS:
 
-You will need to have the node.js installed in your OS, or alternatively you can run
-`./gradlew vaadinPrepareNode` to download a local copy for you.
+* Windows: [node.js Download site](https://nodejs.org/en/download/) - use the .msi 64-bit installer
+* Linux: `sudo apt install npm`
 
-To compile the entire project in production mode, run
-`./gradlew vaadinBuildFrontend build`. All dependencies will be downloaded automatically by Gradle.
+To make Vaadin Gradle plugin install node.js+npm for you, just run the following command
+in the project's sources (you only need to run this command once):
 
-To prepare the project for development, run
-`./gradlew clean vaadinPrepareFrontend`. All dependencies will be downloaded automatically by Gradle.
-Do not forget to reimport the project in Intellij, so that the `build/vaadin-generated` folder registers
-as a source path in Intellij.
+```
+./gradlew vaadinPrepareNode
+```
 
-## Running the Project
+Also make sure that you have Java 8 (or higher) JDK installed.
 
-1. Run using `./gradlew vaadinPrepareFrontend appRun`
-2. Wait for the application to start
-3. Open [http://localhost:8080/](http://localhost:8080/) to view the application
+## Getting Started
 
-The Gretty Gradle plugin will download an embedded servlet container (Jetty) and will run your app in it. Your app will be running on
-[http://localhost:8080](http://localhost:8080).
+To quickly start the app, just type this into your terminal:
+
+```bash
+git clone https://github.com/mvysny/beverage-buddy-vok
+cd beverage-buddy-vok
+./gradlew appRun
+```
+
+The app will be running on [http://localhost:8080/](http://localhost:8080/).
+
+Since the build system is a Gradle file written in Kotlin, we suggest you
+use [Intellij IDEA](https://www.jetbrains.com/idea/download)
+to edit the project files. The Community edition is enough to run the server
+via Gretty's `./gradlew appRun`. The Ultimate edition will allow you to run the
+project in Tomcat - this is the recommended
+option for a real development.
+
+## Supported Modes
+
+Runs in Vaadin 14 npm mode, using the [Vaadin Gradle Plugin](https://github.com/vaadin/vaadin-gradle-plugin).
+
+Both the [development and production modes](https://vaadin.com/docs/v14/flow/production/tutorial-production-mode-basic.html) are supported.
+To prepare for development mode, just run:
+
+```bash
+./gradlew clean vaadinPrepareFrontend
+```
+
+If you don't have node installed, you can use Vaadin plugin to download node.js for you:
+
+```bash
+./gradlew vaadinPrepareNode
+```
+
+To build in production mode, just run:
+
+```bash
+./gradlew clean build -Pvaadin.productionMode
+```
+
+If you don't have node installed in your CI environment, you can use Vaadin plugin to download node.js for you beforehand:
+
+```bash
+./gradlew clean vaadinPrepareNode vaadinBuildFrontend build
+```
+
+# Workflow
+
+To compile the entire project in production mode, run `./gradlew -Pvaadin.productionMode`.
+
+To run the application in development mode, run `./gradlew appRun` and open [http://localhost:8080/](http://localhost:8080/).
+
+To produce a deployable production-mode WAR:
+- run `./gradlew -Pvaadin.productionMode`
+- You will find the WAR file in `build/libs/*.war`
+- To revert your environment back to development mode, just run `./gradlew` or `./gradlew vaadinPrepareFrontend`
+  (omit the `-Pvaadin.productionMode`) switch.
+
+This will allow you to quickly start the example app and allow you to do some basic modifications.
 
 ## Dissection of project files
 
