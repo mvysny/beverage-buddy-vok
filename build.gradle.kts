@@ -14,7 +14,7 @@ plugins {
     id("com.vaadin") version "0.6.0"
 }
 
-defaultTasks("clean", "vaadinBuildFrontend", "build")
+defaultTasks("clean", "build")
 
 repositories {
     jcenter()  // doesn't work with mavenCentral(): Gretty won't find its gretty-runner-jetty94
@@ -45,7 +45,7 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     compile("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
-    compile("com.zaxxer:HikariCP:3.4.1")
+    compile("com.zaxxer:HikariCP:3.4.2")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     compile(kotlin("stdlib-jdk8"))
@@ -63,7 +63,7 @@ dependencies {
 
     // testing
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.19")
-    testCompile("com.github.mvysny.dynatest:dynatest-engine:0.15")
+    testCompile("com.github.mvysny.dynatest:dynatest-engine:0.16")
     testCompile("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testCompile("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
