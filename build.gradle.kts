@@ -8,7 +8,7 @@ val vaadinonkotlin_version = "0.8.1"
 val vaadin10_version = "14.1.16"
 
 plugins {
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.3.70"
     id("org.gretty") version "3.0.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
     id("com.vaadin") version "0.6.0"
