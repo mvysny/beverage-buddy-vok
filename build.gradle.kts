@@ -36,7 +36,7 @@ tasks.withType<Test> {
 val staging by configurations.creating
 
 dependencies {
-    compile("com.vaadin:vaadin-core:$vaadin10_version") {
+    implementation("com.vaadin:vaadin-core:$vaadin10_version") {
         // Webjars are only needed when running in Vaadin 13 compatibility mode
         listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
                 "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
@@ -44,28 +44,28 @@ dependencies {
                 .forEach { exclude(group = it) }
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
-    compile("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
-    compile("com.zaxxer:HikariCP:3.4.2")
+    implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
+    implementation("com.zaxxer:HikariCP:3.4.2")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
-    compile(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib-jdk8"))
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    compile("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
 
     // db
-    compile("org.flywaydb:flyway-core:6.1.4")
-    compile("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
+    implementation("org.flywaydb:flyway-core:6.1.4")
+    implementation("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
 
     // REST
-    compile("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
+    implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.19")
-    testCompile("com.github.mvysny.dynatest:dynatest-engine:0.16")
-    testCompile("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
-    testCompile("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.19")
+    testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.16")
+    testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
+    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
     // heroku app runner
     staging("com.github.jsimone:webapp-runner-main:9.0.27.1")
