@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.8.1"
-val vaadin10_version = "14.1.16"
+val vaadin10_version = "14.1.25"
 
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.3.72"
     id("org.gretty") version "3.0.1"  // https://github.com/gretty-gradle-plugin/gretty
     war
     id("com.vaadin") version "0.6.0"
@@ -62,13 +62,13 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.19")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.23")
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.16")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
     // heroku app runner
-    staging("com.github.jsimone:webapp-runner-main:9.0.27.1")
+    staging("com.heroku:webapp-runner-main:9.0.31.0")
 }
 
 tasks.withType<KotlinCompile> {
