@@ -6,20 +6,22 @@
 # Beverage Buddy App Starter for Vaadin 14
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
 
-This is a Vaadin 10 [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application, used to demonstrate features of the Vaadin Flow Java framework.
+This is a Vaadin 14 [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application,
+used to demonstrate features of the Vaadin Flow Java framework.
 A full-stack app: uses the H2 database instead of a dummy service.
 
 The Starter demonstrates the core Vaadin Flow concepts:
-* Building UIs in Kotlin with Components based on [Vaadin Elements](https://vaadin.com/elements/browse), such as `TextField`, `Button`, `ComboBox`, `DatePicker`, `VerticalLayout` and `Grid` (see `CategoriesList`)
+* [Building UIs in Kotlin](https://github.com/mvysny/karibu-dsl) with components
+  such as `TextField`, `Button`, `ComboBox`, `DatePicker`, `VerticalLayout` and `Grid` (see `CategoriesList`)
 * [Creating forms with `Binder`](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-binder-in-review-editor-dialog.asciidoc) (`ReviewEditorDialog`)
-* Making reusable Components on server side with `Composite` (`AbstractEditorDialog`)
+* Making reusable Components on server side with `KComposite` (`AbstractEditorDialog`)
 * [Creating Navigation with the Router API](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-annotation-based-router-api.asciidoc) (`MainLayout`, `ReviewsList`, `CategoriesList`)
 * [Browserless testing](https://github.com/mvysny/karibu-testing): see the
   [test suite package](src/test/kotlin/com/vaadin/starter/beveragebuddy/ui) for the complete test implementation.
 
-This version of Beverage Buddy demoes the possibility of developing a Vaadin 10 application logic
-purely server-side in the Kotlin language. There is no
-Polymer Template nor JavaScript code in this project. If you'd like to see
+This version of Beverage Buddy demoes the possibility of developing a Vaadin 14
+web application purely server-side in the Kotlin language. There is no
+JavaScript code in this project. If you'd like to see
 a demo on how to create Polymer Templates, please head to the page of the
 [original Beverage Buddy App](https://github.com/vaadin/beverage-starter-flow) (in Java).
 
@@ -138,7 +140,7 @@ Let's look at all files that this project is composed of, and what are the point
 
 ## More Documentation
 
-For Vaadin 10 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v10/flow/Overview.html).
+For Vaadin 14 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v14/flow/Overview.html).
 
 For Vaadin-on-Kotlin documentation, head to [Vaadin-on-Kotlin](http://vaadinonkotlin.eu).
 
