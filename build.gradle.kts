@@ -4,14 +4,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.8.1"
-val vaadin10_version = "14.1.25"
+val vaadinonkotlin_version = "0.8.2"
+val vaadin10_version = "14.2.0"
 
 plugins {
     kotlin("jvm") version "1.3.72"
-    id("org.gretty") version "3.0.1"  // https://github.com/gretty-gradle-plugin/gretty
+    id("org.gretty") version "3.0.3"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "0.6.0"
+    id("com.vaadin") version "0.7.0"
 }
 
 defaultTasks("clean", "build")
@@ -84,7 +84,7 @@ tasks {
         }
     }
     val stage by registering {
-        dependsOn("vaadinPrepareNode", "build", copyToLib)
+        dependsOn("build", copyToLib)
     }
 }
 
@@ -92,4 +92,5 @@ vaadin {
     if (gradle.startParameter.taskNames.contains("stage")) {
         productionMode = true
     }
+    pnpmEnable = true
 }

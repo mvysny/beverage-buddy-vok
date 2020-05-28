@@ -31,18 +31,11 @@ You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokua
 
 # Preparing Environment
 
-The Vaadin 14 build requires node.js and npm. You can either use the Vaadin Gradle plugin to install it for
-you (the `vaadinPrepareNode` task, handy for the CI), or you can install it to your OS:
+The Vaadin 14 build requires node.js and npm. Vaadin Gradle plugin will install those
+for you automatically (handy for the CI); alternatively you can install those to your OS:
 
 * Windows: [node.js Download site](https://nodejs.org/en/download/) - use the .msi 64-bit installer
 * Linux: `sudo apt install npm`
-
-To make Vaadin Gradle plugin install node.js+npm for you, just run the following command
-in the project's sources (you only need to run this command once):
-
-```
-./gradlew vaadinPrepareNode
-```
 
 Also make sure that you have Java 8 (or higher) JDK installed.
 
@@ -77,22 +70,16 @@ To prepare for development mode, just run:
 ./gradlew clean vaadinPrepareFrontend
 ```
 
-If you don't have node installed, you can use Vaadin plugin to download node.js for you:
-
-```bash
-./gradlew vaadinPrepareNode
-```
-
 To build in production mode, just run:
 
 ```bash
 ./gradlew clean build -Pvaadin.productionMode
 ```
 
-If you don't have node installed in your CI environment, you can use Vaadin plugin to download node.js for you beforehand:
+If you don't have node installed in your CI environment, Gradle Vaadin plugin will download node.js for you automatically:
 
 ```bash
-./gradlew clean vaadinPrepareNode build -Pvaadin.productionMode
+./gradlew clean build -Pvaadin.productionMode
 ```
 
 # Workflow
