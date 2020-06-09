@@ -16,12 +16,9 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.vokorm.getById
-import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
-import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -33,7 +30,9 @@ import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
 import com.vaadin.starter.beveragebuddy.backend.setFilterText
-import com.vaadin.starter.beveragebuddy.ui.*
+import com.vaadin.starter.beveragebuddy.ui.MainLayout
+import com.vaadin.starter.beveragebuddy.ui.Toolbar
+import com.vaadin.starter.beveragebuddy.ui.toolbarView
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
 
 /**
