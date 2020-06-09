@@ -2,7 +2,7 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.vokorm.db
 import java.time.LocalDate
-import java.util.*
+import kotlin.random.Random
 
 internal object DemoData {
 
@@ -101,7 +101,7 @@ internal object DemoData {
         listOf("Pan Galactic Gargle Blaster",
                 "Mead",
                 "Soma")
-                .forEach { name -> BEVERAGES.put(name, OTHER) }
+                .forEach { name -> BEVERAGES[name] = OTHER }
     }
 
     fun createDemoData() = db {
@@ -109,16 +109,16 @@ internal object DemoData {
         BEVERAGES.values.distinct().forEach { name -> Category(name = name).save() }
 
         /// generate reviews
-        val r = Random()
-        val reviewCount = 20 + r.nextInt(30)
-        val beverages = DemoData.BEVERAGES.entries.toList()
+        val r = Random
+        val reviewCount: Int = 20 + r.nextInt(30)
+        val beverages: List<MutableMap.MutableEntry<String, String>> = BEVERAGES.entries.toList()
 
         for (i in 0 until reviewCount) {
             val review = Review()
-            val beverage = beverages[r.nextInt(DemoData.BEVERAGES.size)]
-            val category = Category.getByName(beverage.value)
+            val beverage: MutableMap.MutableEntry<String, String> = beverages.random()
+            val category: Category = Category.getByName(beverage.value)
             review.name = beverage.key
-            val testDay = LocalDate.of(1930 + r.nextInt(88),
+            val testDay: LocalDate = LocalDate.of(1930 + r.nextInt(88),
                     1 + r.nextInt(12), 1 + r.nextInt(28))
             review.date = testDay
             review.score = 1 + r.nextInt(5)
