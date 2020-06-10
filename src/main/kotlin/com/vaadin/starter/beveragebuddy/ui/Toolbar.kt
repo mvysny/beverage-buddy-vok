@@ -33,8 +33,7 @@ class Toolbar(createCaption: String) : KComposite() {
     val searchText: String get() = searchField.value.trim()
 
     private val root = ui {
-        div {
-            addClassName("view-toolbar")
+        div("view-toolbar") {
             searchField = textField {
                 prefixComponent = Icon(VaadinIcon.SEARCH)
                 addClassName("view-toolbar__search-field")

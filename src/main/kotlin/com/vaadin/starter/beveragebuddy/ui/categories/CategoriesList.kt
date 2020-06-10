@@ -55,8 +55,8 @@ class CategoriesList : KComposite() {
         { deleteCategory(it) })
 
     private val root = ui {
-        verticalLayout {
-            isPadding = false; content { align(stretch, top) }
+        verticalLayout(false) {
+            content { align(stretch, top) }
             toolbar = toolbarView("New category") {
                 onSearch = { updateView() }
                 onCreate = { editorDialog.createNew() }

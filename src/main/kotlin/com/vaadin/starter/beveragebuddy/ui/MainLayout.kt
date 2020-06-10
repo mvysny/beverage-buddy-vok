@@ -42,18 +42,14 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 class MainLayout : KComposite(), RouterLayout, PageConfigurator {
 
     private val root = ui {
-        verticalLayout {
-            addClassName("main-layout"); setSizeFull(); isPadding = false
+        verticalLayout(false, classNames = "main-layout") {
+            setSizeFull()
             content { align(stretch, top) }
-            div {
-                // header
-                addClassName("main-layout__header")
+            div("main-layout__header") { // header
                 h2("Beverage Buddy") {
                     addClassName("main-layout__title")
                 }
-                div {
-                    // navigation
-                    addClassName("main-layout__nav")
+                div("main-layout__nav") { // navigation
                     routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
                         addClassName("main-layout__nav-item")
                         highlightCondition = HighlightConditions.sameLocation()

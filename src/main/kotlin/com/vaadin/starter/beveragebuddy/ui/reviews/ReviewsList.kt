@@ -51,8 +51,8 @@ class ReviewsList : KComposite() {
         { this.delete(it) })
 
     private val root = ui {
-        verticalLayout {
-            isPadding = false; content { align(stretch, top) }
+        verticalLayout(false) {
+            content { align(stretch, top) }
             toolbar = toolbarView("New review") {
                 onSearch = { updateList() }
                 onCreate = { editDialog.createNew() }
@@ -116,10 +116,8 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
     var onEdit: () -> Unit = {}
 
     private val root = ui {
-        div {
-            addClassName("review")
-            div {
-                addClassName("review__rating")
+        div("review") {
+            div("review__rating") {
                 p(review.score.toString()) {
                     className = "review__score"
                     element.setAttribute("data-score", review.score.toString())
@@ -129,8 +127,7 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
                     span("times tasted")
                 }
             }
-            div {
-                addClassName("review__details")
+            div("review__details") {
                 h4(review.name) {
                     addClassName("review__name")
                 }
@@ -146,8 +143,7 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
                     }
                 }
             }
-            div {
-                className = "review__date"
+            div("review__date") {
                 h5("Last tasted")
                 p(review.date.toString())
             }

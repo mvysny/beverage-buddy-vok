@@ -45,6 +45,8 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
+    // newest Karibu-DSL
+    implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.2")
     implementation("com.zaxxer:HikariCP:3.4.2")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
@@ -62,7 +64,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.23")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.26")
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.16")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
