@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.8.2"
-val vaadin10_version = "14.2.0"
+val vaadin_version = "14.3.1"
 
 plugins {
     kotlin("jvm") version "1.3.72"
     id("org.gretty") version "3.0.3"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "0.7.0"
+    id("com.vaadin") version "0.8.0"
 }
 
 defaultTasks("clean", "build")
@@ -36,7 +36,7 @@ tasks.withType<Test> {
 val staging by configurations.creating
 
 dependencies {
-    implementation("com.vaadin:vaadin-core:$vaadin10_version") {
+    implementation("com.vaadin:vaadin-core:$vaadin_version") {
         // Webjars are only needed when running in Vaadin 13 compatibility mode
         listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
                 "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
@@ -47,7 +47,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
     // newest Karibu-DSL
     implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.2")
-    implementation("com.zaxxer:HikariCP:3.4.2")
+    implementation("com.zaxxer:HikariCP:3.4.5")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     implementation(kotlin("stdlib-jdk8"))
