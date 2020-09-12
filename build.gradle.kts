@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.8.2"
-val vaadin_version = "14.3.3"
+val vaadin_version = "14.3.5"
 
 plugins {
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.10"
     id("org.gretty") version "3.0.3"  // https://github.com/gretty-gradle-plugin/gretty
     war
     id("com.vaadin") version "0.8.0"
