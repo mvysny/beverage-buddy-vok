@@ -46,7 +46,7 @@ dependencies {
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
     // newest Karibu-DSL
-    implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.2")
+    implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.3")
     implementation("com.zaxxer:HikariCP:3.4.5")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
