@@ -1,6 +1,9 @@
 package com.vaadin.starter.beveragebuddy.backend
 
+import com.github.mvysny.vokdataloader.DataLoader
+import com.github.mvysny.vokdataloader.withFilter
 import com.github.vokorm.*
+import com.github.vokorm.dataloader.SqlDataLoader
 import com.gitlab.mvysny.jdbiorm.Dao
 import eu.vaadinonkotlin.vaadin10.vokdb.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
@@ -69,38 +72,31 @@ open class ReviewWithCategory : Review() {
         /**
          * Fetches the reviews matching the given filter text.
          *
-         * The matching is case insensitive. When passed an empty filter text,
-         * the method returns all categories. The returned list is ordered
-         * by name.
-         *
          * This data provider provides sorting/paging/filtering and may be used for
          * SELECTs returning huge amount of data.
          */
-        val dataProvider: VokDataProvider<ReviewWithCategory>
+        val dataLoader: DataLoader<ReviewWithCategory>
             // we need to use SQL alias here, since both r.name and c.name exist and H2 would complain of a name clash.
             // yet luckily we can still address the column by c.name so both sorting and filtering will work.
-        get() = sqlDataProvider(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
+        get() = SqlDataLoader(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
                 FROM Review r left join Category c on r.category = c.id
-                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""", idMapper = { it.id!! })
+                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""")
     }
 }
 
 /**
- * This utility function sets a *global filter* to the data provider. Global filter searches for given [filter] text
+ * This utility function returns a new loader which searches for given [filter] text
  * in all [Review] and [ReviewWithCategory] fields.
- *
- * This function is compatible with data providers as returned by [ReviewWithCategory.dataProvider].
  */
-fun VokDataProvider<ReviewWithCategory>.setFilterText(filter: String?) {
+fun DataLoader<ReviewWithCategory>.withFilterText(filter: String?): DataLoader<ReviewWithCategory> {
     if (filter.isNullOrBlank()) {
-        setFilter(null)
-    } else {
-        val normalizedFilter = filter.trim().toLowerCase() + "%"
-        setFilter {
-            """r.name ILIKE :filter
+        return this
+    }
+    val normalizedFilter: String = filter.trim().toLowerCase() + "%"
+    return withFilter {
+        """r.name ILIKE :filter
                     or IFNULL(c.name, 'Undefined') ILIKE :filter
                     or CAST(r.score as VARCHAR) ILIKE :filter
                     or CAST(r.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to normalizedFilter)
-        }
     }
 }

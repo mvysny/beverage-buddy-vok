@@ -17,6 +17,8 @@ package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v10.ModifierKey.*
+import com.github.mvysny.vokdataloader.DataLoader
+import com.github.mvysny.vokdataloader.withFilter
 import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
@@ -33,7 +35,9 @@ import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.*
 import eu.vaadinonkotlin.vaadin10.VokDataProvider
+import eu.vaadinonkotlin.vaadin10.vokdb.dataLoader
 import eu.vaadinonkotlin.vaadin10.vokdb.dataProvider
+import eu.vaadinonkotlin.vaadin10.vokdb.setDataLoader
 import eu.vaadinonkotlin.vaadin10.withFilter
 
 /**
@@ -108,14 +112,14 @@ class CategoriesList : KComposite() {
     private fun Category.getReviewCount(): String = Review.getTotalCountForReviewsInCategory(id!!).toString()
 
     private fun updateView() {
-        var dp: VokDataProvider<Category> = Category.dataProvider
+        var dp: DataLoader<Category> = Category.dataLoader
         if (!toolbar.searchText.isBlank()) {
-            dp = dp.withFilter { Category::name ilike "%${toolbar.searchText}%" }
+            dp = dp.withFilter { Category::name istartsWith "%${toolbar.searchText}%" }
             header.text = "Search for “${toolbar.searchText}”"
         } else {
             header.text = "Categories"
         }
-        grid.dataProvider = dp
+        grid.setDataLoader(dp)
     }
 
     private fun saveCategory(category: Category) {

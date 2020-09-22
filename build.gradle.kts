@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.8.2"
+val vaadinonkotlin_version = "0.8.3"
 val vaadin_version = "14.3.6"
 
 plugins {
@@ -45,8 +45,6 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
-    // newest Karibu-DSL
-    implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.3")
     implementation("com.zaxxer:HikariCP:3.4.5")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
