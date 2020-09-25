@@ -63,7 +63,7 @@ dependencies {
 
     // testing
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.2.5")
-    testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.17")
+    testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.19")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830")
 
