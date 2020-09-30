@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.8.3"
-val vaadin_version = "14.3.6"
+val vaadin_version = "14.3.7"
 
 plugins {
     kotlin("jvm") version "1.4.10"
     id("org.gretty") version "3.0.3"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "0.8.0"
+    id("com.vaadin") version "0.14.3.7"
 }
 
 defaultTasks("clean", "build")
