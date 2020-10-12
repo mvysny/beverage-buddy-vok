@@ -16,6 +16,7 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.vokorm.dataloader.dataLoader
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -23,7 +24,6 @@ import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
-import eu.vaadinonkotlin.vaadin10.vokdb.dataLoader
 import eu.vaadinonkotlin.vaadin10.vokdb.toId
 import eu.vaadinonkotlin.vaadin10.vokdb.withStringFilterOn
 import java.time.LocalDate

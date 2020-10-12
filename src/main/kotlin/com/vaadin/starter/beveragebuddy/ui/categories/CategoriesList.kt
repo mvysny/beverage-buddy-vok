@@ -19,6 +19,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v10.ModifierKey.*
 import com.github.mvysny.vokdataloader.DataLoader
 import com.github.mvysny.vokdataloader.withFilter
+import com.github.vokorm.dataloader.dataLoader
 import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
@@ -34,11 +35,7 @@ import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.*
-import eu.vaadinonkotlin.vaadin10.VokDataProvider
-import eu.vaadinonkotlin.vaadin10.vokdb.dataLoader
-import eu.vaadinonkotlin.vaadin10.vokdb.dataProvider
 import eu.vaadinonkotlin.vaadin10.vokdb.setDataLoader
-import eu.vaadinonkotlin.vaadin10.withFilter
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -114,7 +111,7 @@ class CategoriesList : KComposite() {
     private fun updateView() {
         var dp: DataLoader<Category> = Category.dataLoader
         if (!toolbar.searchText.isBlank()) {
-            dp = dp.withFilter { Category::name istartsWith "%${toolbar.searchText}%" }
+            dp = dp.withFilter { Category::name istartsWith toolbar.searchText }
             header.text = "Search for “${toolbar.searchText}”"
         } else {
             header.text = "Categories"
@@ -123,9 +120,9 @@ class CategoriesList : KComposite() {
     }
 
     private fun saveCategory(category: Category) {
-        val creating = category.id == null
+        val creating: Boolean = category.id == null
         category.save()
-        val op = if (creating) "added" else "saved"
+        val op: String = if (creating) "added" else "saved"
         Notification.show("Category successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
