@@ -89,7 +89,7 @@ fun DataLoader<ReviewWithCategory>.withFilterText(filter: String?): DataLoader<R
     if (filter.isNullOrBlank()) {
         return this
     }
-    val normalizedFilter: String = filter.trim().toLowerCase() + "%"
+    val normalizedFilter: String = filter.trim().lowercase() + "%"
     return withFilter {
         """r.name ILIKE :filter
                     or IFNULL(c.name, 'Undefined') ILIKE :filter
