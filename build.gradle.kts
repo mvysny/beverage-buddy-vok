@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.10.0"
-val vaadin_version = "14.6.1"
+val vaadin_version = "14.6.4"
 
 plugins {
     kotlin("jvm") version "1.5.10"
@@ -64,7 +64,7 @@ dependencies {
 
     // testing
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.0")
-    testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.19")
+    testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.20")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.40.v20210413")
 
