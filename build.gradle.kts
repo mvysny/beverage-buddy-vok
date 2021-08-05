@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.10.0"
-val vaadin_version = "14.6.4"
+val vaadin_version = "14.6.7"
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.5.21"
     id("org.gretty") version "3.0.4"  // https://github.com/gretty-gradle-plugin/gretty
     war
     id("com.vaadin") version "0.14.6.0"
@@ -46,14 +46,14 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-v10-vokdb:$vaadinonkotlin_version")
-    implementation("com.zaxxer:HikariCP:3.4.5")
+    implementation("com.zaxxer:HikariCP:4.0.3")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     implementation(kotlin("stdlib-jdk8"))
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // db
     implementation("org.flywaydb:flyway-core:7.1.1")
@@ -66,7 +66,7 @@ dependencies {
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.0")
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.20")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
-    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.40.v20210413")
+    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
 
     // heroku app runner
     staging("com.heroku:webapp-runner-main:9.0.41.0")
