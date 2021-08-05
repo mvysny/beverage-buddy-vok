@@ -9,7 +9,7 @@ val vaadin_version = "14.6.7"
 
 plugins {
     kotlin("jvm") version "1.5.21"
-    id("org.gretty") version "3.0.4"  // https://github.com/gretty-gradle-plugin/gretty
+    id("org.gretty") version "3.0.6"  // https://github.com/gretty-gradle-plugin/gretty
     war
     id("com.vaadin") version "0.14.6.0"
 }
@@ -18,7 +18,6 @@ defaultTasks("clean", "build")
 
 repositories {
     mavenCentral()
-    jcenter()  // needed for Gretty "gretty-runner-jetty94"
 }
 
 gretty {
