@@ -55,7 +55,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // db
-    implementation("org.flywaydb:flyway-core:7.12.0")
+    implementation("org.flywaydb:flyway-core:7.12.1")
     implementation("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
 
     // REST
