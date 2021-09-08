@@ -55,20 +55,20 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // db
-    implementation("org.flywaydb:flyway-core:7.12.1")
+    implementation("org.flywaydb:flyway-core:7.14.1")
     implementation("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.1")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.2")
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.20")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
 
     // heroku app runner
-    staging("com.heroku:webapp-runner-main:9.0.41.0")
+    staging("com.heroku:webapp-runner-main:9.0.52.0")
 }
 
 tasks.withType<KotlinCompile> {
