@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.10.0"
+val vaadinonkotlin_version = "0.11.0"
 val vaadin_version = "14.6.8"
 
 plugins {
