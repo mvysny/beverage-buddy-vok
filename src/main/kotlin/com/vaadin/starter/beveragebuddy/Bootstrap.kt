@@ -1,12 +1,16 @@
 package com.vaadin.starter.beveragebuddy
 
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
+import com.vaadin.flow.server.InitialPageSettings
+import com.vaadin.flow.server.ServiceInitEvent
+import com.vaadin.flow.server.VaadinServiceInitListener
 import eu.vaadinonkotlin.VaadinOnKotlin
 import com.vaadin.starter.beveragebuddy.backend.DemoData
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
 import org.h2.Driver
+import org.jsoup.nodes.Element
 import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
@@ -65,3 +69,24 @@ class Bootstrap: ServletContextListener {
         private val log = LoggerFactory.getLogger(Bootstrap::class.java)
     }
 }
+
+/**
+ * Configures Vaadin. Registered via the Java Service Loader API.
+ */
+class MyServiceInitListener : VaadinServiceInitListener {
+    override fun serviceInit(event: ServiceInitEvent) {
+        event.addBootstrapListener {
+            it.document.head().addMetaTag("apple-mobile-web-app-capable", "yes")
+            it.document.head().addMetaTag("apple-mobile-web-app-status-bar-style", "black")
+        }
+    }
+}
+
+/**
+ * Appends a `<meta name="foo" content="baz">` element to the html head. Useful
+ * for [com.vaadin.flow.server.BootstrapListener] as a replacement for
+ * [com.vaadin.flow.server.PageConfigurator]'s [InitialPageSettings.addMetaTag].
+ */
+@Deprecated("use function from karibu-tools once 0.5 is out")
+fun Element.addMetaTag(name: String, content: String): Element =
+    appendElement("meta").attr("name", name).attr("content", content)
