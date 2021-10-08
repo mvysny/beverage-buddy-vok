@@ -45,6 +45,7 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
+    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.5")
     implementation("com.zaxxer:HikariCP:4.0.3")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 

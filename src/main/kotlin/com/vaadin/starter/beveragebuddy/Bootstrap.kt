@@ -1,5 +1,6 @@
 package com.vaadin.starter.beveragebuddy
 
+import com.github.mvysny.kaributools.addMetaTag
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
 import com.vaadin.flow.server.InitialPageSettings
 import com.vaadin.flow.server.ServiceInitEvent
@@ -81,12 +82,3 @@ class MyServiceInitListener : VaadinServiceInitListener {
         }
     }
 }
-
-/**
- * Appends a `<meta name="foo" content="baz">` element to the html head. Useful
- * for [com.vaadin.flow.server.BootstrapListener] as a replacement for
- * [com.vaadin.flow.server.PageConfigurator]'s [InitialPageSettings.addMetaTag].
- */
-@Deprecated("use function from karibu-tools once 0.5 is out")
-fun Element.addMetaTag(name: String, content: String): Element =
-    appendElement("meta").attr("name", name).attr("content", content)
