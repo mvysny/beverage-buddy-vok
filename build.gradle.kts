@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.11.1"
+val vaadinonkotlin_version = "0.11.2"
 val vaadin_version = "14.7.2"
 
 plugins {
@@ -45,7 +45,6 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
-    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.5")
     implementation("com.zaxxer:HikariCP:4.0.3")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
@@ -56,7 +55,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // db
-    implementation("org.flywaydb:flyway-core:7.14.1")
+    implementation("org.flywaydb:flyway-core:8.0.1")
     implementation("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
 
     // REST

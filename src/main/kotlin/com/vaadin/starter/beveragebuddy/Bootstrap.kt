@@ -2,7 +2,6 @@ package com.vaadin.starter.beveragebuddy
 
 import com.github.mvysny.kaributools.addMetaTag
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
-import com.vaadin.flow.server.InitialPageSettings
 import com.vaadin.flow.server.ServiceInitEvent
 import com.vaadin.flow.server.VaadinServiceInitListener
 import eu.vaadinonkotlin.VaadinOnKotlin
@@ -11,7 +10,6 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
 import org.h2.Driver
-import org.jsoup.nodes.Element
 import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener

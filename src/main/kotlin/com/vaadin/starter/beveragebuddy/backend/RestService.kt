@@ -1,9 +1,6 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import eu.vaadinonkotlin.rest.configureToJavalin
-import eu.vaadinonkotlin.rest.crud2
-import eu.vaadinonkotlin.rest.getCrudHandler
-import com.google.gson.GsonBuilder
+import eu.vaadinonkotlin.rest.*
 import io.javalin.Javalin
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
@@ -17,7 +14,7 @@ import javax.servlet.http.HttpServletResponse
 class JavalinRestServlet : HttpServlet() {
     val javalin = Javalin.createStandalone()
             .configureRest()
-            .servlet()
+            .javalinServlet()
 
     override fun service(req: HttpServletRequest, resp: HttpServletResponse) {
         javalin.service(req, resp)
@@ -25,8 +22,7 @@ class JavalinRestServlet : HttpServlet() {
 }
 
 fun Javalin.configureRest(): Javalin {
-    val gson = GsonBuilder().create()
-    gson.configureToJavalin()
+    gsonMapper(VokRest.gson)
     get("/rest/categories") { ctx -> ctx.json(Category.findAll()) }
     crud2("/rest/reviews", Review.getCrudHandler(false))
     return this
