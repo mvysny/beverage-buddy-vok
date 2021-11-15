@@ -45,6 +45,7 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
+    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.7")
     implementation("com.zaxxer:HikariCP:4.0.3")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
@@ -62,7 +63,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.5")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.7")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.22")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
