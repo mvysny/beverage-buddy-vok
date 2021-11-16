@@ -8,8 +8,7 @@ import com.gitlab.mvysny.jdbiorm.Dao
  * @property id
  * @property name the category name
  */
-// must be open: https://github.com/vaadin/flow/issues/2636
-open class Category(override var id: Long? = null, open var name: String = "") : KEntity<Long> {
+class Category(override var id: Long? = null, var name: String = "") : KEntity<Long> {
 
     companion object : Dao<Category, Long>(Category::class.java) {
         fun findByName(name: String): Category? = findOneBy { Category::name eq name }
