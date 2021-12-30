@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.11.2"
-val vaadin_version = "14.8.0"
+val vaadin_version = "14.8.1"
 
 plugins {
     kotlin("jvm") version "1.6.10"
     id("org.gretty") version "3.0.6"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "0.14.7.5"
+    id("com.vaadin") version "0.14.8.1"
 }
 
 defaultTasks("clean", "build")
@@ -63,7 +63,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.7")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.8")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.22")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
