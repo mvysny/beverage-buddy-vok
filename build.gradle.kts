@@ -45,7 +45,7 @@ dependencies {
     }
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
-    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.7")
+    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.8")
     implementation("com.zaxxer:HikariCP:4.0.3")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
@@ -56,14 +56,14 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // db
-    implementation("org.flywaydb:flyway-core:8.0.1")
-    implementation("com.h2database:h2:1.4.200") // remove this and replace it with a database driver of your choice.
+    implementation("org.flywaydb:flyway-core:8.4.1")
+    implementation("com.h2database:h2:2.0.206") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.8")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.9")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.22")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
