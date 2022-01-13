@@ -2,6 +2,10 @@ package com.vaadin.starter.beveragebuddy
 
 import com.github.mvysny.kaributools.addMetaTag
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
+import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.page.AppShellConfigurator
+import com.vaadin.flow.component.page.BodySize
+import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.server.ServiceInitEvent
 import com.vaadin.flow.server.VaadinServiceInitListener
 import eu.vaadinonkotlin.VaadinOnKotlin
@@ -74,9 +78,14 @@ class Bootstrap: ServletContextListener {
  */
 class MyServiceInitListener : VaadinServiceInitListener {
     override fun serviceInit(event: ServiceInitEvent) {
-        event.addBootstrapListener {
+        event.addIndexHtmlRequestListener {
             it.document.head().addMetaTag("apple-mobile-web-app-capable", "yes")
             it.document.head().addMetaTag("apple-mobile-web-app-status-bar-style", "black")
         }
     }
 }
+
+@BodySize(width = "100vw", height = "100vh")
+@CssImport("./styles/shared-styles.css")
+@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
+class AppShell: AppShellConfigurator

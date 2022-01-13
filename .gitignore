@@ -10,3 +10,5 @@ target
 node_modules
 webpack.generated.js
 pnpmfile.js
+frontend/generated
+.npmrc

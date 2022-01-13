@@ -24,8 +24,8 @@ import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
-import eu.vaadinonkotlin.vaadin10.vokdb.toId
-import eu.vaadinonkotlin.vaadin10.vokdb.withStringFilterOn
+import eu.vaadinonkotlin.vaadin.vokdb.toId
+import eu.vaadinonkotlin.vaadin.vokdb.withStringFilterOn
 import java.time.LocalDate
 
 /**

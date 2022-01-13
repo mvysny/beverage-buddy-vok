@@ -33,7 +33,7 @@ import com.vaadin.starter.beveragebuddy.backend.withFilterText
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
-import eu.vaadinonkotlin.vaadin10.vokdb.setDataLoader
+import eu.vaadinonkotlin.vaadin.vokdb.setDataLoader
 
 /**
  * Displays the list of available categories, with a search filter as well as
