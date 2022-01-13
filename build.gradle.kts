@@ -41,7 +41,7 @@ dependencies {
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
     implementation("com.github.mvysny.karibu-tools:karibu-tools:0.8")
-    implementation("com.zaxxer:HikariCP:4.0.3")
+    implementation("com.zaxxer:HikariCP:5.0.1")
     providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
     implementation(kotlin("stdlib-jdk8"))
@@ -64,7 +64,7 @@ dependencies {
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
 
     // heroku app runner
-    staging("com.heroku:webapp-runner-main:9.0.52.0")
+    staging("com.heroku:webapp-runner-main:9.0.52.1")
 }
 
 tasks.withType<KotlinCompile> {
