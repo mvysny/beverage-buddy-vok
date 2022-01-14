@@ -42,7 +42,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
     implementation("com.github.mvysny.karibu-tools:karibu-tools:0.8")
     implementation("com.zaxxer:HikariCP:5.0.1")
-    providedCompile("javax.servlet:javax.servlet-api:3.1.0")
+    providedCompile("javax.servlet:javax.servlet-api:4.0.1")
 
     implementation(kotlin("stdlib-jdk8"))
 
@@ -59,9 +59,9 @@ dependencies {
 
     // testing
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.9")
-    testImplementation("com.github.mvysny.dynatest:dynatest:0.22")
+    testImplementation("com.github.mvysny.dynatest:dynatest:0.23")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
-    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.43.v20210629")
+    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.44.v20210927") // vok-rest uses Javalin 4.3.0 which depends on Jetty 9.x
 
     // heroku app runner
     staging("com.heroku:webapp-runner-main:9.0.52.1")
