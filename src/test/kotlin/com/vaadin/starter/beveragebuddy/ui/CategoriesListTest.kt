@@ -2,6 +2,7 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
@@ -17,6 +18,7 @@ import kotlin.test.expect
 /**
  * Properly configures the app in the test context, so that the app is properly initialized, and the database is emptied before every test.
  */
+@DynaTestDsl
 fun DynaNodeGroup.usingApp() {
     beforeGroup { Bootstrap().contextInitialized(null) }
     afterGroup { Bootstrap().contextDestroyed(null) }
