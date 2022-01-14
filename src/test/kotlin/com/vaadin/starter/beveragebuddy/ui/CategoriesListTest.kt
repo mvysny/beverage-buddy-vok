@@ -15,6 +15,10 @@ import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
 import kotlin.test.expect
 
+// since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
+// and populate the RouteRegistry properly.
+private val routes = Routes().autoDiscoverViews("com.vaadin.starter")
+
 /**
  * Properly configures the app in the test context, so that the app is properly initialized, and the database is emptied before every test.
  */
@@ -23,9 +27,7 @@ fun DynaNodeGroup.usingApp() {
     beforeGroup { Bootstrap().contextInitialized(null) }
     afterGroup { Bootstrap().contextDestroyed(null) }
 
-    // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
-    // and populate the RouteRegistry properly.
-    beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
+    beforeEach { MockVaadin.setup(routes) }
     afterEach { MockVaadin.tearDown() }
 
     // it's a good practice to clear up the db before every test, to start every test with a predefined state.
