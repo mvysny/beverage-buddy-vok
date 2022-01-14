@@ -59,7 +59,7 @@ class ReviewEditorForm : EditorForm<Review> {
             isAllowCustomValue = false
 
             // provide the list of options as a DataProvider, providing instances of Category
-            setDataProvider(Category.dataLoader.withStringFilterOn(Category::name))
+            setItems(Category.dataLoader.withStringFilterOn(Category::name))
 
             // bind the combo box to the Review::category field so that changes done by the user are stored.
             bind(binder).toId().bind(Review::category)
