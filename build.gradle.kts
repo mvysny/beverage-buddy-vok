@@ -37,7 +37,10 @@ tasks.withType<Test> {
 val staging by configurations.creating
 
 dependencies {
-    implementation("com.vaadin:vaadin-core:$vaadin_version")
+    implementation("com.vaadin:vaadin-core:$vaadin_version") {
+        exclude(module = "fusion-endpoint") // exclude fusion: it brings tons of dependencies (including swagger)
+    }
+    
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
     implementation("com.github.mvysny.karibu-tools:karibu-tools:0.8")
