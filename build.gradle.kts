@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.12.1"
-val vaadin_version = "23.0.6"
+val vaadin_version = "23.0.11"
 
 plugins {
     kotlin("jvm") version "1.6.21"
     id("org.gretty") version "3.0.6"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "23.0.6"
+    id("com.vaadin") version "23.0.11"
 }
 
 defaultTasks("clean", "build")
@@ -43,7 +43,7 @@ dependencies {
     
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
-    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.10")
+    implementation("com.github.mvysny.karibu-tools:karibu-tools:0.11")
     implementation("com.zaxxer:HikariCP:5.0.1")
     providedCompile("javax.servlet:javax.servlet-api:4.0.1")
 
@@ -61,7 +61,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.12")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.13")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.44.v20210927") // vok-rest uses Javalin 4.3.0 which depends on Jetty 9.x
