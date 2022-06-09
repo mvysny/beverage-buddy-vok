@@ -5,20 +5,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.12.1"
-val vaadin_version = "23.0.11"
+val vaadin_version = "23.1.0"
 
 plugins {
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.0"
     id("org.gretty") version "3.0.6"  // https://github.com/gretty-gradle-plugin/gretty
     war
-    id("com.vaadin") version "23.0.11"
+    id("com.vaadin") version "23.1.0"
 }
 
 defaultTasks("clean", "build")
 
 repositories {
     mavenCentral()
-    maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
 }
 
 gretty {
@@ -37,9 +36,7 @@ tasks.withType<Test> {
 val staging by configurations.creating
 
 dependencies {
-    implementation("com.vaadin:vaadin-core:$vaadin_version") {
-        exclude(module = "fusion-endpoint") // exclude fusion: it brings tons of dependencies (including swagger)
-    }
+    implementation("com.vaadin:vaadin-core:$vaadin_version")
     
     // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
@@ -51,11 +48,11 @@ dependencies {
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:1.7.32")
+    implementation("org.slf4j:slf4j-simple:1.7.36")
 
     // db
-    implementation("org.flywaydb:flyway-core:8.4.1")
-    implementation("com.h2database:h2:2.1.210") // remove this and replace it with a database driver of your choice.
+    implementation("org.flywaydb:flyway-core:8.5.12")
+    implementation("com.h2database:h2:2.1.212") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
