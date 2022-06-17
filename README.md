@@ -2,10 +2,10 @@
 [![Join the chat at https://gitter.im/vaadin/vaadin-on-kotlin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/vaadin-on-kotlin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=beverage-buddy-vok&style=flat&svg=1)](https://beverage-buddy-vok.herokuapp.com/)
 
-# Beverage Buddy App Starter for Vaadin 14
+# Beverage Buddy App Starter for Vaadin
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
 
-This is a Vaadin 14 [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application,
+This is a [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application,
 used to demonstrate features of the Vaadin Flow Java framework.
 A full-stack app: uses the H2 database instead of a dummy service.
 
@@ -18,7 +18,7 @@ The Starter demonstrates the core Vaadin Flow concepts:
 * [Browserless testing](https://github.com/mvysny/karibu-testing): see the
   [test suite package](src/test/kotlin/com/vaadin/starter/beveragebuddy/ui) for the complete test implementation.
 
-This version of Beverage Buddy demoes the possibility of developing a Vaadin 14
+This version of Beverage Buddy demoes the possibility of developing a Vaadin
 web application purely server-side in the Kotlin language. There is no
 JavaScript code in this project. If you'd like to see
 a demo on how to create Polymer Templates, please head to the page of the
@@ -30,7 +30,7 @@ You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokua
 
 # Preparing Environment
 
-The Vaadin 14 build requires node.js and npm. Vaadin Gradle plugin will install those
+The Vaadin build requires node.js and npm. Vaadin Gradle plugin will install those
 for you automatically (handy for the CI); alternatively you can install those to your OS:
 
 * Windows: [node.js Download site](https://nodejs.org/en/download/) - use the .msi 64-bit installer
@@ -60,7 +60,7 @@ option for a real development.
 
 ## Supported Modes
 
-Runs in Vaadin 14 npm mode, using the [Vaadin Gradle Plugin](https://github.com/vaadin/vaadin-gradle-plugin).
+Runs in Vaadin npm mode, using the [Vaadin Gradle Plugin](https://github.com/vaadin/vaadin-gradle-plugin).
 
 Both the [development and production modes](https://vaadin.com/docs/v14/flow/production/tutorial-production-mode-basic.html) are supported.
 To prepare for development mode, just run:
@@ -126,7 +126,7 @@ Let's look at all files that this project is composed of, and what are the point
 
 ## More Documentation
 
-For Vaadin 14 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v14/flow/Overview.html).
+For Vaadin documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v14/flow/Overview.html).
 
 For Vaadin-on-Kotlin documentation, head to [Vaadin-on-Kotlin](http://vaadinonkotlin.eu).
 
