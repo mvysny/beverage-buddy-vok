@@ -157,4 +157,6 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
             }
         }
     }
+
+    override fun toString(): String = "ReviewItem($review)"
 }

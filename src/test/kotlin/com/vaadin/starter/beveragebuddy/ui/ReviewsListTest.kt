@@ -2,6 +2,7 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.kaributesting.v23.expectRows
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.combobox.ComboBox
@@ -18,7 +19,7 @@ class ReviewsListTest : DynaTest({
     usingApp()
 
     test("no reviews initially") {
-        expect(0) { _get<VirtualList<ReviewWithCategory>>().dataProvider._size() }
+        _get<VirtualList<ReviewWithCategory>>().expectRows(0)
     }
 
     test("reviews listed") {
@@ -26,7 +27,7 @@ class ReviewsListTest : DynaTest({
         val cat = Category(name = "Beers")
         cat.save()
         Review(score = 1, name = "Good!", category = cat.id).save()
-        expect(1) { _get<VirtualList<ReviewWithCategory>>().dataProvider._size() }
+        _get<VirtualList<ReviewWithCategory>>().expectRows(1)
     }
 
     test("'new review' smoke test") {
@@ -58,6 +59,7 @@ class ReviewsListTest : DynaTest({
         expectNotifications("Beverage successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
+        _get<VirtualList<ReviewWithCategory>>().expectRows(1)
         val review = Review.findAll().single()
         expect("Test") { review.name }
         expect(3) { review.score }
