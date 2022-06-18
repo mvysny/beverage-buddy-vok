@@ -263,10 +263,7 @@ body {
 }
 
 .review__edit {
-    align-self: flex-start;
-    flex: none;
     margin: 0 0 0 auto;
-    width: 5em;
 }
 
 .reviews {
