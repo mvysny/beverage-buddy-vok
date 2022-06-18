@@ -51,7 +51,7 @@ class ReviewsList : KComposite() {
         { this.delete(it) })
 
     private val root = ui {
-        verticalLayout(false) {
+        verticalLayout(false, false) {
             content { align(stretch, top) }
             toolbar = toolbarView("New review") {
                 onSearch = { updateList() }
