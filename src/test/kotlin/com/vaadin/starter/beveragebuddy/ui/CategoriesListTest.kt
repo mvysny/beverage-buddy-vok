@@ -5,6 +5,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
+import com.github.mvysny.kaributools.navigateTo
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
@@ -43,19 +44,21 @@ class CategoriesListTest : DynaTest({
 
     usingApp()
 
+    beforeEach {
+        // navigate to the "Categories" list route.
+        navigateTo<CategoriesList>()
+    }
+
     test("grid lists all categories") {
         // prepare testing data
         Category(name = "Beers").save()
-        // navigate to the "Categories" list route.
-        UI.getCurrent().navigate("categories")
 
         // now the "Categories" list should be displayed. Look up the Grid and assert on its contents.
         val grid = _get<Grid<*>>()
-        expect(1) { grid.dataProvider._size() }
+        grid.expectRows(1)
     }
 
     test("create new category") {
-        UI.getCurrent().navigate("categories")
         _get<Button> { caption = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
@@ -73,7 +76,6 @@ class CategoriesListTest : DynaTest({
 
     test("edit existing category") {
         val cat: Category = Category(name = "Beers").apply { save() }
-        UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         grid._clickRenderer(0, "edit")
@@ -85,7 +87,6 @@ class CategoriesListTest : DynaTest({
 
     test("edit existing category via context menu") {
         val cat: Category = Category(name = "Beers").apply { save() }
-        UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
@@ -97,7 +98,6 @@ class CategoriesListTest : DynaTest({
 
     test("delete existing category via context menu") {
         val cat: Category = Category(name = "Beers").apply { save() }
-        UI.getCurrent().navigate("categories")
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)

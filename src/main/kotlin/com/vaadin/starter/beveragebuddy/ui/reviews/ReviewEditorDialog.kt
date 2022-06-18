@@ -41,10 +41,8 @@ class ReviewEditorForm : EditorForm<Review> {
             // no need to have validators here: they are automatically picked up from the bean field.
             bind(binder).trimmingConverter().bind(Review::name)
         }
-        textField("Times tasted") {
-            pattern = "[0-9]*"
-            isPreventInvalidInput = true
-            bind(binder).toInt().bind(Review::count)
+        integerField("Times tasted") {
+            bind(binder).bind(Review::count)
         }
         comboBox<Category>("Choose a category") {
             // we need to show a list of options for the user to choose from. For every option we need to retain at least:
