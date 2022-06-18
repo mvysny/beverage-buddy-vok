@@ -16,6 +16,8 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v23.footer
+import com.github.mvysny.karibudsl.v23.header
 import com.github.mvysny.kaributools.setPrimary
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
@@ -148,46 +150,4 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
             Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
     }
-}
-
-/**
- * Populates the dialog footer:
- * ```kotlin
- * dialog.footer {
- *   button("Save") { }
- * }
- * ```
- */
-@VaadinDsl
-fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("footer element is not accessible")
-
-        override fun add(vararg components: Component) {
-            this@footer.footer.add(*components)
-        }
-    }
-    block(f)
-}
-
-/**
- * Populates the dialog header:
- * ```kotlin
- * dialog.header {
- *   h3("Title")
- * }
- * ```
- */
-@VaadinDsl
-fun Dialog.header(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("header element is not accessible")
-
-        override fun add(vararg components: Component) {
-            this@header.header.add(*components)
-        }
-    }
-    block(f)
 }

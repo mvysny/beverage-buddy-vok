@@ -16,6 +16,7 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.vokdataloader.DataLoader
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
@@ -156,16 +157,4 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
             }
         }
     }
-}
-
-@VaadinDsl
-public fun <T : Any?> (@VaadinDsl HasComponents).virtualList(
-    dataProvider: DataProvider<T, *>? = null,
-    block: (@VaadinDsl VirtualList<T>).() -> Unit = {}
-): VirtualList<T> {
-    val vl = VirtualList<T>()
-    if (dataProvider != null) {
-        vl.dataProvider = dataProvider
-    }
-    return init(vl, block)
 }
