@@ -17,6 +17,7 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.vokdataloader.DataLoader
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -24,6 +25,8 @@ import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
+import com.vaadin.flow.component.virtuallist.VirtualList
+import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -45,13 +48,13 @@ class ReviewsList : KComposite() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var header: H3
-    private lateinit var reviewsGrid: Grid<ReviewWithCategory>
+    private lateinit var reviewsGrid: VirtualList<ReviewWithCategory>
     private val editDialog = ReviewEditorDialog(
         { review-> save(review) },
         { this.delete(it) })
 
     private val root = ui {
-        verticalLayout(false, false) {
+        verticalLayout(false) {
             content { align(stretch, top) }
             toolbar = toolbarView("New review") {
                 onSearch = { updateList() }
@@ -60,15 +63,13 @@ class ReviewsList : KComposite() {
             header = h3 {
                 setId("header")
             }
-            reviewsGrid = grid {
-                isExpand = true
+            reviewsGrid = virtualList {
                 addClassName("reviews")
-                addThemeVariants(GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_NO_BORDER)
-                addColumn(ComponentRenderer<ReviewItem, ReviewWithCategory>({ review ->
+                setRenderer(ComponentRenderer<ReviewItem, ReviewWithCategory> { review ->
                     val item = ReviewItem(review)
                     item.onEdit = { editDialog.edit(Review.getById(review.id!!)) }
                     item
-                }))
+                })
             }
         }
     }
@@ -155,4 +156,16 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
             }
         }
     }
+}
+
+@VaadinDsl
+public fun <T : Any?> (@VaadinDsl HasComponents).virtualList(
+    dataProvider: DataProvider<T, *>? = null,
+    block: (@VaadinDsl VirtualList<T>).() -> Unit = {}
+): VirtualList<T> {
+    val vl = VirtualList<T>()
+    if (dataProvider != null) {
+        vl.dataProvider = dataProvider
+    }
+    return init(vl, block)
 }
