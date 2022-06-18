@@ -264,6 +264,11 @@ body {
 
 .review__edit {
     margin: 0 0 0 auto;
+    width: 6em;
+}
+
+.category__edit {
+    margin: 0 0 0 auto;
 }
 
 .reviews {
@@ -300,21 +305,6 @@ h3 {
 
 vaadin-form-layout {
     max-width: 30em;
-}
-
-.buttons {
-    padding: var(--lumo-space-s) var(--lumo-space-l);
-    margin: calc(var(--lumo-space-l) * -1);
-    margin-top: var(--lumo-space-l);
-    border-top: 1px solid var(--lumo-contrast-10pct);
-}
-
-.buttons > :last-child {
-    margin-left: auto;
-}
-
-.buttons > :nth-last-child(2) {
-    margin-right: var(--lumo-space-m);
 }
 
 .confirm-buttons {

@@ -67,10 +67,13 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
             frame.close()
             onDeleteItem(item)
         } else {
-            val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
-            ConfirmationDialog().open("Delete Category “${item.name}”?",
-                    "There are $reviewCount reviews associated with this category.",
-                    additionalMessage, "Delete", true) {
+            ConfirmationDialog().open(
+                "Delete Category “${item.name}”?",
+                "There are $reviewCount reviews associated with this category.",
+                "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.",
+                "Delete",
+                true
+            ) {
                 frame.close()
                 onDeleteItem(item)
             }

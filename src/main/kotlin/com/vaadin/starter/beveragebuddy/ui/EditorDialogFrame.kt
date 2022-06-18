@@ -17,13 +17,16 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.setPrimary
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
-import com.vaadin.flow.component.html.H2
+import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
+import com.vaadin.flow.dom.Element
 import com.vaadin.flow.shared.Registration
 import java.io.Serializable
 
@@ -58,7 +61,7 @@ interface EditorForm<T : Serializable> {
  */
 class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dialog() {
 
-    private val titleField: H2
+    private lateinit var titleField: H3
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var deleteButton: Button
@@ -85,7 +88,9 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
 
-        titleField = h2()
+        header {
+            titleField = h3()
+        }
         div {
             // form layout wrapper
             addClassName("has-padding")
@@ -99,9 +104,7 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
                 addClassName("no-padding")
             }
         }
-        horizontalLayout {
-            // button bar
-            className = "buttons"
+        footer {
             saveButton = button("Save") {
                 isAutofocus = true
                 setPrimary()
@@ -145,4 +148,46 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
             Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
     }
+}
+
+/**
+ * Populates the dialog footer:
+ * ```kotlin
+ * dialog.footer {
+ *   button("Save") { }
+ * }
+ * ```
+ */
+@VaadinDsl
+fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
+    val f = object : HasComponents {
+        override fun getElement(): Element =
+            throw UnsupportedOperationException("footer element is not accessible")
+
+        override fun add(vararg components: Component) {
+            this@footer.footer.add(*components)
+        }
+    }
+    block(f)
+}
+
+/**
+ * Populates the dialog header:
+ * ```kotlin
+ * dialog.header {
+ *   h3("Title")
+ * }
+ * ```
+ */
+@VaadinDsl
+fun Dialog.header(block: (@VaadinDsl HasComponents).() -> Unit) {
+    val f = object : HasComponents {
+        override fun getElement(): Element =
+            throw UnsupportedOperationException("header element is not accessible")
+
+        override fun add(vararg components: Component) {
+            this@header.header.add(*components)
+        }
+    }
+    block(f)
 }
