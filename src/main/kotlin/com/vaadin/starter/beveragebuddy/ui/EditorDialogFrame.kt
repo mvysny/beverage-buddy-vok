@@ -19,8 +19,6 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.footer
 import com.github.mvysny.karibudsl.v23.header
 import com.github.mvysny.kaributools.setPrimary
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
@@ -28,8 +26,6 @@ import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
-import com.vaadin.flow.dom.Element
-import com.vaadin.flow.shared.Registration
 import java.io.Serializable
 
 /**
@@ -46,7 +42,8 @@ interface EditorForm<T : Serializable> {
      */
     val binder: Binder<T>
     /**
-     * Contains all form UI fields.
+     * A component which hosts all UI fields. The fields themselves are modified
+     * via [binder].
      */
     val component: FormLayout
 }
@@ -67,7 +64,6 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var deleteButton: Button
-    private var registrationForSave: Registration? = null
 
     /**
      * The item currently being edited.
@@ -76,7 +72,7 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         private set
 
     /**
-     * Callback to save the edited item. The dialog frame is closed automatically.
+     * Callback after the edited item has been saved/created. The dialog frame is closed automatically.
      */
     lateinit var onSaveItem: (item: T)->Unit
 
@@ -121,6 +117,10 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         }
     }
 
+    init {
+        saveButton.addClickListener { saveClicked() }
+    }
+
     /**
      * Opens given item for editing in this dialog.
      *
@@ -131,23 +131,21 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         currentItem = item
         val operation = if (creating) "Add new" else "Edit"
         titleField.text = "$operation ${form.itemType}"
-        if (registrationForSave != null) {
-            registrationForSave!!.remove()
-        }
-        registrationForSave = saveButton.addClickListener { saveClicked() }
         form.binder.readBean(currentItem)
 
-        deleteButton.isEnabled = !creating
+        deleteButton.isVisible = !creating
+        saveButton.text = if (creating) "Create" else "Save"
         open()
     }
 
     private fun saveClicked() {
-        if (form.binder.writeBeanIfValid(currentItem!!)) {
+        // form.binder.isValid won't set `isInvalid` and `errorMessage` of invalid components - avoid.
+        // use form.binder.validate() instead.
+        if (form.binder.validate().isOk && form.binder.writeBeanIfValid(currentItem!!)) {
             onSaveItem(currentItem!!)
             close()
         } else {
-            val status = form.binder.validate()
-            Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
+            Notification.show("There are errors in the form", 3000, Notification.Position.BOTTOM_START)
         }
     }
 }

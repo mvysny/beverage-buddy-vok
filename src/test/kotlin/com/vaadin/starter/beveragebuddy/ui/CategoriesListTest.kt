@@ -67,7 +67,7 @@ class CategoriesListTest : DynaTest({
         // do the happy flow: fill in the form with valid values and click "Save"
         _get<TextField> { caption = "Category Name" } .value = "Beer"
         clearNotifications()
-        _get<Button> { caption = "Save" } ._click()
+        _get<Button> { caption = "Create" } ._click()
         expectNotifications("Category successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close

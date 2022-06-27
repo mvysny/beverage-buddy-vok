@@ -18,6 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.mvysny.karibudsl.v10.*
 import com.github.vokorm.dataloader.dataLoader
 import com.vaadin.flow.component.formlayout.FormLayout
+import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
@@ -65,7 +66,6 @@ class ReviewEditorForm : EditorForm<Review> {
         datePicker("Choose the date") {
             max = LocalDate.now()
             min = LocalDate.of(1, 1, 1)
-            value = LocalDate.now()
             bind(binder).bind(Review::date)
         }
         comboBox<String>("Mark a score") {
@@ -78,10 +78,9 @@ class ReviewEditorForm : EditorForm<Review> {
 
 /**
  * A dialog for editing [Review] objects.
- * @property onSaveItem Callback to save the edited item
- * @property onDeleteItem Callback to delete the edited item
+ * @property onReviewsChanged Callback when an item has been created/saved/deleted
  */
-class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val onDeleteItem: (Review) -> Unit) {
+class ReviewEditorDialog(private val onReviewsChanged: (Review) -> Unit) {
     fun createNew() {
         edit(Review())
     }
@@ -94,14 +93,22 @@ class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val o
             "Delete",
             true
         ) {
+            item.delete()
+            Notification.show("Beverage successfully deleted.", 3000, Notification.Position.BOTTOM_START)
             frame.close()
-            onDeleteItem(item)
+            onReviewsChanged(item)
         }
     }
 
     fun edit(review: Review) {
         val frame: EditorDialogFrame<Review> = EditorDialogFrame(ReviewEditorForm())
-        frame.onSaveItem = onSaveItem
+        frame.onSaveItem = {
+            val creating: Boolean = review.id == null
+            review.save()
+            val op = if (creating) "added" else "saved"
+            Notification.show("Beverage successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
+            onReviewsChanged(review)
+        }
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
         frame.open(review, review.id == null)
     }

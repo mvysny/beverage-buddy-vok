@@ -14,7 +14,7 @@ import javax.validation.constraints.*
  * @property name the beverage name
  * @property score the score, 1..5, 1 being worst, 5 being best
  * @property date when the review was done
- * @property category the beverage category [Category.id]
+ * @property category the beverage category [Category.id]. May be null if the category has been deleted.
  * @property count times tasted, 1..99
  */
 // must be open: https://github.com/vaadin/flow/issues/2636
@@ -33,6 +33,7 @@ open class Review(override var id: Long? = null,
                   @field:PastOrPresent
                   open var date: LocalDate = LocalDate.now(),
 
+                  @field:NotNull
                   open var category: Long? = null,
 
                   @field:NotNull

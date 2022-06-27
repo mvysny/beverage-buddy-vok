@@ -18,16 +18,11 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.vokdataloader.DataLoader
-import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
-import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.virtuallist.VirtualList
-import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -50,9 +45,7 @@ class ReviewsList : KComposite() {
     private lateinit var toolbar: Toolbar
     private lateinit var header: H3
     private lateinit var reviewsGrid: VirtualList<ReviewWithCategory>
-    private val editDialog = ReviewEditorDialog(
-        { review-> save(review) },
-        { this.delete(it) })
+    private val editDialog = ReviewEditorDialog { updateList() }
 
     private val root = ui {
         verticalLayout(false) {
@@ -77,20 +70,6 @@ class ReviewsList : KComposite() {
 
     init {
         updateList()
-    }
-
-    private fun save(review: Review) {
-        val creating: Boolean = review.id == null
-        review.save()
-        val op = if (creating) "added" else "saved"
-        updateList()
-        Notification.show("Beverage successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
-    }
-
-    private fun delete(review: Review) {
-        review.delete()
-        updateList()
-        Notification.show("Beverage successfully deleted.", 3000, Notification.Position.BOTTOM_START)
     }
 
     private fun updateList() {
