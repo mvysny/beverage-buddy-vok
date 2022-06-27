@@ -52,9 +52,7 @@ class CategoriesList : KComposite() {
     // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
 
-    private val editorDialog = CategoryEditorDialog(
-        { category -> saveCategory(category) },
-        { deleteCategory(it) })
+    private val editorDialog = CategoryEditorDialog { updateView() }
 
     private val root = ui {
         verticalLayout(false) {
@@ -118,14 +116,6 @@ class CategoriesList : KComposite() {
             header.text = "Categories"
         }
         grid.setDataLoader(dp)
-    }
-
-    private fun saveCategory(category: Category) {
-        val creating: Boolean = category.id == null
-        category.save()
-        val op: String = if (creating) "added" else "saved"
-        Notification.show("Category successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
-        updateView()
     }
 
     private fun deleteCategory(category: Category) {

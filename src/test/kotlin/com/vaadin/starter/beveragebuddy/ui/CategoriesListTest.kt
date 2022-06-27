@@ -6,7 +6,6 @@ import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributools.navigateTo
-import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.TextField
@@ -54,8 +53,9 @@ class CategoriesListTest : DynaTest({
         Category(name = "Beers").save()
 
         // now the "Categories" list should be displayed. Look up the Grid and assert on its contents.
-        val grid = _get<Grid<*>>()
+        val grid = _get<Grid<Category>>()
         grid.expectRows(1)
+        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
     }
 
     test("create new category") {
@@ -63,15 +63,6 @@ class CategoriesListTest : DynaTest({
 
         // make sure that the "New Category" dialog is opened
         _get<EditorDialogFrame<*>>()
-
-        // do the happy flow: fill in the form with valid values and click "Save"
-        _get<TextField> { caption = "Category Name" } .value = "Beer"
-        clearNotifications()
-        _get<Button> { caption = "Create" } ._click()
-        expectNotifications("Category successfully added.")
-
-        _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
-        expectList("Beer") { Category.findAll().map { it.name } }
     }
 
     test("edit existing category") {
@@ -103,5 +94,6 @@ class CategoriesListTest : DynaTest({
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
         expectList() { Category.findAll() }
         _get<Grid<Category>>().expectRows(0)
+        expectNotifications("Category successfully deleted.")
     }
 })

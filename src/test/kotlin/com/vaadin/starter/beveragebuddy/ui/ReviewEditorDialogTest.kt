@@ -2,15 +2,12 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.kaributesting.v23.expectRows
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
-import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
-import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
 import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewEditorDialog
 import kotlin.test.expect
 

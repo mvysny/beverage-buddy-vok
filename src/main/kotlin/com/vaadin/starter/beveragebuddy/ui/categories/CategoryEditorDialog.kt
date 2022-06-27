@@ -19,6 +19,7 @@ import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.karibudsl.v10.trimmingConverter
 import com.vaadin.flow.component.formlayout.FormLayout
+import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.BeanValidationBinder
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.validator.StringLengthValidator
@@ -56,16 +57,13 @@ class CategoryEditorForm(val category: Category) : EditorForm<Category> {
 
 /**
  * Opens dialogs for editing [Category] objects.
- * @property onSaveItem Callback to save the edited item
- * @property onDeleteItem Callback to delete the edited item
+ * @property onCategoriesChanged called when a category has been created/edited/deleted.
  */
-class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
-                           private val onDeleteItem: (Category) -> Unit) {
+class CategoryEditorDialog(private val onCategoriesChanged: (Category) -> Unit) {
     private fun maybeDelete(frame: EditorDialogFrame<Category>, item: Category) {
         val reviewCount = Review.getTotalCountForReviewsInCategory(item.id!!).toInt()
         if (reviewCount == 0) {
-            frame.close()
-            onDeleteItem(item)
+            delete(frame, item)
         } else {
             ConfirmationDialog().open(
                 "Delete Category “${item.name}”?",
@@ -74,10 +72,16 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
                 "Delete",
                 true
             ) {
-                frame.close()
-                onDeleteItem(item)
+                delete(frame, item)
             }
         }
+    }
+
+    private fun delete(frame: EditorDialogFrame<Category>, item: Category) {
+        item.delete()
+        Notification.show("Category successfully deleted.", 3000, Notification.Position.BOTTOM_START)
+        frame.close()
+        onCategoriesChanged(item)
     }
 
     fun createNew() {
@@ -86,7 +90,13 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
 
     fun edit(category: Category) {
         val frame = EditorDialogFrame(CategoryEditorForm(category))
-        frame.onSaveItem = onSaveItem
+        frame.onSaveItem = {
+            val creating: Boolean = category.id == null
+            category.save()
+            val op: String = if (creating) "added" else "saved"
+            Notification.show("Category successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
+            onCategoriesChanged(category)
+        }
         frame.onDeleteItem = { item -> maybeDelete(frame, item) }
         frame.open(category, category.id == null)
     }
