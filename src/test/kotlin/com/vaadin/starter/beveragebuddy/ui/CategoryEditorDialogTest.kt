@@ -2,11 +2,9 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.kaributools.navigateTo
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.backend.Category
-import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoryEditorDialog
 import kotlin.test.expect
 
@@ -16,11 +14,6 @@ import kotlin.test.expect
 class CategoryEditorDialogTest : DynaTest({
 
     usingApp()
-
-    beforeEach {
-        // navigate to the "Categories" list route.
-        navigateTo<CategoriesList>()
-    }
 
     test("create new category") {
         CategoryEditorDialog {} .createNew()
