@@ -59,7 +59,7 @@ class CategoriesListTest : DynaTest({
     }
 
     test("create new category") {
-        _get<Button> { caption = "New category (Alt+N)" } ._click()
+        _get<Button> { text = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
         _get<EditorDialogFrame<*>>()
@@ -73,7 +73,7 @@ class CategoriesListTest : DynaTest({
 
         // make sure that the "Edit Category" dialog is opened
         _get<EditorDialogFrame<*>>()
-        expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
+        expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
     test("edit existing category via context menu") {
@@ -84,7 +84,7 @@ class CategoriesListTest : DynaTest({
 
         // make sure that the "Edit Category" dialog is opened
         _get<EditorDialogFrame<*>>()
-        expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
+        expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
     test("delete existing category via context menu") {
