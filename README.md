@@ -1,6 +1,5 @@
 [![Powered By Vaadin on Kotlin](http://vaadinonkotlin.eu/iconography/vok_badge.svg)](http://vaadinonkotlin.eu)
 [![Join the chat at https://gitter.im/vaadin/vaadin-on-kotlin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/vaadin-on-kotlin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=beverage-buddy-vok&style=flat&svg=1)](https://beverage-buddy-vok.herokuapp.com/)
 
 # Beverage Buddy App Starter for Vaadin
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
@@ -23,10 +22,6 @@ web application purely server-side in the Kotlin language. There is no
 JavaScript code in this project. If you'd like to see
 a demo on how to create Polymer Templates, please head to the page of the
 [original Beverage Buddy App](https://github.com/vaadin/beverage-starter-flow) (in Java).
-
-## Live Demo
-
-You can find the [Online Beverage Buddy Demo](https://beverage-buddy-vok.herokuapp.com) running on Heroku.
 
 # Preparing Environment
 
@@ -103,8 +98,6 @@ Let's look at all files that this project is composed of, and what are the point
 | ----- | -------
 | [build.gradle.kts](build.gradle.kts) | [Gradle](https://gradle.org/) build tool configuration files. Gradle is used to compile your app, download all dependency jars and build a war file
 | [gradlew](gradlew), [gradlew.bat](gradlew.bat), [gradle/](gradle) | Gradle runtime files, so that you can build your app from command-line simply by running `./gradlew`, without having to download and install Gradle distribution yourself.
-| [.travis.yml](.travis.yml) | Configuration file for [Travis-CI](http://travis-ci.org/) which tells Travis how to build the app. Travis watches your repo; it automatically builds your app and runs all the tests after every commit.
-| [Procfile](Procfile) | Tells [Heroku](https://www.heroku.com/) hosting service how to run your app in a cloud. See below on how to deploy your app on Heroku for free.
 | [.gitignore](.gitignore) | Tells [Git](https://git-scm.com/) to ignore files that can be produced from your app's sources - be it files produced by Gradle, Intellij project files etc.
 | [src/main/resources/](src/main/resources) | A bunch of static files not compiled by Kotlin in any way; see below for explanation.
 | [simplelogger.properties](src/main/resources/logback.xml) | We're using [Slf4j](https://www.slf4j.org/) for logging and this is the configuration file for Slf4j
