@@ -1,4 +1,4 @@
-# Allows you to run this app easily in a docker image.
+# Allows you to run this app easily as a docker container.
 # See README.md for more details.
 #
 # 1. Build the image with: docker build --no-cache -t test/beverage-buddy-vok:latest .
