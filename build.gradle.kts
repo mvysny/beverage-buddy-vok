@@ -33,8 +33,6 @@ tasks.withType<Test> {
     }
 }
 
-val staging by configurations.creating
-
 dependencies {
     implementation("com.vaadin:vaadin-core:$vaadin_version")
     
@@ -62,9 +60,6 @@ dependencies {
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
     testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.44.v20210927") // vok-rest uses Javalin 4.3.0 which depends on Jetty 9.x
-
-    // heroku app runner
-    staging("com.heroku:webapp-runner-main:9.0.52.1")
 }
 
 tasks.withType<KotlinCompile> {
@@ -76,21 +71,3 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-// Heroku
-tasks {
-    val copyToLib by registering(Copy::class) {
-        into("$buildDir/server")
-        from(staging) {
-            include("webapp-runner*")
-        }
-    }
-    val stage by registering {
-        dependsOn("build", copyToLib)
-    }
-}
-
-vaadin {
-    if (gradle.startParameter.taskNames.contains("stage")) {
-        productionMode = true
-    }
-}
