@@ -9,8 +9,7 @@ val vaadin_version = "23.2.6"
 
 plugins {
     kotlin("jvm") version "1.7.20"
-    id("org.gretty") version "3.0.6"  // https://github.com/gretty-gradle-plugin/gretty
-    war
+    id("application")
     id("com.vaadin") version "23.2.6"
 }
 
@@ -18,11 +17,6 @@ defaultTasks("clean", "build")
 
 repositories {
     mavenCentral()
-}
-
-gretty {
-    contextPath = "/"
-    servletContainer = "jetty9.4"
 }
 
 tasks.withType<Test> {
@@ -70,3 +64,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
+application {
+    mainClass.set("com.vaadin.starter.beveragebuddy.BootstrapKt")
+}
