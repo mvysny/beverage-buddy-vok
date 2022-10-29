@@ -25,5 +25,5 @@ a demo on how to create Polymer Templates, please head to the page of the
 
 # Documentation
 
-Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot) documentation
+Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot#preparing-environment) documentation
 on how you run, develop and package this Vaadin-Boot-based app.
