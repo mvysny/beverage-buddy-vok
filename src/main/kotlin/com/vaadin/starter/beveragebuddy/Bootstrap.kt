@@ -1,6 +1,7 @@
 package com.vaadin.starter.beveragebuddy
 
 import com.github.mvysny.kaributools.addMetaTag
+import com.github.mvysny.vaadinboot.VaadinBoot
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.page.AppShellConfigurator
@@ -89,3 +90,10 @@ class MyServiceInitListener : VaadinServiceInitListener {
 @CssImport("./styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 class AppShell: AppShellConfigurator
+
+/**
+ * Run this function to launch your app in Embedded Jetty.
+ */
+fun main(vararg args: String) {
+    VaadinBoot().withArgs(args).run()
+}

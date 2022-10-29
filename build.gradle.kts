@@ -34,15 +34,15 @@ tasks.withType<Test> {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+
+    // Vaadin
     implementation("com.vaadin:vaadin-core:$vaadin_version")
-    
-    // Vaadin-on-Kotlin dependency, includes Vaadin
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
     implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:1.1.3")
-    implementation("com.zaxxer:HikariCP:5.0.1")
-    providedCompile("javax.servlet:javax.servlet-api:4.0.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.1")
 
-    implementation(kotlin("stdlib-jdk8"))
+    implementation("com.zaxxer:HikariCP:5.0.1")
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
@@ -59,7 +59,6 @@ dependencies {
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:1.3.21")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
-    testImplementation("org.eclipse.jetty.websocket:websocket-server:9.4.44.v20210927") // vok-rest uses Javalin 4.3.0 which depends on Jetty 9.x
 }
 
 tasks.withType<KotlinCompile> {

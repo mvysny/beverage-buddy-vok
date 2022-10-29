@@ -1,6 +1,8 @@
 package com.vaadin.starter.beveragebuddy.backend
 
+import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import eu.vaadinonkotlin.restclient.exec
 import eu.vaadinonkotlin.restclient.jsonArray
@@ -9,6 +11,9 @@ import eu.vaadinonkotlin.restclient.OkHttpClientVokPlugin
 import io.javalin.Javalin
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.util.resource.EmptyResource
+import org.eclipse.jetty.webapp.WebAppContext
 
 /**
  * Uses the VoK `vok-rest-client` module for help with testing of the REST endpoints. See docs on the
@@ -29,19 +34,27 @@ class PersonRestClient(val baseUrl: String) {
     }
 }
 
+@DynaTestDsl
+fun DynaNodeGroup.usingJavalin() {
+    lateinit var server: Server
+    beforeGroup {
+        val ctx = WebAppContext()
+        ctx.baseResource = EmptyResource.INSTANCE
+        ctx.addServlet(JavalinRestServlet::class.java, "/rest/*")
+        server = Server(9876)
+        server.handler = ctx
+        server.start()
+    }
+    afterGroup { server.stop() }
+}
+
 /**
  * The REST test. It bootstraps the app, then it starts Javalin with Jetty so that we can access it via the
  * [PersonRestClient].
  */
 class RestServiceTest : DynaTest({
     usingApp()
-
-    lateinit var javalin: Javalin
-    beforeGroup {
-        javalin = Javalin.create()
-        javalin.configureRest().start(9876)
-    }
-    afterGroup { javalin.stop() }
+    usingJavalin()
 
     lateinit var client: PersonRestClient
     beforeEach { client = PersonRestClient("http://localhost:9876/rest") }

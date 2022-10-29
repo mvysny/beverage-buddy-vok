@@ -12,18 +12,13 @@ import javax.servlet.http.HttpServletResponse
  */
 @WebServlet(urlPatterns = ["/rest/*"], name = "JavalinRestServlet", asyncSupported = false)
 class JavalinRestServlet : HttpServlet() {
-    val javalin = Javalin.createStandalone()
-            .configureRest()
-            .javalinServlet()
+    val javalin = Javalin.createStandalone().apply {
+        gsonMapper(VokRest.gson)
+        get("/rest/categories") { ctx -> ctx.json(Category.findAll()) }
+        crud2("/rest/reviews", Review.getCrudHandler(false))
+    }.javalinServlet()
 
     override fun service(req: HttpServletRequest, resp: HttpServletResponse) {
         javalin.service(req, resp)
     }
-}
-
-fun Javalin.configureRest(): Javalin {
-    gsonMapper(VokRest.gson)
-    get("/rest/categories") { ctx -> ctx.json(Category.findAll()) }
-    crud2("/rest/reviews", Review.getCrudHandler(false))
-    return this
 }
