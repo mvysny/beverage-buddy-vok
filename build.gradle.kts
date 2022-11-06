@@ -44,7 +44,7 @@ dependencies {
 
     // db
     implementation("org.flywaydb:flyway-core:9.5.1")
-    implementation("com.h2database:h2:2.1.212") // remove this and replace it with a database driver of your choice.
+    implementation("com.h2database:h2:2.1.214") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
