@@ -23,6 +23,8 @@ JavaScript code in this project. If you'd like to see
 a demo on how to create Polymer Templates, please head to the page of the
 [original Beverage Buddy App](https://github.com/vaadin/beverage-starter-flow) (in Java).
 
+See the [online demo](https://v-herd.eu/beverage-buddy-vok/).
+
 # Documentation
 
 Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot#preparing-environment) documentation
