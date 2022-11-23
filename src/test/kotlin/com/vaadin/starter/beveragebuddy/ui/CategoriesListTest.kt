@@ -62,7 +62,7 @@ class CategoriesListTest : DynaTest({
         _get<Button> { text = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
     }
 
     test("edit existing category") {
@@ -72,7 +72,7 @@ class CategoriesListTest : DynaTest({
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
         expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
@@ -83,7 +83,7 @@ class CategoriesListTest : DynaTest({
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
         expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
@@ -92,6 +92,8 @@ class CategoriesListTest : DynaTest({
         val grid = _get<Grid<Category>>()
         grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
+
+        // check that the category has been deleted in the database.
         expectList() { Category.findAll() }
         _get<Grid<Category>>().expectRows(0)
         expectNotifications("Category successfully deleted.")

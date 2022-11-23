@@ -19,7 +19,7 @@ class CategoryEditorDialogTest : DynaTest({
         CategoryEditorDialog {} .createNew()
 
         // make sure that the "New Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
 
         // do the happy flow: fill in the form with valid values and click "Save"
         _get<TextField> { label = "Category Name" } .value = "Beer"
