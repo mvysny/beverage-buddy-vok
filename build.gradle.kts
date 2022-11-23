@@ -8,7 +8,7 @@ val vaadinonkotlin_version = "0.14.0"
 val vaadin_version = "23.2.7"
 
 plugins {
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm") version "1.7.21"
     id("application")
     id("com.vaadin") version "23.2.7"
 }
@@ -43,7 +43,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.0")
 
     // db
-    implementation("org.flywaydb:flyway-core:9.5.1")
+    implementation("org.flywaydb:flyway-core:9.8.1")
     implementation("com.h2database:h2:2.1.214") // remove this and replace it with a database driver of your choice.
 
     // REST
