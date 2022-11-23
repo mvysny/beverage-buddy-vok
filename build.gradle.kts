@@ -65,5 +65,5 @@ java {
 }
 
 application {
-    mainClass.set("com.vaadin.starter.beveragebuddy.BootstrapKt")
+    mainClass.set("com.vaadin.starter.beveragebuddy.MainKt")
 }

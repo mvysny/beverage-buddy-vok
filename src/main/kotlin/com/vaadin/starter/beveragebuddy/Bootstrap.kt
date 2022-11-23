@@ -90,10 +90,3 @@ class MyServiceInitListener : VaadinServiceInitListener {
 @CssImport("./styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 class AppShell: AppShellConfigurator
-
-/**
- * Run this function to launch your app in Embedded Jetty.
- */
-fun main(vararg args: String) {
-    VaadinBoot().withArgs(args).run()
-}
