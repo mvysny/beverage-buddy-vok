@@ -17,7 +17,7 @@ import kotlin.test.expect
 
 // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
 // and populate the RouteRegistry properly.
-private val routes = Routes().autoDiscoverViews("com.vaadin.starter")
+private val routes = Routes().autoDiscoverViews("com.vaadin.starter.beveragebuddy")
 
 /**
  * Properly configures the app in the test context, so that the app is properly initialized, and the database is emptied before every test.
