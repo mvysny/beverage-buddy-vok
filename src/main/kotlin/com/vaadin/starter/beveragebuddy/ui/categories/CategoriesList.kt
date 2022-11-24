@@ -109,7 +109,7 @@ class CategoriesList : KComposite() {
 
     private fun updateView() {
         var dp: DataLoader<Category> = Category.dataLoader
-        if (!toolbar.searchText.isBlank()) {
+        if (toolbar.searchText.isNotBlank()) {
             dp = dp.withFilter { Category::name istartsWith toolbar.searchText }
             header.text = "Search for “${toolbar.searchText}”"
         } else {
