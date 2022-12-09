@@ -5,12 +5,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.14.1"
-val vaadin_version = "23.2.8"
+val vaadin_version = "23.2.11"
 
 plugins {
     kotlin("jvm") version "1.7.21"
     id("application")
-    id("com.vaadin") version "23.2.8"
+    id("com.vaadin") version "23.2.11"
 }
 
 defaultTasks("clean", "build")
@@ -50,7 +50,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:1.3.21")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:1.3.23")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
 }
