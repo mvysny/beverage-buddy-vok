@@ -55,7 +55,7 @@ class CategoriesListTest : DynaTest({
         // now the "Categories" list should be displayed. Look up the Grid and assert on its contents.
         val grid = _get<Grid<Category>>()
         grid.expectRows(1)
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
     }
 
     test("create new category") {
@@ -68,7 +68,7 @@ class CategoriesListTest : DynaTest({
     test("edit existing category") {
         val cat: Category = Category(name = "Beers").apply { save() }
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
@@ -79,7 +79,7 @@ class CategoriesListTest : DynaTest({
     test("edit existing category via context menu") {
         val cat: Category = Category(name = "Beers").apply { save() }
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
@@ -90,7 +90,7 @@ class CategoriesListTest : DynaTest({
     test("delete existing category via context menu") {
         val cat: Category = Category(name = "Beers").apply { save() }
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
 
         // check that the category has been deleted in the database.
