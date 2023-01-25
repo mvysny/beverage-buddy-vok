@@ -5,12 +5,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.14.1"
-val vaadin_version = "23.3.4"
+val vaadin_version = "23.3.5"
 
 plugins {
     kotlin("jvm") version "1.8.0"
     id("application")
-    id("com.vaadin") version "23.3.4"
+    id("com.vaadin") version "23.3.5"
 }
 
 defaultTasks("clean", "build")
@@ -40,7 +40,7 @@ dependencies {
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:2.0.0")
+    implementation("org.slf4j:slf4j-simple:2.0.4")
 
     // db
     implementation("org.flywaydb:flyway-core:9.8.1")
