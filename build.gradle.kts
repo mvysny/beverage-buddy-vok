@@ -34,7 +34,7 @@ dependencies {
     implementation("com.vaadin:vaadin-core:$vaadin_version")
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
     implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:1.1.3")
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.3")
 
     implementation("com.zaxxer:HikariCP:5.0.1")
 
