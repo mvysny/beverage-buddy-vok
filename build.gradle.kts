@@ -31,8 +31,16 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     // Vaadin
-    implementation("com.vaadin:vaadin-core:$vaadin_version")
-    implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version")
+    implementation("com.vaadin:vaadin-core:$vaadin_version") {
+        afterEvaluate {
+            if (vaadin.productionMode) {
+                exclude(module = "vaadin-dev-server")
+            }
+        }
+    }
+    implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version") {
+        exclude(module = "vaadin-core")
+    }
     implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:1.1.3")
     implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.3")
 
