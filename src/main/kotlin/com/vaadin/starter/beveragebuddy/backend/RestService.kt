@@ -2,10 +2,10 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import eu.vaadinonkotlin.rest.*
 import io.javalin.Javalin
-import javax.servlet.annotation.WebServlet
-import javax.servlet.http.HttpServlet
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.annotation.WebServlet
+import jakarta.servlet.http.HttpServlet
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 /**
  * Provides access to person list. To test, just run `curl http://localhost:8080/rest/categories`

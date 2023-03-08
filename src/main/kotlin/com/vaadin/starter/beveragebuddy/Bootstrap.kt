@@ -1,7 +1,6 @@
 package com.vaadin.starter.beveragebuddy
 
 import com.github.mvysny.kaributools.addMetaTag
-import com.github.mvysny.vaadinboot.VaadinBoot
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.page.AppShellConfigurator
@@ -9,6 +8,7 @@ import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.server.ServiceInitEvent
 import com.vaadin.flow.server.VaadinServiceInitListener
+import com.vaadin.flow.theme.Theme
 import eu.vaadinonkotlin.VaadinOnKotlin
 import com.vaadin.starter.beveragebuddy.backend.DemoData
 import com.zaxxer.hikari.HikariConfig
@@ -16,9 +16,9 @@ import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
 import org.h2.Driver
 import org.slf4j.LoggerFactory
-import javax.servlet.ServletContextEvent
-import javax.servlet.ServletContextListener
-import javax.servlet.annotation.WebListener
+import jakarta.servlet.ServletContextEvent
+import jakarta.servlet.ServletContextListener
+import jakarta.servlet.annotation.WebListener
 
 /**
  * Boots the app:
@@ -87,6 +87,6 @@ class MyServiceInitListener : VaadinServiceInitListener {
 }
 
 @BodySize(width = "100vw", height = "100vh")
-@CssImport("./styles/shared-styles.css")
+@Theme("my-theme")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 class AppShell: AppShellConfigurator

@@ -11,8 +11,8 @@ import com.gitlab.mvysny.jdbiorm.Dao
 class Category(override var id: Long? = null, var name: String = "") : KEntity<Long> {
 
     companion object : Dao<Category, Long>(Category::class.java) {
-        fun findByName(name: String): Category? = findOneBy { Category::name eq name }
-        fun getByName(name: String): Category = getOneBy { Category::name eq name }
+        fun findByName(name: String): Category? = findSingleBy { Category::name eq name }
+        fun getByName(name: String): Category = singleBy { Category::name eq name }
         fun existsWithName(name: String): Boolean = findByName(name) != null
         override fun deleteAll() {
             db {

@@ -27,6 +27,6 @@ class CategoryEditorDialogTest : DynaTest({
         expectNotifications("Category successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
-        expect("Beer") { Category.one!!.name }
+        expect("Beer") { Category.single().name }
     }
 })

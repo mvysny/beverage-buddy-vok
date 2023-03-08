@@ -62,7 +62,7 @@ class ReviewEditorDialogTest : DynaTest({
         expectNotifications("Beverage successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
-        val review = Review.one!!
+        val review = Review.single()
         expect("Test") { review.name }
         expect(3) { review.score }
         expect(cat.id) { review.category }

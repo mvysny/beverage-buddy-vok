@@ -4,13 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.14.1"
-val vaadin_version = "23.3.5"
+val vaadinonkotlin_version = "0.15.0"
+val vaadin_version = "24.0.0"
 
 plugins {
     kotlin("jvm") version "1.8.0"
     id("application")
-    id("com.vaadin") version "23.3.5"
+    id("com.vaadin") version "24.0.0"
 }
 
 defaultTasks("clean", "build")
@@ -41,14 +41,14 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version") {
         exclude(module = "vaadin-core")
     }
-    implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:1.1.3")
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.3")
+//    implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:2.0.0")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.0")
 
     implementation("com.zaxxer:HikariCP:5.0.1")
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:2.0.4")
+    implementation("org.slf4j:slf4j-simple:2.0.6")
 
     // db
     implementation("org.flywaydb:flyway-core:9.8.1")
@@ -58,7 +58,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:1.3.23")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:2.0.2")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
 }
