@@ -41,7 +41,6 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version") {
         exclude(module = "vaadin-core")
     }
-//    implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:2.0.0")
     implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.0")
 
     implementation("com.zaxxer:HikariCP:5.0.1")
