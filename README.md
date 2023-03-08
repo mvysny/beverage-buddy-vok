@@ -6,7 +6,7 @@
 
 This is a [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application,
 used to demonstrate features of the Vaadin Flow Java framework.
-A full-stack app: uses the H2 database instead of a dummy service.
+A full-stack app: uses the H2 database instead of a dummy service. Requires Java 17+.
 
 The Starter demonstrates the core Vaadin Flow concepts:
 * [Building UIs in Kotlin](https://github.com/mvysny/karibu-dsl) with components
