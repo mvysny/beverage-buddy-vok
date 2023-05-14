@@ -8,7 +8,7 @@ val vaadinonkotlin_version = "0.15.0"
 val vaadin_version = "24.0.5"
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
     id("application")
     id("com.vaadin") version "24.0.5"
 }
