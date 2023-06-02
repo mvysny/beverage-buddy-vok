@@ -7,7 +7,4 @@ local.properties
 out
 
 target
-node_modules
-vite.generated.ts
 frontend/generated
-.npmrc
