@@ -57,7 +57,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v24:2.0.2")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v24:2.1.0")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
 }
