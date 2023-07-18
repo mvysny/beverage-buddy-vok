@@ -5,12 +5,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 val vaadinonkotlin_version = "0.15.0"
-val vaadin_version = "24.1.0"
+val vaadin_version = "24.1.3"
 
 plugins {
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.9.0"
     id("application")
-    id("com.vaadin") version "24.1.0"
+    id("com.vaadin") version "24.1.3"
 }
 
 defaultTasks("clean", "build")
