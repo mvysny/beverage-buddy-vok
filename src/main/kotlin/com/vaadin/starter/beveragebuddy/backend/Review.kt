@@ -17,7 +17,6 @@ import jakarta.validation.constraints.*
  * @property category the beverage category [Category.id]. May be null if the category has been deleted.
  * @property count times tasted, 1..99
  */
-// must be open: https://github.com/vaadin/flow/issues/2636
 open class Review(override var id: Long? = null,
                   
                   @field:NotNull
