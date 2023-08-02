@@ -51,11 +51,11 @@ dependencies {
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:2.0.6")
+    implementation("org.slf4j:slf4j-simple:2.0.7")
 
     // db
-    implementation("org.flywaydb:flyway-core:9.15.2")
-    implementation("com.h2database:h2:2.1.214") // remove this and replace it with a database driver of your choice.
+    implementation("org.flywaydb:flyway-core:9.16.0")
+    implementation("com.h2database:h2:2.2.220") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:${properties["vokVersion"]}")
