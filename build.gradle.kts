@@ -4,13 +4,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
-val vaadinonkotlin_version = "0.15.0"
-val vaadin_version = "24.1.3"
+buildscript {
+    // fix for https://github.com/mvysny/vaadin-boot-example-gradle/issues/3
+    dependencies {
+        classpath("com.vaadin:vaadin-prod-bundle:${project.properties["vaadinVersion"]}")
+    }
+}
 
 plugins {
     kotlin("jvm") version "1.9.0"
     id("application")
-    id("com.vaadin") version "24.1.3"
+    id("com.vaadin")
 }
 
 defaultTasks("clean", "build")
@@ -31,14 +35,14 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     // Vaadin
-    implementation("com.vaadin:vaadin-core:$vaadin_version") {
+    implementation("com.vaadin:vaadin-core:${properties["vaadinVersion"]}") {
         afterEvaluate {
             if (vaadin.productionMode) {
                 exclude(module = "vaadin-dev")
             }
         }
     }
-    implementation("eu.vaadinonkotlin:vok-framework-vokdb:$vaadinonkotlin_version") {
+    implementation("eu.vaadinonkotlin:vok-framework-vokdb:${properties["vokVersion"]}") {
         exclude(module = "vaadin-core")
     }
     implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.3")
@@ -54,12 +58,12 @@ dependencies {
     implementation("com.h2database:h2:2.1.214") // remove this and replace it with a database driver of your choice.
 
     // REST
-    implementation("eu.vaadinonkotlin:vok-rest:$vaadinonkotlin_version")
+    implementation("eu.vaadinonkotlin:vok-rest:${properties["vokVersion"]}")
 
     // testing
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v24:2.1.0")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
-    testImplementation("eu.vaadinonkotlin:vok-rest-client:$vaadinonkotlin_version")
+    testImplementation("eu.vaadinonkotlin:vok-rest-client:${properties["vokVersion"]}")
 }
 
 tasks.withType<KotlinCompile> {
