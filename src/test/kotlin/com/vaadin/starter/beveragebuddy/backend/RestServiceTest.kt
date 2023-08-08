@@ -11,9 +11,8 @@ import eu.vaadinonkotlin.restclient.OkHttpClientVokPlugin
 import io.javalin.Javalin
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.eclipse.jetty.server.Server
-import org.eclipse.jetty.util.resource.EmptyResource
-import org.eclipse.jetty.webapp.WebAppContext
 
 /**
  * Uses the VoK `vok-rest-client` module for help with testing of the REST endpoints. See docs on the
@@ -39,7 +38,8 @@ fun DynaNodeGroup.usingJavalin() {
     lateinit var server: Server
     beforeGroup {
         val ctx = WebAppContext()
-        ctx.baseResource = EmptyResource.INSTANCE
+        // This used to be EmptyResource, but it got removed in Jetty 12. Let's use some dummy resource instead.
+        ctx.baseResource = ctx.resourceFactory.newClassPathResource("java/lang/String.class")
         ctx.addServlet(JavalinRestServlet::class.java, "/rest/*")
         server = Server(9876)
         server.handler = ctx
