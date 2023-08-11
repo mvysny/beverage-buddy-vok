@@ -19,6 +19,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.footer
 import com.github.mvysny.karibudsl.v23.header
 import com.github.mvysny.kaributools.setPrimary
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
@@ -29,7 +30,8 @@ import com.vaadin.flow.data.binder.Binder
 import java.io.Serializable
 
 /**
- * The editor form which edits beans of type [T]. The UI is contained in [component] and all fields are referenced
+ * The editor form which edits beans of type [T]. This class is a Vaadin component
+ * (usually a [FormLayout]) which contains the fields. All fields are also referenced
  * via [binder]. Nest this into the [EditorDialogFrame].
  */
 interface EditorForm<T : Serializable> {
@@ -41,11 +43,6 @@ interface EditorForm<T : Serializable> {
      * All form fields are registered to this binder.
      */
     val binder: Binder<T>
-    /**
-     * A component which hosts all UI fields. The fields themselves are modified
-     * via [binder].
-     */
-    val component: FormLayout
 }
 
 /**
@@ -89,19 +86,7 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         header {
             titleField = h3()
         }
-        div {
-            // form layout wrapper
-            addClassName("has-padding")
-
-            add(form.component)
-            form.component.apply {
-                setResponsiveSteps(
-                        FormLayout.ResponsiveStep("0", 1),
-                        FormLayout.ResponsiveStep("50em", 2)
-                )
-                addClassName("no-padding")
-            }
-        }
+        add(form as Component)
         footer {
             saveButton = button("Save") {
                 isAutofocus = true

@@ -32,11 +32,15 @@ import java.time.LocalDate
 /**
  * A dialog for editing [Review] objects.
  */
-class ReviewEditorForm : EditorForm<Review> {
+class ReviewEditorForm : FormLayout(), EditorForm<Review> {
     override val itemType: String get() = "Review"
+    // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
     override val binder: Binder<Review> = beanValidationBinder()
-    override val component: FormLayout = FormLayout().apply {
-        // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
+
+    init {
+        responsiveSteps {
+            "0"(1); "50em"(2)
+        }
 
         textField("Beverage name") {
             // no need to have validators here: they are automatically picked up from the bean field.
