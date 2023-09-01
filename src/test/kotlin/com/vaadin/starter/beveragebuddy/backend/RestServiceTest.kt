@@ -4,15 +4,11 @@ import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
-import eu.vaadinonkotlin.restclient.exec
-import eu.vaadinonkotlin.restclient.jsonArray
 import com.vaadin.starter.beveragebuddy.ui.usingApp
-import eu.vaadinonkotlin.restclient.OkHttpClientVokPlugin
-import io.javalin.Javalin
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import eu.vaadinonkotlin.restclient.*
 import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.eclipse.jetty.server.Server
+import java.net.http.HttpClient
 
 /**
  * Uses the VoK `vok-rest-client` module for help with testing of the REST endpoints. See docs on the
@@ -22,13 +18,13 @@ class PersonRestClient(val baseUrl: String) {
     init {
         require(!baseUrl.endsWith("/")) { "$baseUrl must not end with a slash" }
     }
-    private val client: OkHttpClient = OkHttpClientVokPlugin.okHttpClient!!
+    private val client: HttpClient = HttpClientVokPlugin.httpClient!!
     fun getAllCategories(): List<Category> {
-        val request = Request.Builder().url("$baseUrl/categories").build()
+        val request = "$baseUrl/categories".buildUrl().buildRequest()
         return client.exec(request) { response -> response.jsonArray(Category::class.java) }
     }
     fun getAllReviews(): List<Review> {
-        val request = Request.Builder().url("$baseUrl/reviews").build()
+        val request = "$baseUrl/reviews".buildUrl().buildRequest()
         return client.exec(request) { response -> response.jsonArray(Review::class.java) }
     }
 }
