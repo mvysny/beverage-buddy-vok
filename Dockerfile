@@ -8,14 +8,12 @@
 
 # The "Build" stage. Copies the entire project into the container, into the /app/ folder, and builds it.
 FROM eclipse-temurin:17 AS BUILD
-RUN apt update && apt install unzip -y
 COPY . /app/
 WORKDIR /app/
-RUN ./gradlew clean test --no-daemon --info --stacktrace
 RUN ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
 WORKDIR /app/build/distributions/
 RUN ls -la
-RUN unzip app.zip
+RUN tar xvf app.tar
 # At this point, we have the app (executable bash scrip plus a bunch of jars) in the
 # /app/build/distributions/app/ folder.
 
