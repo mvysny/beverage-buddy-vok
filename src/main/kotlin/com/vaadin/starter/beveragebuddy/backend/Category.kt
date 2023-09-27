@@ -2,13 +2,21 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.vokorm.*
 import com.gitlab.mvysny.jdbiorm.Dao
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
 
 /**
  * Represents a beverage category.
  * @property id
  * @property name the category name
  */
-class Category(override var id: Long? = null, var name: String = "") : KEntity<Long> {
+class Category(
+    override var id: Long? = null,
+
+    @field:NotBlank
+    var name: String = ""
+) : KEntity<Long> {
 
     companion object : Dao<Category, Long>(Category::class.java) {
         fun findByName(name: String): Category? = findSingleBy { Category::name eq name }
