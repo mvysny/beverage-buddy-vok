@@ -84,6 +84,20 @@ class MyServiceInitListener : VaadinServiceInitListener {
             it.document.head().addMetaTag("apple-mobile-web-app-status-bar-style", "black")
         }
     }
+
+    private fun initSession(session: VaadinSession) {
+        session.setErrorHandler {
+            log.error("Internal error", it.throwable)
+            val n = Notification.show("We're sorry, an internal error occurred", 3000, Notification.Position.TOP_CENTER)
+            n.addThemeVariants(NotificationVariant.LUMO_ERROR)
+            n.open()
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        private val log = LoggerFactory.getLogger(MyServiceInitListener::class.java)
+    }
 }
 
 @BodySize(width = "100vw", height = "100vh")
