@@ -3,11 +3,14 @@ package com.vaadin.starter.beveragebuddy
 import com.github.mvysny.kaributools.addMetaTag
 import com.gitlab.mvysny.jdbiorm.JdbiOrm
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.notification.Notification
+import com.vaadin.flow.component.notification.NotificationVariant
 import com.vaadin.flow.component.page.AppShellConfigurator
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.server.ServiceInitEvent
 import com.vaadin.flow.server.VaadinServiceInitListener
+import com.vaadin.flow.server.VaadinSession
 import com.vaadin.flow.theme.Theme
 import eu.vaadinonkotlin.VaadinOnKotlin
 import com.vaadin.starter.beveragebuddy.backend.DemoData
