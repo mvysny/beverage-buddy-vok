@@ -61,7 +61,7 @@ open class Review(override var id: Long? = null,
  * @property categoryName the [Category.name]
  */
 class ReviewWithCategory : Review() {
-    @ColumnName("c.name")
+    @ColumnName("categoryName")
     var categoryName: String? = null
     override fun toString() = super.toString() + "(category $categoryName)"
     companion object {
@@ -73,7 +73,6 @@ class ReviewWithCategory : Review() {
          */
         val dataLoader: DataLoader<ReviewWithCategory>
             // we need to use SQL alias here, since both r.name and c.name exist and H2 would complain of a name clash.
-            // yet luckily we can still address the column by c.name so both sorting and filtering will work.
         get() = SqlDataLoader(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
                 FROM Review r left join Category c on r.category = c.id
                 WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""")
