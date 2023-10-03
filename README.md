@@ -19,9 +19,7 @@ The Starter demonstrates the core Vaadin Flow concepts:
 
 This version of Beverage Buddy demoes the possibility of developing a Vaadin
 web application purely server-side in the Kotlin language. There is no
-JavaScript code in this project. If you'd like to see
-a demo on how to create Polymer Templates, please head to the page of the
-[original Beverage Buddy App](https://github.com/vaadin/beverage-starter-flow) (in Java).
+JavaScript code in this project. We use Vaadin to avoid touching JavaScript after all.
 
 See the [online demo](https://v-herd.eu/beverage-buddy-vok/).
 
@@ -45,3 +43,8 @@ entities are mapped to the database tables; inheriting from Entity and Dao
 will make it inherit bunch of useful methods such as `findAll()` and `save()`. It will also gain means of
 providing all of its instances via a `DataProvider`. See the [CategoriesList.kt](src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/categories/CategoriesList.kt)
 Grid configuration for details.
+
+## JOOQ
+
+For a JOOQ version of this app, please see [beverage-buddy-jooq](https://github.com/mvysny/beverage-buddy-jooq).
+
