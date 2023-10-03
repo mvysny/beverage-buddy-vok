@@ -32,6 +32,7 @@ import com.vaadin.starter.beveragebuddy.backend.withFilterText
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
+import eu.vaadinonkotlin.vaadin.setDataLoader
 import eu.vaadinonkotlin.vaadin.vokdb.setDataLoader
 
 /**
@@ -59,9 +60,9 @@ class ReviewsList : KComposite() {
             }
             reviewsGrid = virtualList {
                 addClassName("reviews")
-                setRenderer(ComponentRenderer<ReviewItem, ReviewWithCategory> { review ->
-                    val item = ReviewItem(review)
-                    item.onEdit = { editDialog.edit(Review.getById(review.id!!)) }
+                setRenderer(ComponentRenderer<ReviewItem, ReviewWithCategory> { row ->
+                    val item = ReviewItem(row)
+                    item.onEdit = { editDialog.edit(Review.getById(row.review!!.id!!)) }
                     item
                 })
             }
@@ -83,14 +84,15 @@ class ReviewsList : KComposite() {
             header.text = "Search for “${toolbar.searchText}”"
             header.add(Span("$size results"))
         }
-        reviewsGrid.setDataLoader(dp)
+        reviewsGrid.setDataLoader(dp) { it }
     }
 }
 
 /**
  * Shows a single row stripe with information about a single [ReviewWithCategory].
  */
-class ReviewItem(val review: ReviewWithCategory) : KComposite() {
+class ReviewItem(val row: ReviewWithCategory) : KComposite() {
+    val review: Review get() = row.review!!
     /**
      * Fired when this item is to be edited (the "Edit" button is pressed by the User).
      */
@@ -117,7 +119,7 @@ class ReviewItem(val review: ReviewWithCategory) : KComposite() {
                     if (review.category != null) {
                         element.themeList.add("badge small")
                         element.style.set("--category", review.category.toString())
-                        text = review.categoryName
+                        text = row.categoryName
                     } else {
                         element.style.set("--category", "-1")
                         text = "Undefined"
