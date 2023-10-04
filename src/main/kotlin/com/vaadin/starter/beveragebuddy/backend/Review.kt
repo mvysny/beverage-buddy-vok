@@ -5,7 +5,6 @@ import com.github.mvysny.vokdataloader.withFilter
 import com.github.vokorm.*
 import com.github.vokorm.dataloader.SqlDataLoader
 import com.gitlab.mvysny.jdbiorm.Dao
-import org.jdbi.v3.core.mapper.reflect.ColumnName
 import java.time.LocalDate
 import jakarta.validation.constraints.*
 import org.jdbi.v3.core.mapper.Nested
@@ -42,8 +41,6 @@ data class Review(override var id: Long? = null,
                   @field:Max(99)
                   var count: Int = 1) : KEntity<Long> {
     override fun toString() = "${javaClass.simpleName}(id=$id, score=$score, name='$name', date=$date, category=$category, count=$count)"
-
-    fun copy(): Review = Review(id, score, name, date, category, count)
 
     companion object : Dao<Review, Long>(Review::class.java) {
         /**
