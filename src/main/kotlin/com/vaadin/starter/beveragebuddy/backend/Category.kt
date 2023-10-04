@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull
  * @property id
  * @property name the category name
  */
-class Category(
+data class Category(
     override var id: Long? = null,
 
     @field:NotBlank
@@ -29,20 +29,6 @@ class Category(
             }
         }
     }
-
-    override fun toString() = "Category(id=$id, name='$name')"
-
-    fun copy() = Category(id, name)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as Category
-        if (id != other.id) return false
-        return true
-    }
-
-    override fun hashCode(): Int = id?.hashCode() ?: 0
 
     override fun delete() {
         db {
