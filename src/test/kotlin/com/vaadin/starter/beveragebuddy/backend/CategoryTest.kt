@@ -35,4 +35,10 @@ class CategoryTest : DynaTest({
             expect(null) { Review.single().category }
         }
     }
+
+    test("existsWithName()") {
+        expect(false) { Category.existsWithName("Foo") }
+        Category(name = "Foo").save()
+        expect(true) { Category.existsWithName("Foo") }
+    }
 })

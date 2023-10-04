@@ -21,7 +21,7 @@ data class Category(
     companion object : Dao<Category, Long>(Category::class.java) {
         fun findByName(name: String): Category? = findSingleBy { Category::name eq name }
         fun getByName(name: String): Category = singleBy { Category::name eq name }
-        fun existsWithName(name: String): Boolean = findByName(name) != null
+        fun existsWithName(name: String): Boolean = existsBy { Category::name eq name }
         override fun deleteAll() {
             db {
                 handle.createUpdate("update Review set category = NULL").execute()
