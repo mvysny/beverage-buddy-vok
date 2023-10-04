@@ -40,7 +40,6 @@ data class Review(override var id: Long? = null,
                   @field:Min(1)
                   @field:Max(99)
                   var count: Int = 1) : KEntity<Long> {
-    override fun toString() = "${javaClass.simpleName}(id=$id, score=$score, name='$name', date=$date, category=$category, count=$count)"
 
     companion object : Dao<Review, Long>(Review::class.java) {
         /**
