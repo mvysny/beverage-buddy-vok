@@ -86,6 +86,7 @@ class MyServiceInitListener : VaadinServiceInitListener {
             it.document.head().addMetaTag("apple-mobile-web-app-capable", "yes")
             it.document.head().addMetaTag("apple-mobile-web-app-status-bar-style", "black")
         }
+        event.source.addSessionInitListener { initSession(it.session) }
     }
 
     private fun initSession(session: VaadinSession) {
