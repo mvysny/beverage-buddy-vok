@@ -1,13 +1,11 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.dynatest.expectList
+import com.github.mvysny.dynatest.*
 import com.vaadin.starter.beveragebuddy.ui.usingApp
 import eu.vaadinonkotlin.restclient.*
 import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.eclipse.jetty.server.Server
+import java.io.FileNotFoundException
 import java.net.http.HttpClient
 
 /**
@@ -27,6 +25,10 @@ class PersonRestClient(val baseUrl: String) {
         val request = "$baseUrl/reviews".buildUrl().buildRequest()
         return client.exec(request) { response -> response.jsonArray(Review::class.java) }
     }
+    fun nonexistingEndpoint() {
+        val request = "$baseUrl/nonexisting".buildUrl().buildRequest()
+        client.exec(request) { }
+    }
 }
 
 @DynaTestDsl
@@ -35,7 +37,7 @@ fun DynaNodeGroup.usingJavalin() {
     beforeGroup {
         val ctx = WebAppContext()
         // This used to be EmptyResource, but it got removed in Jetty 12. Let's use some dummy resource instead.
-        ctx.baseResource = ctx.resourceFactory.newClassPathResource("java/lang/String.class")
+        ctx.baseResource = ctx.resourceFactory.newClassLoaderResource("java/lang/String.class")
         ctx.addServlet(JavalinRestServlet::class.java, "/rest/*")
         server = Server(9876)
         server.handler = ctx
@@ -61,5 +63,11 @@ class RestServiceTest : DynaTest({
 
     test("reviews smoke test") {
         expectList() { client.getAllReviews() }
+    }
+
+    test("404") {
+        expectThrows<FileNotFoundException> {
+            client.nonexistingEndpoint()
+        }
     }
 })
