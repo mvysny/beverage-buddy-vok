@@ -69,6 +69,8 @@ class Bootstrap: ServletContextListener {
         log.info("Shutting down");
         log.info("Destroying VaadinOnKotlin")
         VaadinOnKotlin.destroy()
+        log.info("Closing database connections")
+        JdbiOrm.destroy()
         log.info("Shutdown complete")
     }
 

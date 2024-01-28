@@ -16,7 +16,6 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.vokorm.dataloader.dataLoader
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
@@ -25,6 +24,7 @@ import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
+import eu.vaadinonkotlin.vaadin.vokdb.dataProvider
 import eu.vaadinonkotlin.vaadin.vokdb.toId
 import eu.vaadinonkotlin.vaadin.vokdb.withStringFilterOn
 import java.time.LocalDate
@@ -62,7 +62,7 @@ class ReviewEditorForm : FormLayout(), EditorForm<Review> {
             isAllowCustomValue = false
 
             // provide the list of options as a DataProvider, providing instances of Category
-            setItems(Category.dataLoader.withStringFilterOn(Category::name))
+            setItems(Category.dataProvider.withStringFilterOn(Category::name))
 
             // bind the combo box to the Review::category field so that changes done by the user are stored.
             bind(binder).toId().bind(Review::category)

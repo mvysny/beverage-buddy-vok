@@ -17,23 +17,21 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.virtualList
-import com.github.mvysny.vokdataloader.DataLoader
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.virtuallist.VirtualList
+import com.vaadin.flow.data.provider.Query
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewWithCategory
-import com.vaadin.starter.beveragebuddy.backend.withFilterText
+import com.vaadin.starter.beveragebuddy.backend.setFilterText
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
-import eu.vaadinonkotlin.vaadin.setDataLoader
-import eu.vaadinonkotlin.vaadin.vokdb.setDataLoader
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -48,6 +46,8 @@ class ReviewsList : KComposite() {
     private lateinit var reviewsGrid: VirtualList<ReviewWithCategory>
     private val editDialog = ReviewEditorDialog { updateList() }
 
+    private val dataProvider = ReviewWithCategory.dataProvider
+
     private val root = ui {
         verticalLayout(false) {
             content { align(stretch, top) }
@@ -58,7 +58,7 @@ class ReviewsList : KComposite() {
             header = h3 {
                 setId("header")
             }
-            reviewsGrid = virtualList {
+            reviewsGrid = virtualList(dataProvider) {
                 addClassName("reviews")
                 setRenderer(ComponentRenderer<ReviewItem, ReviewWithCategory> { row ->
                     val item = ReviewItem(row)
@@ -74,9 +74,8 @@ class ReviewsList : KComposite() {
     }
 
     private fun updateList() {
-        val dp: DataLoader<ReviewWithCategory> = ReviewWithCategory.dataLoader
-                .withFilterText(toolbar.searchText)
-        val size: Long = dp.getCount()
+        dataProvider.setFilterText(toolbar.searchText)
+        val size: Int = dataProvider.size(Query())
         if (toolbar.searchText.isBlank()) {
             header.text = "Reviews"
             header.add(Span("$size in total"))
@@ -84,7 +83,6 @@ class ReviewsList : KComposite() {
             header.text = "Search for “${toolbar.searchText}”"
             header.add(Span("$size results"))
         }
-        reviewsGrid.setDataLoader(dp) { it }
     }
 }
 

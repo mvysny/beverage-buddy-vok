@@ -12,8 +12,7 @@ import jakarta.servlet.http.HttpServletResponse
  */
 @WebServlet(urlPatterns = ["/rest/*"], name = "JavalinRestServlet", asyncSupported = false)
 class JavalinRestServlet : HttpServlet() {
-    val javalin = Javalin.createStandalone().apply {
-        gsonMapper(VokRest.gson)
+    val javalin = Javalin.createStandalone { it.gsonMapper(VokRest.gson) } .apply {
         get("/rest/categories") { ctx -> ctx.json(Category.findAll()) }
         crud2("/rest/reviews", Review.getCrudHandler(false))
     }.javalinServlet()

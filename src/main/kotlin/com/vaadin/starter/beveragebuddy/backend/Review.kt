@@ -1,13 +1,14 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.mvysny.vokdataloader.DataLoader
-import com.github.mvysny.vokdataloader.withFilter
 import com.github.vokorm.*
-import com.github.vokorm.dataloader.SqlDataLoader
 import com.gitlab.mvysny.jdbiorm.Dao
+import com.gitlab.mvysny.jdbiorm.DaoOfJoin
+import com.gitlab.mvysny.jdbiorm.condition.Condition
+import com.gitlab.mvysny.jdbiorm.vaadin.EntityDataProvider
 import java.time.LocalDate
 import jakarta.validation.constraints.*
 import org.jdbi.v3.core.mapper.Nested
+import org.jdbi.v3.core.mapper.reflect.ColumnName
 import java.io.Serializable
 
 /**
@@ -61,6 +62,7 @@ data class Review(override var id: Long? = null,
 data class ReviewWithCategory(
     @field:Nested
     var review: Review? = null,
+    @field:ColumnName("categoryName")
     var categoryName: String? = null
 ) : Serializable {
     companion object {
@@ -70,11 +72,10 @@ data class ReviewWithCategory(
          * This data provider provides sorting/paging/filtering and may be used for
          * SELECTs returning huge amount of data.
          */
-        val dataLoader: DataLoader<ReviewWithCategory>
+        val dataProvider: EntityDataProvider<ReviewWithCategory>
             // we need to use SQL alias here, since both r.name and c.name exist and H2 would complain of a name clash.
-        get() = SqlDataLoader(ReviewWithCategory::class.java, """select r.*, IFNULL(c.name, 'Undefined') as categoryName
-                FROM Review r left join Category c on r.category = c.id
-                WHERE 1=1 {{WHERE}} ORDER BY 1=1{{ORDER}} {{PAGING}}""")
+        get() = EntityDataProvider(DaoOfJoin(ReviewWithCategory::class.java, """select Review.*, IFNULL(c.name, 'Undefined') as categoryName
+                FROM Review left join Category c on Review.category = c.id"""))
     }
 }
 
@@ -82,15 +83,17 @@ data class ReviewWithCategory(
  * This utility function returns a new loader which searches for given [filter] text
  * in all [Review] and [ReviewWithCategory] fields.
  */
-fun DataLoader<ReviewWithCategory>.withFilterText(filter: String?): DataLoader<ReviewWithCategory> {
+fun EntityDataProvider<ReviewWithCategory>.setFilterText(filter: String?) {
     if (filter.isNullOrBlank()) {
-        return this
-    }
-    val normalizedFilter: String = filter.trim().lowercase() + "%"
-    return withFilter {
-        """r.name ILIKE :filter
+        this.filter = Condition.NO_CONDITION
+    } else {
+        val normalizedFilter: String = filter.trim().lowercase() + "%"
+        val c: Condition = buildCondition<ReviewWithCategory> {
+            """Review.name ILIKE :filter
                     or IFNULL(c.name, 'Undefined') ILIKE :filter
-                    or CAST(r.score as VARCHAR) ILIKE :filter
-                    or CAST(r.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to normalizedFilter)
+                    or CAST(Review.score as VARCHAR) ILIKE :filter
+                    or CAST(Review.count as VARCHAR) ILIKE :filter""".trimMargin()("filter" to normalizedFilter)
+        }
+        this.filter = c
     }
 }

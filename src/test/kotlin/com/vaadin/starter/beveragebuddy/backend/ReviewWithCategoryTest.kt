@@ -2,6 +2,7 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
+import com.vaadin.flow.data.provider.Query
 import com.vaadin.starter.beveragebuddy.ui.usingApp
 
 class ReviewWithCategoryTest : DynaTest({
@@ -13,6 +14,6 @@ class ReviewWithCategoryTest : DynaTest({
         val review = Review(name = "Bar", category = category.id)
         review.save()
 
-        expectList(ReviewWithCategory(review, "Foo")) { ReviewWithCategory.dataLoader.fetch() }
+        expectList(ReviewWithCategory(review, "Foo")) { ReviewWithCategory.dataProvider.fetch(Query()).toList() }
     }
 })

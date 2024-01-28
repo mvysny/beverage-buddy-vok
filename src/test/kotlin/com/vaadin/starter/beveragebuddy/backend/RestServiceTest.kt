@@ -16,7 +16,7 @@ class PersonRestClient(val baseUrl: String) {
     init {
         require(!baseUrl.endsWith("/")) { "$baseUrl must not end with a slash" }
     }
-    private val client: HttpClient = HttpClientVokPlugin.httpClient!!
+    private val client: HttpClient = VokRestClient.httpClient
     fun getAllCategories(): List<Category> {
         val request = "$baseUrl/categories".buildUrl().buildRequest()
         return client.exec(request) { response -> response.jsonArray(Category::class.java) }
