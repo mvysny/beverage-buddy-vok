@@ -30,7 +30,7 @@ dependencies {
     // Vaadin
     implementation("com.vaadin:vaadin-core:${properties["vaadinVersion"]}") {
         afterEvaluate {
-            if (vaadin.productionMode) {
+            if (vaadin.productionMode.get()) {
                 exclude(module = "vaadin-dev")
             }
         }
