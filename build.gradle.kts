@@ -44,7 +44,7 @@ dependencies {
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:2.0.7")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 
     // db
     implementation("org.flywaydb:flyway-core:9.22.3") // newest version: https://repo1.maven.org/maven2/org/flywaydb/flyway-core/
