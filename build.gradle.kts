@@ -38,7 +38,7 @@ dependencies {
     implementation("eu.vaadinonkotlin:vok-framework-vokdb:${properties["vokVersion"]}") {
         exclude(module = "vaadin-core")
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:12.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:12.2")
 
     implementation("com.zaxxer:HikariCP:5.0.1")
 
@@ -47,14 +47,14 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.7")
 
     // db
-    implementation("org.flywaydb:flyway-core:9.22.1")
+    implementation("org.flywaydb:flyway-core:9.22.3") // newest version: https://repo1.maven.org/maven2/org/flywaydb/flyway-core/
     implementation("com.h2database:h2:2.2.224") // remove this and replace it with a database driver of your choice.
 
     // REST
     implementation("eu.vaadinonkotlin:vok-rest:${properties["vokVersion"]}")
 
     // testing
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v24:2.1.0")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v24:2.1.2")
     testImplementation("com.github.mvysny.dynatest:dynatest:0.24")
     testImplementation("eu.vaadinonkotlin:vok-rest-client:${properties["vokVersion"]}")
 }
