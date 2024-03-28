@@ -35,6 +35,7 @@ dependencies {
         }
     }
     implementation(libs.vok.db)
+    implementation(libs.karibu.dsl)
     implementation(libs.vaadin.boot)
 
     implementation(libs.hikaricp)
