@@ -1,10 +1,11 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.mvysny.dynatest.*
-import com.vaadin.starter.beveragebuddy.ui.usingApp
+import com.github.mvysny.kaributesting.v10.expectList
+import com.vaadin.starter.beveragebuddy.AbstractAppTest
 import eu.vaadinonkotlin.restclient.*
 import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.eclipse.jetty.server.Server
+import org.junit.jupiter.api.*
 import java.io.FileNotFoundException
 import java.net.http.HttpClient
 
@@ -31,43 +32,39 @@ class PersonRestClient(val baseUrl: String) {
     }
 }
 
-@DynaTestDsl
-fun DynaNodeGroup.usingJavalin() {
-    lateinit var server: Server
-    beforeGroup {
-        val ctx = WebAppContext()
-        // This used to be EmptyResource, but it got removed in Jetty 12. Let's use some dummy resource instead.
-        ctx.baseResource = ctx.resourceFactory.newClassLoaderResource("java/lang/String.class")
-        ctx.addServlet(JavalinRestServlet::class.java, "/rest/*")
-        server = Server(9876)
-        server.handler = ctx
-        server.start()
-    }
-    afterGroup { server.stop() }
-}
-
 /**
  * The REST test. It bootstraps the app, then it starts Javalin with Jetty so that we can access it via the
  * [PersonRestClient].
  */
-class RestServiceTest : DynaTest({
-    usingApp()
-    usingJavalin()
+class RestServiceTest : AbstractAppTest() {
+    companion object {
+        private lateinit var server: Server
+        @BeforeAll @JvmStatic fun startJavalin() {
+            val ctx = WebAppContext()
+            // This used to be EmptyResource, but it got removed in Jetty 12. Let's use some dummy resource instead.
+            ctx.baseResource = ctx.resourceFactory.newClassLoaderResource("java/lang/String.class")
+            ctx.addServlet(JavalinRestServlet::class.java, "/rest/*")
+            server = Server(9876)
+            server.handler = ctx
+            server.start()
+        }
+        @AfterAll @JvmStatic fun stopJavalin() { server.stop() }
+    }
 
-    lateinit var client: PersonRestClient
-    beforeEach { client = PersonRestClient("http://localhost:9876/rest") }
+    private lateinit var client: PersonRestClient
+    @BeforeEach fun createClient() { client = PersonRestClient("http://localhost:9876/rest") }
 
-    test("categories smoke test") {
+    @Test fun `categories smoke test`() {
         expectList() { client.getAllCategories() }
     }
 
-    test("reviews smoke test") {
+    @Test fun `reviews smoke test`() {
         expectList() { client.getAllReviews() }
     }
 
-    test("404") {
-        expectThrows<FileNotFoundException> {
+    @Test fun `404`() {
+        assertThrows<FileNotFoundException> {
             client.nonexistingEndpoint()
         }
     }
-})
+}

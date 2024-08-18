@@ -1,14 +1,12 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.expectList
+import com.github.mvysny.kaributesting.v10.expectList
 import com.vaadin.flow.data.provider.Query
-import com.vaadin.starter.beveragebuddy.ui.usingApp
+import com.vaadin.starter.beveragebuddy.AbstractAppTest
+import org.junit.jupiter.api.Test
 
-class ReviewWithCategoryTest : DynaTest({
-    usingApp()
-
-    test("smoke") {
+class ReviewWithCategoryTest : AbstractAppTest() {
+    @Test fun smoke() {
         val category = Category(name = "Foo")
         category.save()
         val review = Review(name = "Bar", category = category.id)
@@ -16,4 +14,4 @@ class ReviewWithCategoryTest : DynaTest({
 
         expectList(ReviewWithCategory(review, "Foo")) { ReviewWithCategory.dataProvider.fetch(Query()).toList() }
     }
-})
+}

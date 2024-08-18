@@ -1,11 +1,12 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.github.mvysny.dynatest.DynaTest
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-class ReviewTest : DynaTest({
-    group("validation") {
-        test("smoke") {
+class ReviewTest {
+    @Nested inner class validation() {
+        @Test fun smoke() {
             expect(true) { Review(name = "Foo", category = 1L).isValid }
             expect(false) { Review().isValid }
             expect(false) { Review(category = 1L).isValid }
@@ -14,4 +15,4 @@ class ReviewTest : DynaTest({
             expect(false) { Review(score = 10, name = "Foo", category = 1L).isValid }
         }
     }
-})
+}
