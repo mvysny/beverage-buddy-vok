@@ -65,6 +65,7 @@ class CategoriesList : KComposite() {
             }
             header = h3()
             grid = grid(dataProvider) {
+                // don't put filter components into additional Grid header since we have a dedicated filter TextField in toolbar
                 isExpand = true
                 columnFor(Category::name) {
                     setSortProperty(Category::name.exp)
