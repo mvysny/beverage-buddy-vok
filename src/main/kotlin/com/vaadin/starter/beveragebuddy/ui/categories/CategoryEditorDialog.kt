@@ -19,13 +19,13 @@ import com.github.mvysny.karibudsl.v10.beanValidationBinder
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.karibudsl.v10.trimmingConverter
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.Review
-import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 
@@ -65,15 +65,13 @@ class CategoryEditorDialog(private val onCategoriesChanged: (Category) -> Unit) 
         if (reviewCount == 0) {
             delete(frame, item)
         } else {
-            ConfirmationDialog().open(
+            ConfirmDialog(
                 "Delete Category “${item.name}”?",
-                "There are $reviewCount reviews associated with this category.",
-                "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.",
-                "Delete",
-                true
+                "There are $reviewCount reviews associated with this category.\nDeleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.",
+                "Delete"
             ) {
                 delete(frame, item)
-            }
+            } .open()
         }
     }
 
