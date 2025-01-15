@@ -1,7 +1,7 @@
 # Allows you to run this app easily as a docker container.
 # See README.md for more details.
 #
-# 1. Build the image with: docker build --no-cache -t test/beverage-buddy-vok:latest .
+# 1. Build the image with: docker build -t test/beverage-buddy-vok:latest .
 # 2. Run the image with: docker run --rm -ti -p8080:8080 test/beverage-buddy-vok
 #
 # Uses Docker Multi-stage builds: https://docs.docker.com/build/building/multi-stage/
@@ -10,7 +10,7 @@
 FROM eclipse-temurin:17 AS BUILD
 COPY . /app/
 WORKDIR /app/
-RUN ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
+RUN --mount=type=cache,target=/root/.gradle --mount=type=cache,target=/root/.vaadin ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
 WORKDIR /app/build/distributions/
 RUN ls -la
 RUN tar xvf app.tar
