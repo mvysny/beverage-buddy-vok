@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.1.10"
     application
     alias(libs.plugins.vaadin)
 }
@@ -26,8 +26,6 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
     // Vaadin
     implementation(libs.vaadin.core) {
         if (vaadin.effective.productionMode.get()) {
