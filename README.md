@@ -48,3 +48,4 @@ Grid configuration for details.
 
 For a JOOQ version of this app, please see [beverage-buddy-jooq](https://github.com/mvysny/beverage-buddy-jooq).
 
+For a ktorm version of this app, please see [beverage-buddy-ktorm](https://github.com/mvysny/beverage-buddy-ktorm).
