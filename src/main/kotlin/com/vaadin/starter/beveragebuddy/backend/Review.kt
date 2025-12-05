@@ -3,6 +3,7 @@ package com.vaadin.starter.beveragebuddy.backend
 import com.github.vokorm.*
 import com.gitlab.mvysny.jdbiorm.Dao
 import com.gitlab.mvysny.jdbiorm.DaoOfJoin
+import com.gitlab.mvysny.jdbiorm.TableProperty
 import com.gitlab.mvysny.jdbiorm.condition.Condition
 import com.gitlab.mvysny.jdbiorm.vaadin.EntityDataProvider
 import java.time.LocalDate
@@ -43,6 +44,11 @@ data class Review(override var id: Long? = null,
                   var count: Int = 1) : KEntity<Long> {
 
     companion object : Dao<Review, Long>(Review::class.java) {
+        val NAME = TableProperty.of<Review, String>(Review::class.java, "name")
+        val SCORE = TableProperty.of<Review, Int>(Review::class.java, "score")
+        val DATE = TableProperty.of<Review, LocalDate>(Review::class.java, "date")
+        val CATEGORY = TableProperty.of<Review, Long?>(Review::class.java, "category")
+        val COUNT = TableProperty.of<Review, Int>(Review::class.java, "count")
         /**
          * Computes the total sum of [count] for all reviews belonging to given [categoryId].
          * @return the total sum, 0 or greater.
