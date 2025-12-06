@@ -58,8 +58,21 @@ class RestServiceTest : AbstractAppTest() {
         expectList() { client.getAllCategories() }
     }
 
+    @Test fun `categories retrieval`() {
+        val cat = Category(name = "foo").apply { save() }
+        expectList(cat) { client.getAllCategories() }
+    }
+
     @Test fun `reviews smoke test`() {
         expectList() { client.getAllReviews() }
+    }
+
+    @Test fun `reviews retrieval`() {
+        val cat = Category(name = "Beers")
+        cat.save()
+        val r = Review(score = 1, name = "Good!", category = cat.id)
+        r.save()
+        expectList(r) { client.getAllReviews() }
     }
 
     @Test fun `404`() {
