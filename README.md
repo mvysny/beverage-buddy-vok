@@ -4,6 +4,10 @@
 # Beverage Buddy App Starter for Vaadin
 :coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
 
+> ** DEPRECATED **: vok-orm is now deprecated and unmaintained. VoK recommends the
+> [ktorm-vaadin](https://github.com/mvysny/ktorm-vaadin) for persistency.
+> This demo project is archived and read-only; superseded by the [beverage-buddy-ktorm](https://github.com/mvysny/beverage-buddy-ktorm) demo project.
+
 This is a [Vaadin-on-Kotlin](http://vaadinonkotlin.eu) example application,
 used to demonstrate features of the Vaadin Flow Java framework.
 A full-stack app: uses the H2 database instead of a dummy service. Requires Java 17+.
